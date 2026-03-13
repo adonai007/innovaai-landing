@@ -10,6 +10,7 @@ interface Props {
     color: 'dicta' | 'diariomed';
     cta: string;
     ctaHref: string;
+    logo?: string;
   };
   reversed?: boolean;
 }
@@ -23,29 +24,32 @@ const colors = colorMap[product.color];
 ---
 
 <div class={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center ${reversed ? 'lg:direction-rtl' : ''}`} data-animate="fade-up">
-  <!-- Mockup -->
+  <!-- Visual -->
   <div class={`relative ${reversed ? 'lg:order-2' : ''}`}>
     <div class="relative rounded-2xl overflow-hidden glass p-8 aspect-[4/3] flex items-center justify-center" style={`box-shadow: 0 0 60px ${colors.glow}`}>
-      <!-- Abstract UI Mockup -->
-      <div class="w-full max-w-sm space-y-4">
-        <div class="flex items-center gap-3 mb-6">
-          <div class={`w-3 h-3 rounded-full ${colors.bg} ${colors.text}`} style="box-shadow: 0 0 8px currentColor"></div>
-          <div class="h-2 w-24 rounded-full bg-white/10"></div>
-          <div class="ml-auto h-2 w-16 rounded-full bg-white/5"></div>
+      {product.logo ? (
+        <img src={product.logo} alt={`${product.name} logo`} class="max-w-[70%] max-h-[70%] object-contain drop-shadow-[0_0_30px_rgba(52,211,153,0.3)]" loading="lazy" />
+      ) : (
+        <div class="w-full max-w-sm space-y-4">
+          <div class="flex items-center gap-3 mb-6">
+            <div class={`w-3 h-3 rounded-full ${colors.bg} ${colors.text}`} style="box-shadow: 0 0 8px currentColor"></div>
+            <div class="h-2 w-24 rounded-full bg-white/10"></div>
+            <div class="ml-auto h-2 w-16 rounded-full bg-white/5"></div>
+          </div>
+          <div class="h-3 w-full rounded-full bg-white/8"></div>
+          <div class="h-3 w-4/5 rounded-full bg-white/6"></div>
+          <div class="h-3 w-3/5 rounded-full bg-white/4"></div>
+          <div class="mt-6 flex gap-3">
+            <div class={`h-8 w-20 rounded-lg ${colors.bg}`}></div>
+            <div class="h-8 w-20 rounded-lg bg-white/5"></div>
+          </div>
+          <div class="mt-4 h-24 rounded-xl bg-white/[0.03] border border-white/5 p-4">
+            <div class="h-2 w-full rounded bg-white/8 mb-2"></div>
+            <div class="h-2 w-3/4 rounded bg-white/5 mb-2"></div>
+            <div class="h-2 w-1/2 rounded bg-white/3"></div>
+          </div>
         </div>
-        <div class="h-3 w-full rounded-full bg-white/8"></div>
-        <div class="h-3 w-4/5 rounded-full bg-white/6"></div>
-        <div class="h-3 w-3/5 rounded-full bg-white/4"></div>
-        <div class="mt-6 flex gap-3">
-          <div class={`h-8 w-20 rounded-lg ${colors.bg}`}></div>
-          <div class="h-8 w-20 rounded-lg bg-white/5"></div>
-        </div>
-        <div class="mt-4 h-24 rounded-xl bg-white/[0.03] border border-white/5 p-4">
-          <div class="h-2 w-full rounded bg-white/8 mb-2"></div>
-          <div class="h-2 w-3/4 rounded bg-white/5 mb-2"></div>
-          <div class="h-2 w-1/2 rounded bg-white/3"></div>
-        </div>
-      </div>
+      )}
     </div>
   </div>
 
