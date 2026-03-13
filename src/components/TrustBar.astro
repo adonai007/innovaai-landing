@@ -1,0 +1,72 @@
+---
+interface Props {
+  trust: {
+    text: string;
+    industries: { icon: string; label: string }[];
+  };
+}
+
+const { trust } = Astro.props;
+---
+
+<section class="py-20 relative overflow-hidden">
+  <!-- Background glow -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-secondary/20 to-transparent"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-center text-text-tertiary text-sm mb-12 tracking-widest uppercase font-medium">{trust.text}</p>
+
+    <!-- Industry Cards Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      {trust.industries.map((item, i) => (
+        <div
+          class="group relative rounded-2xl p-[1px] cursor-default"
+          data-animate="fade-up"
+          data-delay={i * 0.08}
+        >
+          <!-- Hover gradient border -->
+          <div class="absolute inset-0 rounded-2xl bg-gradient-to-b from-primary/30 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+          <!-- Card -->
+          <div class="relative rounded-2xl bg-bg-secondary/60 backdrop-blur-sm p-6 flex flex-col items-center gap-4 transition-all duration-300 group-hover:bg-bg-secondary/90 group-hover:-translate-y-1">
+            <!-- Icon Circle -->
+            <div class="relative">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/15 to-secondary/10 flex items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_25px_rgba(34,197,94,0.2)] group-hover:scale-110">
+                <span class="text-primary transition-colors duration-300 group-hover:text-primary-light">
+                  {item.icon === 'heart-pulse' && (
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>
+                  )}
+                  {item.icon === 'landmark' && (
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
+                  )}
+                  {item.icon === 'shopping-bag' && (
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                  )}
+                  {item.icon === 'truck' && (
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+                  )}
+                  {item.icon === 'graduation-cap' && (
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+                  )}
+                  {item.icon === 'factory' && (
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>
+                  )}
+                </span>
+              </div>
+              <!-- Subtle glow dot -->
+              <div class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
+            <!-- Label -->
+            <span class="text-sm font-semibold text-text-secondary group-hover:text-text-primary transition-colors duration-300 tracking-wide">
+              {item.label}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

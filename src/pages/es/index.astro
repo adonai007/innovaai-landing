@@ -1,0 +1,48 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Hero from '../../components/Hero.astro';
+import ParticleBackground from '../../components/ParticleBackground.astro';
+import TrustBar from '../../components/TrustBar.astro';
+import Services from '../../components/Services.astro';
+import Products from '../../components/Products.astro';
+import Process from '../../components/Process.astro';
+import Stats from '../../components/Stats.astro';
+import CTASection from '../../components/CTASection.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
+import Footer from '../../components/Footer.astro';
+
+import { navigation } from '../../data/es/navigation';
+import { hero } from '../../data/es/hero';
+import { trustBar } from '../../data/es/trust';
+import { servicesSection, services } from '../../data/es/services';
+import { productsSection, products } from '../../data/es/products';
+import { processSection, steps } from '../../data/es/process-steps';
+import { whySection, differentiators } from '../../data/es/stats';
+import { cta, footer } from '../../data/es/cta';
+---
+
+<Layout
+  title="InnovaAI — Consultoría en Inteligencia Artificial"
+  description="Consultoría especializada y productos de IA que impulsan la innovación en tu industria. Conoce Dicta y DiarioMed."
+  lang="es"
+>
+  <Navbar lang="es" nav={navigation} />
+  <main>
+    <Hero hero={hero}>
+      <ParticleBackground slot="default" />
+    </Hero>
+    <TrustBar trust={trustBar} />
+    <Services section={servicesSection} services={services} />
+    <Products section={productsSection} products={products} />
+    <Process section={processSection} steps={steps} />
+    <Stats section={whySection} differentiators={differentiators} />
+    <CTASection cta={cta} />
+  </main>
+  <Footer footer={footer} lang="es" />
+  <WhatsAppButton number={cta.whatsappNumber} message={cta.whatsappMessage} />
+
+  <script>
+    import '../../scripts/animations';
+  </script>
+</Layout>

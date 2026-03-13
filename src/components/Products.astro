@@ -1,0 +1,40 @@
+---
+import ProductCard from './ProductCard.astro';
+
+interface Props {
+  section: { badge: string; title: string; subtitle: string };
+  products: {
+    name: string;
+    tagline: string;
+    description: string;
+    pills: string[];
+    color: 'dicta' | 'diariomed';
+    cta: string;
+    ctaHref: string;
+  }[];
+}
+
+const { section, products } = Astro.props;
+---
+
+<section id="productos" class="section-padding">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-20" data-animate="fade-up">
+      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase bg-primary/10 text-primary border border-primary/20 mb-4">
+        {section.badge}
+      </span>
+      <h2 class="text-[length:var(--text-4xl)] font-bold mb-4">
+        <span class="gradient-text">{section.title}</span>
+      </h2>
+      <p class="text-text-secondary text-[length:var(--text-xl)] max-w-2xl mx-auto">{section.subtitle}</p>
+    </div>
+
+    <!-- Products -->
+    <div class="space-y-24">
+      {products.map((product, i) => (
+        <ProductCard product={product} reversed={i % 2 !== 0} />
+      ))}
+    </div>
+  </div>
+</section>

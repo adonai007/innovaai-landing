@@ -1,0 +1,48 @@
+---
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/700.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: 'es' | 'en';
+}
+
+const { title, description, lang = 'es' } = Astro.props;
+const altLang = lang === 'es' ? 'en' : 'es';
+const currentPath = Astro.url.pathname;
+const altPath = currentPath.replace(`/${lang}`, `/${altLang}`);
+const canonicalURL = new URL(currentPath, Astro.site ?? 'https://innovaai.com');
+const altURL = new URL(altPath, Astro.site ?? 'https://innovaai.com');
+---
+
+<!doctype html>
+<html lang={lang} class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL.href} />
+    <link rel="alternate" hreflang={lang} href={canonicalURL.href} />
+    <link rel="alternate" hreflang={altLang} href={altURL.href} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_LA' : 'en_US'} />
+
+    <title>{title}</title>
+  </head>
+  <body class="bg-bg-primary text-text-primary antialiased">
+    <slot />
+  </body>
+</html>

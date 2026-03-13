@@ -1,0 +1,80 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  hero: {
+    headline: string;
+    subheadline: string;
+    ctaPrimary: string;
+    ctaPrimaryHref: string;
+    ctaSecondary: string;
+    ctaSecondaryHref: string;
+    badges: string[];
+  };
+}
+
+const { hero } = Astro.props;
+const words = hero.headline.split(' ');
+---
+
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Particle Background Slot -->
+  <div id="particles-container" class="absolute inset-0 z-0"></div>
+
+  <!-- Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary z-[1]"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-24">
+    <!-- Headline -->
+    <h1 class="text-[length:var(--text-hero)] font-bold leading-[1.1] mb-6" data-animate="hero-headline">
+      {words.map((word, i) => (
+        <span
+          class={`inline-block opacity-0 translate-y-8 hero-word ${
+            word === 'Inteligencia' || word === 'Artificial' || word === 'Intelligence'
+              ? 'gradient-text'
+              : ''
+          }`}
+          style={`animation-delay: ${i * 0.08}s`}
+        >
+          {word}&nbsp;
+        </span>
+      ))}
+    </h1>
+
+    <!-- Subheadline -->
+    <p class="text-[length:var(--text-xl)] text-text-secondary max-w-2xl mx-auto mb-10 opacity-0" data-animate="hero-sub">
+      {hero.subheadline}
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12 opacity-0" data-animate="hero-ctas">
+      <Button variant="primary" size="lg" href={hero.ctaPrimaryHref}>
+        {hero.ctaPrimary}
+      </Button>
+      <Button variant="secondary" size="lg" href={hero.ctaSecondaryHref}>
+        {hero.ctaSecondary}
+      </Button>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="flex flex-wrap justify-center gap-6 opacity-0" data-animate="hero-badges">
+      {hero.badges.map(badge => (
+        <div class="flex items-center gap-2 text-text-tertiary text-sm">
+          <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+          {badge}
+        </div>
+      ))}
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0" data-animate="hero-scroll" style="animation: bounce-down 2s infinite">
+      <svg class="w-6 h-6 text-text-tertiary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="m7 13 5 5 5-5M7 6l5 5 5-5"/>
+      </svg>
+    </div>
+  </div>
+</section>

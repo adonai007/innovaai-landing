@@ -1,0 +1,107 @@
+@import "tailwindcss";
+@import "./animations.css";
+
+@theme {
+  /* Neural Green Palette */
+  --color-bg-primary: #0A0F1A;
+  --color-bg-secondary: #0F1629;
+  --color-bg-tertiary: #162036;
+  --color-bg-glass: rgba(255, 255, 255, 0.04);
+  --color-bg-glass-border: rgba(255, 255, 255, 0.08);
+
+  --color-primary: #22C55E;
+  --color-primary-light: #34D399;
+  --color-primary-dark: #16A34A;
+  --color-primary-glow: rgba(34, 197, 94, 0.25);
+
+  --color-secondary: #3B82F6;
+  --color-secondary-light: #60A5FA;
+  --color-secondary-dark: #2563EB;
+  --color-secondary-glow: rgba(59, 130, 246, 0.2);
+
+  --color-dicta: #34D399;
+  --color-diariomed: #10B981;
+
+  --color-text-primary: #E2E8F0;
+  --color-text-secondary: #94A3B8;
+  --color-text-tertiary: #64748B;
+
+  /* Gradients */
+  --gradient-hero: linear-gradient(135deg, #22C55E 0%, #3B82F6 50%, #06B6D4 100%);
+  --gradient-text: linear-gradient(90deg, #22C55E, #3B82F6);
+  --gradient-card: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.05));
+  --gradient-cta: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(59, 130, 246, 0.15));
+
+  /* Typography */
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --text-hero: clamp(2.5rem, 1.8rem + 3.5vw, 4.5rem);
+  --text-4xl: clamp(2.25rem, 1.6rem + 2.8vw, 3.5rem);
+  --text-3xl: clamp(1.875rem, 1.4rem + 2vw, 2.5rem);
+  --text-2xl: clamp(1.5rem, 1.2rem + 1.3vw, 2rem);
+  --text-xl: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
+
+  /* Spacing */
+  --section-padding: clamp(4rem, 3rem + 5vw, 8rem);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+  }
+
+  ::selection {
+    background-color: rgba(34, 197, 94, 0.3);
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: var(--color-bg-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-bg-glass-border);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .gradient-text {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow-green {
+    box-shadow: 0 0 20px var(--color-primary-glow), 0 0 60px rgba(34, 197, 94, 0.1);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 20px var(--color-secondary-glow), 0 0 60px rgba(59, 130, 246, 0.1);
+  }
+
+  .section-padding {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+  }
+}

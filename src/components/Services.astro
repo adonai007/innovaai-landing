@@ -1,0 +1,46 @@
+---
+import GlassCard from './GlassCard.astro';
+
+interface Props {
+  section: { badge: string; title: string; subtitle: string };
+  services: { icon: string; title: string; description: string }[];
+}
+
+const { section, services } = Astro.props;
+---
+
+<section id="servicios" class="section-padding">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-16" data-animate="fade-up">
+      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase bg-primary/10 text-primary border border-primary/20 mb-4">
+        {section.badge}
+      </span>
+      <h2 class="text-[length:var(--text-4xl)] font-bold mb-4">
+        <span class="gradient-text">{section.title}</span>
+      </h2>
+      <p class="text-text-secondary text-[length:var(--text-xl)] max-w-2xl mx-auto">{section.subtitle}</p>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+      {services.map((service, i) => (
+        <GlassCard class="text-center" data-animate="fade-up" data-delay={i * 0.15}>
+          <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
+            {service.icon === 'brain' && (
+              <svg class="w-7 h-7 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></svg>
+            )}
+            {service.icon === 'code' && (
+              <svg class="w-7 h-7 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            )}
+            {service.icon === 'users' && (
+              <svg class="w-7 h-7 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            )}
+          </div>
+          <h3 class="text-xl font-bold mb-3">{service.title}</h3>
+          <p class="text-text-secondary leading-relaxed">{service.description}</p>
+        </GlassCard>
+      ))}
+    </div>
+  </div>
+</section>
