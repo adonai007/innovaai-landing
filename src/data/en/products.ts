@@ -11,8 +11,8 @@ export const products = [
     description: 'Press a hotkey in ANY application and dictate with your voice. Dicta transcribes and translates your text with AI-powered accuracy.',
     pills: ['Works in any app', 'Real-time translation', 'Monthly subscription'],
     color: 'dicta' as const,
-    cta: 'Discover Dicta',
-    ctaHref: '#',
+    cta: 'Download Dicta',
+    ctaHref: '/downloads/dIctA-1.0.0-win64.zip',
   },
   {
     name: 'DiarioMed',
