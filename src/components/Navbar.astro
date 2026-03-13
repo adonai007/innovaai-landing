@@ -51,17 +51,20 @@ const { lang, nav } = Astro.props;
     </button>
   </nav>
 
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="md:hidden hidden glass-strong">
-    <div class="px-4 py-6 flex flex-col gap-4">
+  <!-- Mobile Menu Overlay -->
+  <div
+    id="mobile-menu"
+    class="md:hidden fixed inset-0 top-[72px] z-40 bg-bg-primary/95 backdrop-blur-xl transition-all duration-300 opacity-0 pointer-events-none translate-y-[-10px]"
+  >
+    <div class="flex flex-col justify-center items-center h-full px-8 pb-20 gap-6">
       {nav.links.map(link => (
-        <a href={link.href} class="text-text-secondary hover:text-text-primary transition-colors py-2 text-lg font-medium mobile-link">
+        <a href={link.href} class="text-text-secondary hover:text-primary transition-colors py-3 text-2xl font-semibold font-[family-name:var(--font-heading)] mobile-link">
           {link.label}
         </a>
       ))}
-      <div class="flex items-center gap-3 pt-4 border-t border-white/10">
+      <div class="flex flex-col items-center gap-4 pt-6 border-t border-white/10 w-full max-w-xs">
         <LanguageSelector currentLang={lang} />
-        <Button variant="primary" size="sm" href="#contacto" class="flex-1">{nav.cta}</Button>
+        <Button variant="primary" size="md" href="#contacto" class="w-full text-center">{nav.cta}</Button>
       </div>
     </div>
   </div>
@@ -87,24 +90,34 @@ const { lang, nav } = Astro.props;
   window.addEventListener('scroll', handleScroll, { passive: true });
 
   // Mobile toggle
+  const openMenu = () => {
+    isOpen = true;
+    menu.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
+    menu.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+    document.body.classList.add('overflow-hidden');
+    toggle.setAttribute('aria-expanded', 'true');
+    bar1.style.transform = 'rotate(45deg) translate(4px, 4px)';
+    bar2.style.opacity = '0';
+    bar3.style.transform = 'rotate(-45deg) translate(4px, -4px)';
+  };
+
+  const closeMenu = () => {
+    isOpen = false;
+    menu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
+    menu.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+    document.body.classList.remove('overflow-hidden');
+    toggle.setAttribute('aria-expanded', 'false');
+    bar1.style.transform = '';
+    bar2.style.opacity = '1';
+    bar3.style.transform = '';
+  };
+
   toggle.addEventListener('click', () => {
-    isOpen = !isOpen;
-    menu.classList.toggle('hidden');
-    toggle.setAttribute('aria-expanded', String(isOpen));
-    bar1.style.transform = isOpen ? 'rotate(45deg) translate(4px, 4px)' : '';
-    bar2.style.opacity = isOpen ? '0' : '1';
-    bar3.style.transform = isOpen ? 'rotate(-45deg) translate(4px, -4px)' : '';
+    isOpen ? closeMenu() : openMenu();
   });
 
   // Close on link click
   menu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      isOpen = false;
-      menu.classList.add('hidden');
-      toggle.setAttribute('aria-expanded', 'false');
-      bar1.style.transform = '';
-      bar2.style.opacity = '1';
-      bar3.style.transform = '';
-    });
+    link.addEventListener('click', closeMenu);
   });
 </script>
