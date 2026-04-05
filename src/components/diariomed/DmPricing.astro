@@ -1,0 +1,137 @@
+---
+import Button from '../Button.astro';
+
+interface Plan {
+  name: string;
+  price: number;
+  priceAnnual: number;
+  period: string;
+  popular: boolean;
+  features: string[];
+  cta: string;
+}
+
+interface Props {
+  section: {
+    sectionTitle: string;
+    sectionSubtitle: string;
+    note: string;
+    plans: Plan[];
+  };
+}
+
+const { section } = Astro.props;
+---
+
+<section id="precios" class="section-padding relative">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-[length:var(--text-4xl)] font-bold mb-4" data-animate="fade-up">{section.sectionTitle}</h2>
+      <p class="text-text-secondary text-[length:var(--text-xl)] mb-8" data-animate="fade-up">{section.sectionSubtitle}</p>
+
+      <!-- Billing toggle -->
+      <div class="inline-flex items-center gap-3 glass rounded-xl px-4 py-2" data-animate="fade-up">
+        <span class="text-sm text-text-primary font-medium" id="label-monthly">Mensual</span>
+        <button
+          id="billing-toggle"
+          class="relative w-12 h-6 rounded-full bg-primary/20 transition-colors duration-300 cursor-pointer"
+          aria-label="Toggle annual billing"
+        >
+          <span id="toggle-dot" class="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-primary transition-transform duration-300"></span>
+        </button>
+        <span class="text-sm text-text-secondary font-medium" id="label-annual">
+          Anual <span class="text-primary">-20%</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+      {section.plans.map((plan, i) => (
+        <div
+          class={`relative rounded-2xl p-8 transition-all duration-300 ${
+            plan.popular
+              ? 'glass-strong border-primary/30 shadow-[0_0_40px_rgba(34,197,94,0.12)] scale-[1.02]'
+              : 'glass hover:-translate-y-1'
+          }`}
+          data-animate="fade-up"
+          data-delay={String(i * 0.1)}
+        >
+          {/* Popular badge */}
+          {plan.popular && (
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-primary text-bg-primary text-xs font-bold uppercase tracking-wider">
+              Popular
+            </div>
+          )}
+
+          <h3 class="text-xl font-bold mb-2">{plan.name}</h3>
+
+          {/* Price */}
+          <div class="mb-6">
+            {plan.price > 0 ? (
+              <div class="flex items-baseline gap-1">
+                <span class="text-4xl font-bold">
+                  $<span class="price-monthly">{plan.price}</span><span class="price-annual hidden">{plan.priceAnnual}</span>
+                </span>
+                <span class="text-text-secondary">{plan.period}</span>
+              </div>
+            ) : (
+              <div class="text-4xl font-bold">Contactar</div>
+            )}
+          </div>
+
+          {/* Features */}
+          <ul class="space-y-3 mb-8">
+            {plan.features.map(feature => (
+              <li class="flex items-center gap-3 text-text-secondary text-sm">
+                <svg class="w-4 h-4 text-primary shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          {/* CTA */}
+          <Button
+            variant={plan.popular ? 'primary' : 'secondary'}
+            size="md"
+            href="#"
+            class="w-full text-center"
+          >
+            {plan.cta}
+          </Button>
+        </div>
+      ))}
+    </div>
+
+    <p class="text-center text-text-tertiary text-sm mt-8" data-animate="fade-up">{section.note}</p>
+  </div>
+</section>
+
+<script>
+  const toggle = document.getElementById('billing-toggle');
+  const dot = document.getElementById('toggle-dot');
+  const monthlyLabel = document.getElementById('label-monthly');
+  const annualLabel = document.getElementById('label-annual');
+  const monthlyPrices = document.querySelectorAll('.price-monthly');
+  const annualPrices = document.querySelectorAll('.price-annual');
+  let isAnnual = false;
+
+  toggle?.addEventListener('click', () => {
+    isAnnual = !isAnnual;
+
+    if (isAnnual) {
+      dot!.style.transform = 'translateX(1.5rem)';
+      monthlyLabel!.classList.replace('text-text-primary', 'text-text-secondary');
+      annualLabel!.classList.replace('text-text-secondary', 'text-text-primary');
+      monthlyPrices.forEach(el => el.classList.add('hidden'));
+      annualPrices.forEach(el => el.classList.remove('hidden'));
+    } else {
+      dot!.style.transform = 'translateX(0)';
+      monthlyLabel!.classList.replace('text-text-secondary', 'text-text-primary');
+      annualLabel!.classList.replace('text-text-primary', 'text-text-secondary');
+      monthlyPrices.forEach(el => el.classList.remove('hidden'));
+      annualPrices.forEach(el => el.classList.add('hidden'));
+    }
+  });
+</script>

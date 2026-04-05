@@ -1,0 +1,111 @@
+---
+import Button from '../Button.astro';
+
+interface Props {
+  nav: {
+    logo: string;
+    links: { label: string; href: string }[];
+    cta: string;
+  };
+}
+
+const { nav } = Astro.props;
+---
+
+<header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/es/diariomed/" class="flex items-center gap-2 group">
+      <span class="text-2xl font-bold font-[family-name:var(--font-heading)]">
+        <span class="text-text-primary">Diario</span><span class="gradient-text">Med</span>
+      </span>
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <div class="hidden md:flex items-center gap-8">
+      {nav.links.map(link => (
+        <a href={link.href} class="text-text-secondary hover:text-text-primary transition-colors duration-200 text-sm font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
+          {link.label}
+        </a>
+      ))}
+    </div>
+
+    <!-- Right Section -->
+    <div class="hidden md:flex items-center gap-3">
+      <Button variant="primary" size="sm" href="#precios">{nav.cta}</Button>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button
+      id="dm-mobile-toggle"
+      class="md:hidden flex flex-col gap-1.5 p-2"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <span class="block w-6 h-0.5 bg-text-primary transition-all duration-300 origin-center" id="dm-bar1"></span>
+      <span class="block w-6 h-0.5 bg-text-primary transition-all duration-300" id="dm-bar2"></span>
+      <span class="block w-6 h-0.5 bg-text-primary transition-all duration-300 origin-center" id="dm-bar3"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div
+    id="dm-mobile-menu"
+    class="md:hidden fixed inset-0 top-[72px] z-40 bg-bg-primary/95 backdrop-blur-xl transition-all duration-300 opacity-0 pointer-events-none translate-y-[-10px]"
+  >
+    <div class="flex flex-col justify-center items-center h-full px-8 pb-20 gap-6">
+      {nav.links.map(link => (
+        <a href={link.href} class="text-text-secondary hover:text-primary transition-colors py-3 text-2xl font-semibold font-[family-name:var(--font-heading)] dm-mobile-link">
+          {link.label}
+        </a>
+      ))}
+      <div class="pt-6 border-t border-white/10 w-full max-w-xs flex justify-center">
+        <Button variant="primary" size="md" href="#precios" class="w-full text-center">{nav.cta}</Button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const navbar = document.getElementById('navbar')!;
+  const toggle = document.getElementById('dm-mobile-toggle')!;
+  const menu = document.getElementById('dm-mobile-menu')!;
+  const bar1 = document.getElementById('dm-bar1')!;
+  const bar2 = document.getElementById('dm-bar2')!;
+  const bar3 = document.getElementById('dm-bar3')!;
+  let isOpen = false;
+
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      navbar.classList.add('glass-strong');
+    } else {
+      navbar.classList.remove('glass-strong');
+    }
+  };
+  window.addEventListener('scroll', handleScroll, { passive: true });
+
+  const openMenu = () => {
+    isOpen = true;
+    menu.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
+    menu.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+    document.body.classList.add('overflow-hidden');
+    toggle.setAttribute('aria-expanded', 'true');
+    bar1.style.transform = 'rotate(45deg) translate(4px, 4px)';
+    bar2.style.opacity = '0';
+    bar3.style.transform = 'rotate(-45deg) translate(4px, -4px)';
+  };
+
+  const closeMenu = () => {
+    isOpen = false;
+    menu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
+    menu.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+    document.body.classList.remove('overflow-hidden');
+    toggle.setAttribute('aria-expanded', 'false');
+    bar1.style.transform = '';
+    bar2.style.opacity = '1';
+    bar3.style.transform = '';
+  };
+
+  toggle.addEventListener('click', () => { isOpen ? closeMenu() : openMenu(); });
+  menu.querySelectorAll('a').forEach(link => { link.addEventListener('click', closeMenu); });
+</script>
