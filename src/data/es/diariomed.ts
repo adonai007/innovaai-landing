@@ -5,8 +5,41 @@ export const dmNavigation = {
     { label: 'Como Funciona', href: '#como-funciona' },
     { label: 'Features', href: '#features' },
     { label: 'Precios', href: '#precios' },
+    { label: 'FAQ', href: '#faq' },
   ],
   cta: 'Prueba Gratis',
+};
+
+export const dmProblem = {
+  sectionTitle: 'El 70% del tiempo del dentista se va en papeleo',
+  sectionSubtitle:
+    'Documentacion manual, presupuestos lentos y herramientas que no hablan tu idioma. Algo tiene que cambiar.',
+  problems: [
+    {
+      icon: 'clock',
+      title: '2-3 horas diarias escribiendo',
+      description:
+        'Tiempo que podrias invertir en mas pacientes o en tu familia. La documentacion manual agota.',
+    },
+    {
+      icon: 'money',
+      title: 'Presupuestos demorados = pacientes perdidos',
+      description:
+        'Cada dia que un paciente espera el presupuesto, la probabilidad de aceptacion cae un 20%.',
+    },
+    {
+      icon: 'warning',
+      title: 'Registros fragmentados y sin estandar',
+      description:
+        'Papel, Excel, WhatsApp y un EMR viejo. Ningun estandar clinico, cero interoperabilidad.',
+    },
+    {
+      icon: 'lock',
+      title: 'Herramientas cloud que capturan pantallas',
+      description:
+        'Algunas apps de dictado suben capturas al servidor. Con datos clinicos, eso no es aceptable.',
+    },
+  ],
 };
 
 export const dmHero = {
@@ -150,6 +183,56 @@ export const dmFeatures = {
   ],
 };
 
+export const dmResults = {
+  sectionTitle: 'Resultados reales, no promesas',
+  sectionSubtitle: 'Clinicas que ya usan DiarioMed recuperan horas cada semana.',
+  counters: [
+    {
+      value: '15 min',
+      label: 'Documentacion al dia',
+      sublabel: 'antes: 2 horas',
+    },
+    {
+      value: '40%',
+      label: 'Mas productividad',
+      sublabel: 'pacientes por dia',
+    },
+    {
+      value: '85%',
+      label: 'Aceptacion de presupuestos',
+      sublabel: 'enviados por WhatsApp',
+    },
+    {
+      value: '<1s',
+      label: 'Latencia STT',
+      sublabel: 'transcripcion en vivo',
+    },
+  ],
+  testimonials: [
+    {
+      quote:
+        'Reduje mi tiempo de documentacion de 2 horas a 15 minutos. Ahora atiendo mas pacientes sin llevarme trabajo a casa.',
+      author: 'Dra. Maria Rojas',
+      role: 'Odontologa General',
+      location: 'Cochabamba, Bolivia',
+    },
+    {
+      quote:
+        'Los presupuestos por WhatsApp cambiaron todo. El paciente los recibe antes de salir del consultorio.',
+      author: 'Dr. Carlos Mendoza',
+      role: 'Director Clinico',
+      location: 'La Paz, Bolivia',
+    },
+    {
+      quote:
+        'Dictar el odontograma y que se actualice solo es magia. Mi asistente ahora hace otras cosas mas importantes.',
+      author: 'Dra. Andrea Suarez',
+      role: 'Ortodoncista',
+      location: 'Santa Cruz, Bolivia',
+    },
+  ],
+};
+
 export const dmPricing = {
   sectionTitle: 'Precios simples, sin sorpresas',
   sectionSubtitle: '7 dias gratis. Todas las features. Sin tarjeta.',
@@ -203,6 +286,154 @@ export const dmPricing = {
         'Soporte dedicado',
       ],
       cta: 'Contactar Ventas',
+    },
+  ],
+};
+
+export const dmSecurity = {
+  sectionTitle: 'Seguridad y compliance de primer nivel',
+  sectionSubtitle:
+    'Tus datos clinicos merecen el mismo estandar que los bancos. Y mucho mas.',
+  cards: [
+    {
+      icon: 'shield',
+      title: 'FHIR R4 Compliant',
+      description:
+        'Estandar internacional de salud HL7 FHIR R4. Preparado para la regulacion LatAm que viene.',
+    },
+    {
+      icon: 'lock',
+      title: 'Datos encriptados',
+      description:
+        'AES-256 en reposo, TLS 1.3 en transito. Ni nosotros podemos leer tus historias.',
+    },
+    {
+      icon: 'server',
+      title: 'On-premise disponible',
+      description:
+        'En plan Enterprise, todo corre en tu propio servidor. El audio nunca sale de tu clinica.',
+    },
+    {
+      icon: 'eye-off',
+      title: 'Sin capturas de pantalla',
+      description:
+        'A diferencia de Wispr Flow y otras, jamas capturamos tu pantalla. Solo procesamos tu voz.',
+    },
+  ],
+  badges: ['HL7 FHIR R4', 'SNOMED-CT', 'ICD-10', 'AES-256', 'TLS 1.3'],
+};
+
+export const dmComparison = {
+  sectionTitle: 'Compara antes de decidir',
+  sectionSubtitle:
+    'No somos los mas baratos. Somos los unicos pensados para odontologia LatAm.',
+  columns: {
+    diariomed: 'DiarioMed',
+    wispr: 'Wispr Flow',
+    cloudEmr: 'Cloud EMR',
+  },
+  rows: [
+    { feature: 'Dictado por voz', diariomed: 'Si', wispr: 'Si', cloudEmr: 'No' },
+    {
+      feature: 'Presupuestos automaticos',
+      diariomed: 'Si',
+      wispr: 'No',
+      cloudEmr: 'No',
+    },
+    { feature: 'Historia FHIR R4', diariomed: 'Si', wispr: 'No', cloudEmr: 'Si' },
+    {
+      feature: 'Sin capturas de pantalla',
+      diariomed: 'Si',
+      wispr: 'No',
+      cloudEmr: 'Si',
+    },
+    {
+      feature: 'Odontograma FDI',
+      diariomed: 'Si',
+      wispr: 'No',
+      cloudEmr: 'No',
+    },
+    {
+      feature: 'On-premise',
+      diariomed: 'Si',
+      wispr: 'No',
+      cloudEmr: 'No',
+    },
+    {
+      feature: 'Especifico dental',
+      diariomed: 'Si',
+      wispr: 'No',
+      cloudEmr: 'Generico',
+    },
+    {
+      feature: 'Soporte LatAm + Bs.',
+      diariomed: 'Si',
+      wispr: 'No',
+      cloudEmr: 'No',
+    },
+    {
+      feature: 'Precio',
+      diariomed: '$49/mes',
+      wispr: '$24/mes',
+      cloudEmr: '$200+/mes',
+    },
+  ],
+  note: 'DiarioMed cuesta un poco mas que Wispr Flow, pero incluye 5x mas funcionalidad clinica y zero riesgo de privacidad.',
+};
+
+export const dmFaq = {
+  sectionTitle: 'Preguntas frecuentes',
+  sectionSubtitle: 'Todo lo que dentistas nos preguntan antes de empezar.',
+  items: [
+    {
+      question: '¿Que necesito para empezar?',
+      answer:
+        'Solo un navegador moderno (Chrome, Edge o Firefox) y un microfono. No instalas nada, no cambias tu flujo.',
+    },
+    {
+      question: '¿Funciona con mi microfono actual?',
+      answer:
+        'Si. Funciona con cualquier microfono USB, integrado de laptop o auricular Bluetooth. Recomendamos USB para mejor precision.',
+    },
+    {
+      question: '¿Necesito internet?',
+      answer:
+        'Para la transcripcion en la nube si, pero solo usa pocos KB por minuto. En plan Enterprise ofrecemos modo offline con modelos locales.',
+    },
+    {
+      question: '¿Que pasa con mis datos?',
+      answer:
+        'Encriptados con AES-256 en reposo y TLS 1.3 en transito. Si eliges el plan Enterprise on-premise, todo queda en TU servidor. Nunca vendemos ni compartimos nada.',
+    },
+    {
+      question: '¿Puedo exportar mis datos?',
+      answer:
+        'Si, en cualquier momento. Exportamos en FHIR R4 JSON (estandar internacional) y en PDF listo para imprimir. Sin costos ni restricciones.',
+    },
+    {
+      question: '¿Funciona para otras especialidades?',
+      answer:
+        'Actualmente optimizado para odontologia (con odontograma FDI, NER dental). Medicina general y otras especialidades llegan en Q3 2026.',
+    },
+    {
+      question: '¿Tiene app movil?',
+      answer:
+        'Dicta, nuestra app de dictado, ya esta en Android (solo 50MB). La version iOS esta en desarrollo. La consola web funciona perfecto en tablet.',
+    },
+    {
+      question: '¿Como cancelo?',
+      answer:
+        'Un click desde tu panel de administracion, sin llamadas ni formularios. Al cancelar puedes exportar todos tus datos gratis en FHIR + PDF.',
+    },
+    {
+      question: '¿Acepta Bolivianos?',
+      answer:
+        'Si. Facturacion en Bs. con IVA 13% y credito fiscal. Tambien aceptamos tarjetas internacionales y transferencia bancaria.',
+    },
+    {
+      question: '¿Que pasa si la IA se equivoca?',
+      answer:
+        'El doctor SIEMPRE valida antes de guardar. DiarioMed es un asistente, no un reemplazo: toda historia pasa por tu revision y tu click de aprobacion.',
     },
   ],
 };
