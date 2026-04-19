@@ -24,18 +24,28 @@ npm run preview  # Preview production build
 
 ## i18n
 
-- Routes: `/es/` (default, Spanish) and `/en/` (English)
+- Routes: `/es/` (default, Spanish) and `/en/` (English) — `prefixDefaultLocale: true`
 - Root `/` redirects to `/es/`
 - All text content is in `src/data/es/` and `src/data/en/` — components receive translated props
 - Astro i18n config in `astro.config.mjs`
+- DiarioMed content (`src/data/es/diariomed.ts`) is **ES-only** for now — no EN counterpart yet
+
+## Routes
+
+- `/es/`, `/en/` — main landing (uses top-level components)
+- `/es/diariomed/` — dedicated DiarioMed product landing (ES-only; uses `src/components/diariomed/Dm*.astro`)
 
 ## Key Directories
 
-- `src/components/` — Astro components (one per section)
-- `src/data/{es,en}/` — Localized content (hero, services, products, etc.)
+- `src/components/` — top-level section components (one per landing section)
+- `src/components/diariomed/` — DiarioMed-specific sections, prefixed `Dm*`
+- `src/data/{es,en}/` — localized content (hero, services, products, etc.)
 - `src/styles/` — `global.css` (design tokens + Tailwind) + `animations.css` (keyframes)
-- `src/scripts/` — Client-side JS (GSAP animations, particle config)
-- `src/layouts/Layout.astro` — Base HTML with SEO meta, OG tags, hreflang
+- `src/scripts/animations.ts` — GSAP + ScrollTrigger setup (registers plugin, imported from pages)
+- `src/layouts/Layout.astro` — base HTML with SEO meta, OG tags, hreflang
+- `public/downloads/` — downloadable product binaries (e.g., Dicta installer)
+- `public/images/` — static image assets served at `/images/*`
+- `media/` — source logos/media (not served directly — copy to `public/` when needed)
 
 ## Design Tokens
 
