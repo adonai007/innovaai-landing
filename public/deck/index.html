@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="es" class="dark">
+<head>
+<meta charset="utf-8" />
+<title>InnovaAI — Pitch Deck</title>
+<link rel="stylesheet" href="./colors_and_type.css" />
+<meta name="description" content="InnovaAI — Pitch Deck: IA aplicada, no teórica. Consultoría y productos para Latinoamérica." />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<script src="deck-stage.js"></script>
+<style>
+  :root{
+    --slide-pad: 96px;
+  }
+  html,body{background:#0A0F1A;color:#E2E8F0;}
+  section{
+    background:
+      radial-gradient(ellipse 900px 600px at 85% 20%, rgba(34,197,94,0.08), transparent 60%),
+      radial-gradient(ellipse 900px 600px at 10% 90%, rgba(59,130,246,0.06), transparent 60%),
+      #0A0F1A;
+    padding: var(--slide-pad);
+    display:flex; flex-direction:column; justify-content:flex-start;
+    font-family: var(--font-body);
+    color: var(--fg-primary);
+    overflow:hidden;
+  }
+  .eyebrow{
+    display:inline-block;
+    padding:8px 18px; border-radius:999px;
+    background:rgba(34,197,94,0.10);
+    color:#22C55E;
+    border:1px solid rgba(34,197,94,0.20);
+    font-size:14px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
+    font-family: var(--font-body);
+  }
+  h1,h2,h3,h4{font-family:var(--font-heading); letter-spacing:-0.02em; color:#E2E8F0;}
+  h1{font-size:120px; line-height:1.02; font-weight:700; margin:0;}
+  h2{font-size:80px; line-height:1.05; font-weight:700; margin:0;}
+  h3{font-size:44px; line-height:1.15; font-weight:600; margin:0;}
+  p{color:#94A3B8; line-height:1.55;}
+  .lead{font-size:28px; color:#94A3B8; line-height:1.5; max-width:1200px;}
+  .grad{
+    background: linear-gradient(90deg,#22C55E 0%, #3B82F6 70%, #06B6D4 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .page-num{
+    position:absolute; right:48px; bottom:40px;
+    color:#64748B; font-size:16px; letter-spacing:0.2em;
+    font-family:var(--font-mono);
+  }
+  .brand-lockup{
+    display:flex; align-items:center; gap:16px;
+    position:absolute; left:48px; top:40px;
+  }
+  .brand-lockup .mark{
+    width:36px; height:36px; border-radius:10px;
+    background: linear-gradient(135deg,#22C55E,#3B82F6);
+    display:grid; place-items:center;
+    font-family:var(--font-heading); font-weight:700; color:#0A0F1A;
+    font-size:18px;
+  }
+  .brand-lockup .wm{font-family:var(--font-heading); font-weight:600; font-size:20px; letter-spacing:-0.01em;}
+  .brand-lockup .wm .ai{color:#22C55E;}
+
+  /* Card styles (glass) */
+  .card{
+    background: rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:20px;
+    padding:32px;
+    backdrop-filter: blur(12px);
+  }
+  .card h4{font-size:26px; font-family:var(--font-heading); font-weight:600; margin:0 0 10px; letter-spacing:-0.01em;}
+  .card p{font-size:17px; color:#94A3B8; margin:0;}
+  .card .num{
+    font-family:var(--font-mono); font-size:14px; color:#22C55E;
+    letter-spacing:0.15em; margin-bottom:18px; display:block;
+  }
+  .pill{
+    display:inline-flex; align-items:center; padding:6px 14px;
+    border-radius:999px; font-size:13px; font-weight:500;
+    background:rgba(34,197,94,0.10); color:#34D399;
+    border:1px solid rgba(34,197,94,0.20);
+  }
+
+  /* Grids */
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  .grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+
+  /* Stat */
+  .stat-num{
+    font-family:var(--font-heading); font-weight:700;
+    font-size:88px; line-height:1; letter-spacing:-0.03em;
+    background: linear-gradient(90deg,#22C55E,#3B82F6);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .stat-label{color:#94A3B8; font-size:18px; margin-top:12px;}
+
+  /* SLIDE-SPECIFIC ------------------------------------------------ */
+
+  /* 01 Cover */
+  .cover{justify-content:center;}
+  .cover .eyebrow{margin-bottom:48px;}
+  .cover h1{max-width:1500px;}
+  .cover .foot{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-top:auto; padding-top:80px;
+    border-top:1px solid rgba(255,255,255,0.08);
+    color:#64748B; font-size:18px;
+  }
+  .cover .foot .right{color:#E2E8F0;}
+
+  /* Bg grid tech */
+  .tech-grid{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at center, #000 40%, transparent 80%);
+    pointer-events:none;
+  }
+
+  /* Problem / Promise */
+  .two-col{display:grid; grid-template-columns: 1.2fr 1fr; gap:80px; align-items:center;}
+
+  /* Big quote */
+  .quote{
+    font-family:var(--font-heading); font-weight:500;
+    font-size:72px; line-height:1.12; letter-spacing:-0.02em;
+    color:#E2E8F0; max-width:1500px;
+  }
+  .quote em{
+    font-style:normal;
+    background: linear-gradient(90deg,#22C55E,#3B82F6);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+
+  /* Products */
+  .product-card{
+    background: linear-gradient(180deg, rgba(34,197,94,0.05), rgba(59,130,246,0.03));
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:24px;
+    padding:40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .product-card .tag{
+    font-family:var(--font-mono); font-size:13px; letter-spacing:0.18em; text-transform:uppercase;
+  }
+  .product-card.dicta .tag{color:#34D399;}
+  .product-card.diariomed .tag{color:#10B981;}
+  .product-card h3{font-size:56px; letter-spacing:-0.03em; margin:14px 0 8px; font-weight:700;}
+  .product-card .tagline{
+    font-family:var(--font-heading); font-size:24px; font-weight:500;
+    color:#E2E8F0; letter-spacing:-0.01em; margin:0 0 24px;
+  }
+  .product-card .bullets{list-style:none; padding:0; margin:0 0 24px;}
+  .product-card .bullets li{
+    color:#94A3B8; font-size:17px; padding:10px 0;
+    border-top:1px solid rgba(255,255,255,0.06);
+    display:flex; gap:12px; align-items:center;
+  }
+  .product-card .bullets li::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:currentColor; color:#22C55E; flex-shrink:0;
+  }
+  .product-card.diariomed .bullets li::before{color:#10B981;}
+  .product-card .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .product-card .mock{
+    border-radius:14px;
+    background:#0F1629; border:1px solid rgba(255,255,255,0.08);
+    height:220px; margin-bottom:28px;
+    position:relative; overflow:hidden;
+  }
+
+  /* Dicta mock */
+  .mock.dicta{
+    background:
+      radial-gradient(ellipse at 50% 60%, rgba(52,211,153,0.25), transparent 60%),
+      #0F1629;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:20px;
+  }
+  .mock.dicta .wave{display:flex; gap:4px; align-items:flex-end; height:80px; margin-bottom:14px;}
+  .mock.dicta .wave span{
+    width:6px; background:linear-gradient(180deg,#34D399,#22C55E);
+    border-radius:3px;
+  }
+  .mock.dicta .line{
+    font-family:var(--font-mono); font-size:14px; color:#E2E8F0;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(52,211,153,0.25);
+    padding:10px 14px; border-radius:10px;
+  }
+
+  /* DiarioMed mock */
+  .mock.diariomed{
+    background: #0F1629;
+    padding:20px; display:grid; grid-template-columns: 140px 1fr; gap:16px;
+  }
+  .mock.diariomed .teeth{
+    background:
+      radial-gradient(circle at 50% 50%, rgba(16,185,129,0.18), transparent 70%),
+      rgba(255,255,255,0.02);
+    border-radius:10px; border:1px solid rgba(255,255,255,0.08);
+    display:grid; grid-template-columns: repeat(4,1fr); gap:4px; padding:12px;
+  }
+  .mock.diariomed .teeth i{
+    background: rgba(255,255,255,0.06); border-radius:4px;
+    aspect-ratio:1/1;
+  }
+  .mock.diariomed .teeth i.hl{background: rgba(16,185,129,0.35);}
+  .mock.diariomed .chart{display:flex; flex-direction:column; gap:8px;}
+  .mock.diariomed .row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:8px 12px; border-radius:8px;
+    background: rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
+    font-family:var(--font-mono); font-size:12px; color:#94A3B8;
+  }
+  .mock.diariomed .row b{color:#10B981; font-weight:500;}
+
+  /* Process */
+  .timeline{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; position:relative; margin-top:40px;}
+  .timeline::before{
+    content:""; position:absolute; left:5%; right:5%; top:38px; height:2px;
+    background: linear-gradient(90deg,#22C55E,#3B82F6);
+    opacity:0.5;
+  }
+  .step{position:relative;}
+  .step .dot{
+    width:76px; height:76px; border-radius:50%;
+    background: #0F1629; border:2px solid #22C55E;
+    display:grid; place-items:center; font-family:var(--font-heading); font-weight:700;
+    font-size:28px; color:#22C55E;
+    box-shadow: 0 0 24px rgba(34,197,94,0.25);
+    margin-bottom:24px;
+    position:relative; z-index:1;
+  }
+  .step h4{font-size:24px; font-family:var(--font-heading); font-weight:600; letter-spacing:-0.01em; margin:0 0 8px;}
+  .step p{font-size:16px; margin:0;}
+
+  /* Why grid */
+  .why-item h4{font-size:32px; letter-spacing:-0.02em; font-weight:600; font-family:var(--font-heading); margin:0 0 10px;}
+  .why-item .prefix{
+    font-family:var(--font-mono); font-size:14px; color:#22C55E; letter-spacing:0.15em;
+    display:block; margin-bottom:14px;
+  }
+  .why-item p{font-size:17px; line-height:1.6;}
+
+  /* Close slide */
+  .close{justify-content:center; text-align:left;}
+  .close h2{max-width:1500px;}
+  .contact{display:flex; gap:48px; margin-top:56px;}
+  .contact .item{
+    flex:1; padding:32px; border-radius:20px;
+    background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+  }
+  .contact .item .label{
+    font-family:var(--font-mono); font-size:13px; letter-spacing:0.18em; text-transform:uppercase;
+    color:#22C55E; margin-bottom:12px; display:block;
+  }
+  .contact .item .value{font-family:var(--font-heading); font-size:28px; color:#E2E8F0; font-weight:600; letter-spacing:-0.01em;}
+
+  /* Sector bar */
+  .sectors{
+    display:grid; grid-template-columns:repeat(6,1fr); gap:16px;
+    margin-top:36px;
+  }
+  .sector{
+    padding:18px 12px; text-align:center;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:12px;
+    font-size:16px; color:#94A3B8; font-weight:500;
+  }
+
+  /* Section header pattern */
+  .section-title{margin-bottom:56px;}
+  .section-title .eyebrow{margin-bottom:28px;}
+
+  /* Market slide */
+  .bignum{display:flex; flex-direction:column; gap:12px;}
+  .bignum .n{
+    font-family:var(--font-heading); font-weight:700;
+    font-size:140px; line-height:0.9; letter-spacing:-0.04em;
+    background: linear-gradient(135deg,#22C55E 0%, #3B82F6 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .bignum .desc{font-size:22px; color:#94A3B8; max-width:600px;}
+
+  /* Nice divider */
+  hr.sep{
+    border:0; height:1px; background: linear-gradient(90deg, transparent, rgba(34,197,94,0.40), transparent);
+    margin:32px 0;
+  }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ========== 01 COVER ========== -->
+  <section class="cover" data-label="Portada">
+    <div class="tech-grid"></div>
+    <div class="brand-lockup">
+      <div class="mark">iA</div>
+      <div class="wm">Innova<span class="ai">AI</span></div>
+    </div>
+    <span class="eyebrow">Pitch Deck · 2026</span>
+    <h1>
+      Transformamos tu negocio con <span class="grad">Inteligencia Artificial.</span>
+    </h1>
+    <p class="lead" style="margin-top:48px; max-width:1300px;">
+      Consultoría especializada y productos de IA, hechos en Latinoamérica, para empresas que necesitan resultados — no PowerPoints eternos.
+    </p>
+    <div class="foot">
+      <span>Hecho con IA en Latinoamérica</span>
+      <span class="right">innovaai.bo</span>
+    </div>
+    <div class="page-num">01 / 08</div>
+  </section>
+
+  <!-- ========== 02 PROBLEM ========== -->
+  <section data-label="Problema">
+    <div class="brand-lockup">
+      <div class="mark">iA</div>
+      <div class="wm">Innova<span class="ai">AI</span></div>
+    </div>
+    <div class="section-title">
+      <span class="eyebrow">El Problema</span>
+    </div>
+    <div class="quote">
+      Las empresas latinoamericanas escuchan hablar de IA todos los días<br/>
+      — pero siguen esperando su <em>primer resultado medible.</em>
+    </div>
+    <hr class="sep" style="margin-top:72px;"/>
+    <div class="grid-3" style="margin-top:48px;">
+      <div class="card">
+        <span class="num">01</span>
+        <h4>Consultoras genéricas</h4>
+        <p>Soluciones globales que ignoran regulación, idioma y realidad operativa de LATAM.</p>
+      </div>
+      <div class="card">
+        <span class="num">02</span>
+        <h4>Proyectos que no aterrizan</h4>
+        <p>Meses de diagnóstico y slides, sin un modelo en producción ni un indicador movido.</p>
+      </div>
+      <div class="card">
+        <span class="num">03</span>
+        <h4>Herramientas pensadas en inglés</h4>
+        <p>Dictado, transcripción y NLP que fallan con acentos, jerga clínica y contexto regional.</p>
+      </div>
+    </div>
+    <div class="page-num">02 / 08</div>
+  </section>
+
+  <!-- ========== 03 SOLUTION / PROMISE ========== -->
+  <section data-label="Solución">
+    <div class="brand-lockup">
+      <div class="mark">iA</div>
+      <div class="wm">Innova<span class="ai">AI</span></div>
+    </div>
+    <div class="section-title">
+      <span class="eyebrow">Nuestra Promesa</span>
+    </div>
+    <div class="two-col">
+      <div>
+        <h2>IA Aplicada,<br/><span class="grad">No Teórica.</span></h2>
+        <p class="lead" style="margin-top:36px;">
+          Diseñamos, construimos y desplegamos modelos y productos que funcionan desde el día&nbsp;1. Dos brazos, un mismo estándar: resultado medible.
+        </p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div class="card">
+          <span class="pill" style="margin-bottom:14px;">Consultoría</span>
+          <h4>Estrategia → Implementación → Escalamiento</h4>
+          <p>Llevamos a tu equipo de cero a una solución de IA en producción, con ROI documentado.</p>
+        </div>
+        <div class="card">
+          <span class="pill" style="margin-bottom:14px; background:rgba(59,130,246,0.10); color:#60A5FA; border-color:rgba(59,130,246,0.25);">Productos</span>
+          <h4>Herramientas listas para usar</h4>
+          <p>Apps verticales, entrenadas en español y diseñadas para flujos reales de LATAM.</p>
+        </div>
+      </div>
+    </div>
+    <div class="page-num">03 / 08</div>
+  </section>
+
+  <!-- ========== 04 PRODUCTS ========== -->
+  <section data-label="Productos">
+    <div class="brand-lockup">
+      <div class="mark">iA</div>
+      <div class="wm">Innova<span class="ai">AI</span></div>
+    </div>
+    <div class="section-title">
+      <span class="eyebrow">Nuestros Productos</span>
+      <h2 style="margin-top:20px;">Dos productos en producción. Más en camino.</h2>
+    </div>
+
+    <div class="grid-2">
+      <!-- DICTA -->
+      <div class="product-card dicta">
+        <div class="mock dicta">
+          <div class="wave">
+            <span style="height:20%"></span><span style="height:45%"></span><span style="height:80%"></span>
+            <span style="height:60%"></span><span style="height:95%"></span><span style="height:35%"></span>
+            <span style="height:70%"></span><span style="height:50%"></span><span style="height:88%"></span>
+            <span style="height:40%"></span><span style="height:65%"></span><span style="height:30%"></span>
+            <span style="height:78%"></span><span style="height:55%"></span><span style="height:42%"></span>
+            <span style="height:70%"></span><span style="height:90%"></span><span style="height:60%"></span>
+            <span style="height:48%"></span><span style="height:72%"></span>
+          </div>
+          <div class="line">› "Nos vemos el jueves"  ↦  "See you on Thursday"</div>
+        </div>
+        <span class="tag">Dicta</span>
+        <h3>Dicta</h3>
+        <div class="tagline">Habla. Traduce. Listo.</div>
+        <ul class="bullets">
+          <li>Dictado por voz en cualquier app, con hotkey global</li>
+          <li>Traducción en tiempo real ES ⇄ EN</li>
+          <li>Windows &amp; Android · suscripción mensual</li>
+        </ul>
+        <div class="chips">
+          <span class="pill">Funciona en toda app</span>
+          <span class="pill">Privacidad primero</span>
+        </div>
+      </div>
+
+      <!-- DIARIOMED -->
+      <div class="product-card diariomed">
+        <div class="mock diariomed">
+          <div class="teeth">
+            <i></i><i class="hl"></i><i></i><i></i>
+            <i></i><i></i><i class="hl"></i><i></i>
+            <i class="hl"></i><i></i><i></i><i></i>
+            <i></i><i></i><i></i><i class="hl"></i>
+          </div>
+          <div class="chart">
+            <div class="row"><span>FDI 16 · caries oclusal</span><b>K02.1</b></div>
+            <div class="row"><span>FDI 27 · obturación</span><b>Z98.811</b></div>
+            <div class="row"><span>FDI 36 · revisión</span><b>Z01.20</b></div>
+            <div class="row"><span>→ Exporta FHIR R4</span><b>✓</b></div>
+          </div>
+        </div>
+        <span class="tag">DiarioMed</span>
+        <h3>DiarioMed</h3>
+        <div class="tagline">Tu historial médico, estructurado e inteligente.</div>
+        <ul class="bullets">
+          <li>NLP clínico con BioBERT + SapBERT</li>
+          <li>Odontograma FDI + exportación FHIR R4</li>
+          <li>Clínicas dentales · multi-profesional</li>
+        </ul>
+        <div class="chips">
+          <span class="pill" style="background:rgba(16,185,129,0.10); color:#10B981; border-color:rgba(16,185,129,0.25);">Estándar internacional</span>
+          <span class="pill" style="background:rgba(16,185,129,0.10); color:#10B981; border-color:rgba(16,185,129,0.25);">Español clínico</span>
+        </div>
+      </div>
+    </div>
+    <div class="page-num">04 / 08</div>
+  </section>
+
+  <!-- ========== 05 HOW WE WORK ========== -->
+  <section data-label="Proceso">
+    <div class="brand-lockup">
+      <div class="mark">iA</div>
+      <div class="wm">Innova<span class="ai">AI</span></div>
+    </div>
+    <div class="section-title">
+      <span class="eyebrow">Cómo Trabajamos</span>
+      <h2 style="margin-top:20px;">De diagnóstico a escalamiento, sin atajos.</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="step">
+        <div class="dot">01</div>
+        <h4>Diagnóstico</h4>
+        <p>Analizamos tu situación, datos disponibles y oportunidades reales de IA.</p>
+      </div>
+      <div class="step">
+        <div class="dot">02</div>
+        <h4>Estrategia</h4>
+        <p>Roadmap priorizado por impacto, con métricas de éxito definidas desde el inicio.</p>
+      </div>
+      <div class="step">
+        <div class="dot">03</div>
+        <h4>Implementación</h4>
+        <p>Construimos modelos, pipelines y aplicaciones — entregamos, no prometemos.</p>
+      </div>
+      <div class="step">
+        <div class="dot">04</div>
+        <h4>Escalamiento</h4>
+        <p>Capacitamos al equipo, monitoreamos y ampliamos — no te dejamos solo.</p>
+      </div>
+    </div>
+
+    <hr class="sep" style="margin-top:80px;"/>
+    <div class="sectors">
+      <div class="sector">Salud</div>
+      <div class="sector">Finanzas</div>
+      <div class="sector">Retail</div>
+      <div class="sector">Logística</div>
+      <div class="sector">Educación</div>
+      <div class="sector">Manufactura</div>
+    </div>
+    <div class="page-num">05 / 08</div>
+  </section>
+
+  <!-- ========== 06 WHY INNOVAAI ========== -->
+  <section data-label="Por qué">
+    <div class="brand-lockup">
+      <div class="mark">iA</div>
+      <div class="wm">Innova<span class="ai">AI</span></div>
+    </div>
+    <div class="section-title">
+      <span class="eyebrow">Por Qué InnovaAI</span>
+      <h2 style="margin-top:20px;">No somos una consultora genérica — <span class="grad">somos tu socio local.</span></h2>
+    </div>
+
+    <div class="grid-2" style="gap:56px; row-gap:56px; grid-template-rows:1fr 1fr;">
+      <div class="why-item">
+        <span class="prefix">01 — ENFOQUE</span>
+        <h4>100% Latinoamericano</h4>
+        <p>Equipo, datos y casos construidos para la realidad regulatoria y cultural de la región. Nada se traduce — todo se piensa en español.</p>
+      </div>
+      <div class="why-item">
+        <span class="prefix">02 — ENTREGA</span>
+        <h4>Resultados desde el Día 1</h4>
+        <p>Implementamos, medimos y entregamos. Sin PowerPoints eternos. Sin fases infinitas de descubrimiento.</p>
+      </div>
+      <div class="why-item">
+        <span class="prefix">03 — PROFUNDIDAD</span>
+        <h4>Productos Propios en Producción</h4>
+        <p>No solo asesoramos — operamos productos de IA reales. Ese conocimiento se traslada a cada cliente.</p>
+      </div>
+      <div class="why-item">
+        <span class="prefix">04 — ACOMPAÑAMIENTO</span>
+        <h4>No Te Dejamos Solo</h4>
+        <p>Capacitación, monitoreo y adopción son parte del contrato, no un extra. Queremos que tu equipo tome el volante.</p>
+      </div>
+    </div>
+    <div class="page-num">06 / 08</div>
+  </section>
+
+  <!-- ========== 07 PROOF / MARKET ========== -->
+  <section data-label="Mercado">
+    <div class="brand-lockup">
+      <div class="mark">iA</div>
+      <div class="wm">Innova<span class="ai">AI</span></div>
+    </div>
+    <div class="section-title">
+      <span class="eyebrow">La Oportunidad</span>
+      <h2 style="margin-top:20px;">LATAM es el mercado de IA con mayor crecimiento sin cubrir.</h2>
+    </div>
+
+    <div class="grid-3" style="gap:32px; margin-top:40px;">
+      <div class="card">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Latinoamericano — equipo, modelos y datos.</div>
+      </div>
+      <div class="card">
+        <div class="stat-num">Día&nbsp;1</div>
+        <div class="stat-label">Resultados medibles desde la primera semana.</div>
+      </div>
+      <div class="card">
+        <div class="stat-num">2&nbsp;/&nbsp;+</div>
+        <div class="stat-label">Productos en producción — con más en roadmap.</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:56px; gap:56px; align-items:center;">
+      <div class="bignum">
+        <div class="n">6</div>
+        <div class="desc">sectores verticales activos: salud, finanzas, retail, logística, educación y manufactura.</div>
+      </div>
+      <div class="card" style="padding:40px;">
+        <h4 style="font-size:32px; margin-bottom:16px; letter-spacing:-0.02em;">"No somos una consultora genérica — somos tu socio local."</h4>
+        <p style="font-size:17px;">Eso significa reuniones en tu zona horaria, contratos en tu moneda, y modelos que entienden cómo habla tu cliente final.</p>
+      </div>
+    </div>
+    <div class="page-num">07 / 08</div>
+  </section>
+
+  <!-- ========== 08 CLOSE / CTA ========== -->
+  <section class="close" data-label="Contacto">
+    <div class="tech-grid"></div>
+    <div class="brand-lockup">
+      <div class="mark">iA</div>
+      <div class="wm">Innova<span class="ai">AI</span></div>
+    </div>
+    <span class="eyebrow">Hablemos</span>
+    <h2 style="margin-top:36px;">
+      ¿Listo para llevar tu negocio al <span class="grad">siguiente nivel con IA?</span>
+    </h2>
+    <p class="lead" style="margin-top:32px; max-width:1300px;">
+      Consulta gratuita de diagnóstico. Salimos con un plan priorizado y una estimación de impacto — en una sola sesión.
+    </p>
+
+    <div class="contact">
+      <div class="item">
+        <span class="label">Agenda</span>
+        <div class="value">innovaai.bo / consulta</div>
+      </div>
+      <div class="item">
+        <span class="label">WhatsApp</span>
+        <div class="value">+591 700 00 000</div>
+      </div>
+      <div class="item">
+        <span class="label">Email</span>
+        <div class="value">hola@innovaai.bo</div>
+      </div>
+    </div>
+
+    <div class="page-num">08 / 08</div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>
