@@ -237,6 +237,10 @@ export const dmPricing = {
   sectionTitle: 'Precios simples, sin sorpresas',
   sectionSubtitle: '7 dias gratis. Todas las features. Sin tarjeta.',
   note: 'Precios en USD. Facturacion en Bs. disponible.',
+  billingMonthly: 'Mensual',
+  billingAnnual: 'Anual',
+  badgePopular: 'Popular',
+  contactLabel: 'Contactar',
   plans: [
     {
       name: 'Starter',
@@ -379,6 +383,7 @@ export const dmComparison = {
     },
   ],
   note: 'DiarioMed cuesta un poco mas que Wispr Flow, pero incluye 5x mas funcionalidad clinica y zero riesgo de privacidad.',
+  recommendedLabel: 'Recomendado',
 };
 
 export const dmFaq = {

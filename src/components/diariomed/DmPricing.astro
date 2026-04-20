@@ -17,10 +17,18 @@ interface Props {
     sectionSubtitle: string;
     note: string;
     plans: Plan[];
+    billingMonthly?: string;
+    billingAnnual?: string;
+    badgePopular?: string;
+    contactLabel?: string;
   };
 }
 
 const { section } = Astro.props;
+const billingMonthly = section.billingMonthly ?? 'Mensual';
+const billingAnnual = section.billingAnnual ?? 'Anual';
+const badgePopular = section.badgePopular ?? 'Popular';
+const contactLabel = section.contactLabel ?? 'Contactar';
 ---
 
 <section id="precios" class="section-padding relative">
@@ -31,7 +39,7 @@ const { section } = Astro.props;
 
       <!-- Billing toggle -->
       <div class="inline-flex items-center gap-3 glass rounded-xl px-4 py-2" data-animate="fade-up">
-        <span class="text-sm text-text-primary font-medium" id="label-monthly">Mensual</span>
+        <span class="text-sm text-text-primary font-medium" id="label-monthly">{billingMonthly}</span>
         <button
           id="billing-toggle"
           class="relative w-12 h-6 rounded-full bg-primary/20 transition-colors duration-300 cursor-pointer"
@@ -40,7 +48,7 @@ const { section } = Astro.props;
           <span id="toggle-dot" class="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-primary transition-transform duration-300"></span>
         </button>
         <span class="text-sm text-text-secondary font-medium" id="label-annual">
-          Anual <span class="text-primary">-20%</span>
+          {billingAnnual} <span class="text-primary">-20%</span>
         </span>
       </div>
     </div>
@@ -59,7 +67,7 @@ const { section } = Astro.props;
           {/* Popular badge */}
           {plan.popular && (
             <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-primary text-bg-primary text-xs font-bold uppercase tracking-wider">
-              Popular
+              {badgePopular}
             </div>
           )}
 
@@ -75,7 +83,7 @@ const { section } = Astro.props;
                 <span class="text-text-secondary">{plan.period}</span>
               </div>
             ) : (
-              <div class="text-4xl font-bold">Contactar</div>
+              <div class="text-4xl font-bold">{contactLabel}</div>
             )}
           </div>
 

@@ -30,15 +30,15 @@ import {
   dmFaq,
   dmCtaFinal,
   dmFooter,
-} from '../../../data/es/diariomed';
+} from '../../../data/en/diariomed';
 ---
 
 <Layout
-  title="DiarioMed — Gestion Dental por Voz con IA | FHIR R4"
-  description="Transforma tu voz en historias clinicas, presupuestos automaticos y odontograma digital. DiarioMed: la plataforma voice-first para clinicas dentales en Latinoamerica."
-  lang="es"
+  title="DiarioMed — Voice-Powered Dental Management with AI | FHIR R4"
+  description="Turn your voice into clinical records, automatic treatment plans and a digital odontogram. DiarioMed: the voice-first platform for dental clinics in Latin America."
+  lang="en"
 >
-  <DmNavbar nav={dmNavigation} lang="es" />
+  <DmNavbar nav={dmNavigation} lang="en" />
   <main>
     <DmHero hero={dmHero}>
       <ParticleBackground slot="default" />
@@ -54,7 +54,7 @@ import {
     <DmFaq section={dmFaq} />
     <DmCtaFinal cta={dmCtaFinal} />
   </main>
-  <Footer footer={dmFooter} lang="es" />
+  <Footer footer={dmFooter} lang="en" />
   <WhatsAppButton number={dmCtaFinal.whatsappNumber} message={dmCtaFinal.whatsappMessage} />
 
   <script>

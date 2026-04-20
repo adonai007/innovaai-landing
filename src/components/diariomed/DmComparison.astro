@@ -13,10 +13,12 @@ interface Props {
     columns: { diariomed: string; wispr: string; cloudEmr: string };
     rows: Row[];
     note: string;
+    recommendedLabel?: string;
   };
 }
 
 const { section } = Astro.props;
+const recommendedLabel = section.recommendedLabel ?? 'Recomendado';
 
 // Render a cell: "Si" -> green check, "No" -> red x, else plain text
 const renderCell = (value: string) => {
@@ -50,7 +52,7 @@ const renderCell = (value: string) => {
               </th>
               <th class="p-4 md:p-5 font-bold bg-primary/10 border-x border-primary/20">
                 <div class="gradient-text text-base md:text-lg">{section.columns.diariomed}</div>
-                <div class="text-xs text-primary/80 font-medium mt-0.5">Recomendado</div>
+                <div class="text-xs text-primary/80 font-medium mt-0.5">{recommendedLabel}</div>
               </th>
               <th class="p-4 md:p-5 font-semibold text-text-secondary">
                 {section.columns.wispr}
