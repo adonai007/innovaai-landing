@@ -29,6 +29,7 @@ export const footer = {
     {
       title: 'Empresa',
       links: [
+        { label: 'Pitch Deck', href: '/deck/' },
         { label: 'Nosotros', href: '#' },
         { label: 'Blog', href: '#' },
         { label: 'Contacto', href: '#contacto' },
