@@ -60,10 +60,10 @@ const { section } = Astro.props;
     </div>
 
     <!-- Testimonials -->
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="flex flex-wrap justify-center gap-6">
       {section.testimonials.map((t, i) => (
         <div
-          class="glass rounded-2xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:border-primary/30"
+          class="glass rounded-2xl p-6 flex flex-col w-full md:w-[340px] max-w-2xl transition-all duration-300 hover:-translate-y-1 hover:border-primary/30"
           data-animate="fade-up"
           data-delay={String(i * 0.1)}
         >
