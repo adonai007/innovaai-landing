@@ -90,11 +90,11 @@ const words = hero.headline.split(' ');
 </section>
 
 <style>
-  /* Grid pattern with radial mask */
+  /* Grid pattern with radial mask — primary green at low alpha */
   .hero-grid {
     background-image:
-      linear-gradient(rgba(34, 197, 94, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(34, 197, 94, 0.06) 1px, transparent 1px);
+      linear-gradient(rgba(22, 163, 74, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(22, 163, 74, 0.06) 1px, transparent 1px);
     background-size: 64px 64px;
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 80%);
     mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 80%);
@@ -111,7 +111,7 @@ const words = hero.headline.split(' ');
     left: 20%;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(34, 197, 94, 0.25), transparent 70%);
+    background: radial-gradient(circle, rgba(22, 163, 74, 0.25), transparent 70%);
     filter: blur(80px);
     animation: float 12s ease-in-out infinite;
   }
@@ -120,7 +120,7 @@ const words = hero.headline.split(' ');
     right: 15%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent 70%);
+    background: radial-gradient(circle, rgba(30, 64, 175, 0.2), transparent 70%);
     filter: blur(80px);
     animation: float 14s ease-in-out infinite reverse;
   }

@@ -5,6 +5,11 @@ interface Props {
 }
 
 const { section, steps } = Astro.props;
+
+// Gradient-text discipline: gradient only the last word.
+const titleWords = section.title.split(' ');
+const titleLead = titleWords.slice(0, -1).join(' ');
+const titleAccent = titleWords[titleWords.length - 1];
 ---
 
 <section id="proceso" class="section-padding overflow-hidden">
@@ -15,7 +20,8 @@ const { section, steps } = Astro.props;
         {section.badge}
       </span>
       <h2 class="text-[length:var(--text-4xl)] font-bold mb-4">
-        <span class="gradient-text">{section.title}</span>
+        {titleLead && <span class="text-text-primary">{titleLead} </span>}
+        <span class="gradient-text">{titleAccent}</span>
       </h2>
       <p class="text-text-secondary text-[length:var(--text-xl)] max-w-2xl mx-auto">{section.subtitle}</p>
     </div>
@@ -33,7 +39,7 @@ const { section, steps } = Astro.props;
           <div class="relative" data-animate="fade-up" data-delay={i * 0.2}>
             <!-- Step Number -->
             <div class="w-12 h-12 rounded-full bg-bg-secondary border-2 border-primary/30 flex items-center justify-center mx-auto md:mx-0 mb-6 relative z-10">
-              <span class="text-primary font-bold text-sm">{step.number}</span>
+              <span class="process-step-num text-primary-light font-bold text-sm">{step.number}</span>
             </div>
 
             <!-- Vertical Line (mobile) -->
@@ -52,3 +58,10 @@ const { section, steps } = Astro.props;
     </div>
   </div>
 </section>
+
+<style>
+  .process-step-num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+</style>
