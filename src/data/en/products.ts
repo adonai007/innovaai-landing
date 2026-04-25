@@ -22,6 +22,6 @@ export const products = [
     pills: ['FHIR format', 'Smart history', 'Privacy first'],
     color: 'diariomed' as const,
     cta: 'Discover DiarioMed',
-    ctaHref: '#',
+    ctaHref: '/en/diariomed/',
   },
 ];
