@@ -7,7 +7,7 @@ export const dmNavigation = {
     { label: 'Pricing', href: '#precios' },
     { label: 'FAQ', href: '#faq' },
   ],
-  cta: 'Free Trial',
+  cta: 'Schedule Demo',
 };
 
 export const dmProblem = {
@@ -47,9 +47,9 @@ export const dmHero = {
   headline: 'Speak. DiarioMed Does the Rest.',
   subheadline:
     'Turn your voice into FHIR clinical records, automatic treatment plans and patient follow-up. No typing. No waiting.',
-  ctaPrimary: 'Start 7-Day Free Trial',
-  ctaPrimaryHref: '#precios',
-  ctaSecondary: 'Watch Live Demo',
+  ctaPrimary: 'Schedule a Guided Demo',
+  ctaPrimaryHref: '#cta-final',
+  ctaSecondary: 'How It Works',
   ctaSecondaryHref: '#como-funciona',
   trustItems: ['HL7 FHIR R4 Compliant', 'Data in Your Clinic', 'STT <1s'],
 };
@@ -184,23 +184,23 @@ export const dmFeatures = {
 };
 
 export const dmResults = {
-  sectionTitle: 'Real Results, Not Promises',
-  sectionSubtitle: 'Clinics already using DiarioMed recover hours every week.',
+  sectionTitle: 'Measurable Goals, Not Promises',
+  sectionSubtitle: 'What DiarioMed is built to deliver — clear targets, not marketing.',
   counters: [
     {
-      value: '15 min',
-      label: 'Documentation per day',
-      sublabel: 'before: 2 hours',
+      value: 'Up to 87%',
+      label: 'less time on documentation',
+      sublabel: 'design target',
     },
     {
-      value: '40%',
-      label: 'More productivity',
-      sublabel: 'patients per day',
+      value: 'Up to 3x',
+      label: 'more time for patients',
+      sublabel: 'by automating paperwork',
     },
     {
-      value: '85%',
-      label: 'Treatment plan acceptance',
-      sublabel: 'sent via WhatsApp',
+      value: 'Up to 85%',
+      label: 'projected acceptance',
+      sublabel: 'treatment plans via WhatsApp',
     },
     {
       value: '<1s',
@@ -211,24 +211,10 @@ export const dmResults = {
   testimonials: [
     {
       quote:
-        'I cut my documentation time from 2 hours to 15 minutes. Now I see more patients without taking work home.',
-      author: 'Dr. Maria Rojas',
-      role: 'General Dentist',
+        'I built DiarioMed because I watched my own dentist spend hours typing instead of treating patients. If what you see here matches a problem you recognize, let us talk.',
+      author: 'Adonai Callejas',
+      role: 'Founder, InnovaAI',
       location: 'Cochabamba, Bolivia',
-    },
-    {
-      quote:
-        'WhatsApp treatment plans changed everything. The patient receives them before leaving the office.',
-      author: 'Dr. Carlos Mendoza',
-      role: 'Clinical Director',
-      location: 'La Paz, Bolivia',
-    },
-    {
-      quote:
-        'Dictating the odontogram and having it update itself is magic. My assistant now handles other more important tasks.',
-      author: 'Dr. Andrea Suarez',
-      role: 'Orthodontist',
-      location: 'Santa Cruz, Bolivia',
     },
   ],
 };
@@ -255,7 +241,7 @@ export const dmPricing = {
         'Odontogram',
         'PDF export',
       ],
-      cta: 'Start Free Trial',
+      cta: 'Schedule Demo',
     },
     {
       name: 'Clinic',
@@ -272,7 +258,7 @@ export const dmPricing = {
         'RAG search',
         'Scheduling',
       ],
-      cta: 'Start Free Trial',
+      cta: 'Schedule Demo',
     },
     {
       name: 'Enterprise',
@@ -443,15 +429,24 @@ export const dmFaq = {
   ],
 };
 
+const dmWhatsappNumber = '59172004767';
+const dmWaPrimaryMessage =
+  'Hi Adonai, I saw DiarioMed and would like to talk to the founder about my dental clinic.';
+const dmWaSecondaryMessage =
+  'I would like to schedule a 1-on-1 DiarioMed demo for my dental clinic.';
+const dmWaFooterMessage =
+  'Hi, I saw DiarioMed and would like to schedule a demo for my dental clinic.';
+
 export const dmCtaFinal = {
-  title: 'Start Documenting by Voice Today',
-  subtitle: '7 days free. All features. No credit card.',
-  ctaPrimary: 'Create Free Account',
-  ctaPrimaryHref: '#precios',
-  ctaSecondary: 'Book a 1-on-1 Demo',
-  ctaSecondaryHref: '#',
-  whatsappNumber: '59175870218',
-  whatsappMessage: 'Hello, I\'m interested in DiarioMed for my dental clinic.',
+  title: 'Let\'s Talk About Your Clinic',
+  subtitle:
+    'Still day 1. No automatic trials yet — we set up a guided demo over WhatsApp and I show you DiarioMed live.',
+  ctaPrimary: 'Talk to the Founder',
+  ctaPrimaryHref: `https://wa.me/${dmWhatsappNumber}?text=${encodeURIComponent(dmWaPrimaryMessage)}`,
+  ctaSecondary: 'Schedule a 1-on-1 Demo',
+  ctaSecondaryHref: `https://wa.me/${dmWhatsappNumber}?text=${encodeURIComponent(dmWaSecondaryMessage)}`,
+  whatsappNumber: dmWhatsappNumber,
+  whatsappMessage: dmWaFooterMessage,
 };
 
 export const dmFooter = {
@@ -466,27 +461,11 @@ export const dmFooter = {
         { label: 'Demo', href: '#como-funciona' },
       ],
     },
-    {
-      title: 'Resources',
-      links: [
-        { label: 'Documentation', href: '#' },
-        { label: 'API', href: '#' },
-        { label: 'Help Center', href: '#' },
-      ],
-    },
-    {
-      title: 'Legal',
-      links: [
-        { label: 'Privacy', href: '#' },
-        { label: 'Terms', href: '#' },
-        { label: 'FHIR Compliance', href: '#' },
-      ],
-    },
   ],
   social: [
+    // TODO: replace with founder LinkedIn URL
     { label: 'LinkedIn', href: '#', icon: 'linkedin' },
-    { label: 'Twitter', href: '#', icon: 'twitter' },
-    { label: 'WhatsApp', href: '#', icon: 'whatsapp' },
+    { label: 'WhatsApp', href: `https://wa.me/${dmWhatsappNumber}`, icon: 'whatsapp' },
   ],
   copyright: '2024-2026 InnovaAI SRL. All rights reserved.',
   madeWith: 'Made in Bolivia for clinics across Latin America',

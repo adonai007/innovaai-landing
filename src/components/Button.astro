@@ -24,8 +24,14 @@ const variantClasses = {
 
 const classes = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
 const Tag = href ? 'a' : 'button';
+const isExternal = typeof href === 'string' && /^https?:\/\//.test(href);
 ---
 
-<Tag href={href} class={classes}>
+<Tag
+  href={href}
+  class={classes}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+>
   <slot />
 </Tag>

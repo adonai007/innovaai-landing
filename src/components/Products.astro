@@ -15,6 +15,11 @@ interface Props {
 }
 
 const { section, products } = Astro.props;
+
+// Gradient-text discipline: gradient only the last word.
+const titleWords = section.title.split(' ');
+const titleLead = titleWords.slice(0, -1).join(' ');
+const titleAccent = titleWords[titleWords.length - 1];
 ---
 
 <section id="productos" class="section-padding">
@@ -25,7 +30,8 @@ const { section, products } = Astro.props;
         {section.badge}
       </span>
       <h2 class="text-[length:var(--text-4xl)] font-bold mb-4">
-        <span class="gradient-text">{section.title}</span>
+        {titleLead && <span class="text-text-primary">{titleLead} </span>}
+        <span class="gradient-text">{titleAccent}</span>
       </h2>
       <p class="text-text-secondary text-[length:var(--text-xl)] max-w-2xl mx-auto">{section.subtitle}</p>
     </div>

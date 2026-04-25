@@ -2,39 +2,45 @@
 @import "./animations.css";
 
 @theme {
-  /* Neural Green Palette */
+  /* ── Neural Green Pro (D1) palette ──────────────────────────────────────── */
+  /* Backgrounds */
   --color-bg-primary: #0A0F1A;
   --color-bg-secondary: #0F1629;
-  --color-bg-tertiary: #162036;
+  --color-bg-tertiary: #1A2235;
   --color-bg-glass: rgba(255, 255, 255, 0.04);
   --color-bg-glass-border: rgba(255, 255, 255, 0.08);
 
-  --color-primary: #22C55E;
-  --color-primary-light: #34D399;
-  --color-primary-dark: #16A34A;
-  --color-primary-glow: rgba(34, 197, 94, 0.25);
+  /* Primary — emerald deep (was #22C55E) */
+  --color-primary: #16A34A;
+  --color-primary-light: #22C55E;
+  --color-primary-dark: #15803D;
+  --color-primary-glow: rgba(22, 163, 74, 0.25);
 
-  --color-secondary: #3B82F6;
-  --color-secondary-light: #60A5FA;
-  --color-secondary-dark: #2563EB;
-  --color-secondary-glow: rgba(59, 130, 246, 0.2);
+  /* Secondary — indigo deep (was #3B82F6) */
+  --color-secondary: #1E40AF;
+  --color-secondary-light: #3B82F6;
+  --color-secondary-dark: #1E3A8A;
+  --color-secondary-glow: rgba(30, 64, 175, 0.2);
 
+  /* Product accents (unchanged) */
   --color-dicta: #34D399;
   --color-diariomed: #10B981;
 
+  /* Text */
   --color-text-primary: #E2E8F0;
   --color-text-secondary: #94A3B8;
   --color-text-tertiary: #64748B;
 
-  /* Gradients */
-  --gradient-hero: linear-gradient(135deg, #22C55E 0%, #3B82F6 50%, #06B6D4 100%);
-  --gradient-text: linear-gradient(90deg, #22C55E, #3B82F6);
-  --gradient-card: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.05));
-  --gradient-cta: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(59, 130, 246, 0.15));
+  /* Gradients — track the new primary/secondary; cyan reserved for gradients only */
+  --gradient-hero: linear-gradient(135deg, #16A34A 0%, #1E40AF 50%, #06B6D4 100%);
+  --gradient-text: linear-gradient(90deg, #16A34A, #1E40AF);
+  --gradient-card: linear-gradient(135deg, rgba(22, 163, 74, 0.10), rgba(30, 64, 175, 0.05));
+  --gradient-cta: linear-gradient(135deg, rgba(22, 163, 74, 0.15), rgba(30, 64, 175, 0.15));
 
   /* Typography */
   --font-heading: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --text-hero: clamp(2.5rem, 1.8rem + 3.5vw, 4.5rem);
   --text-4xl: clamp(2.25rem, 1.6rem + 2.8vw, 3.5rem);
@@ -42,8 +48,23 @@
   --text-2xl: clamp(1.5rem, 1.2rem + 1.3vw, 2rem);
   --text-xl: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
 
-  /* Spacing */
+  /* Spacing scale — additive token source; existing Tailwind classes still work */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 64px;
+  --space-7: 96px;
+  --space-8: 128px;
+
   --section-padding: clamp(4rem, 3rem + 5vw, 8rem);
+
+  /* Borders & glow shadows — hairline + product accents */
+  --border-hairline: 1px solid rgba(255, 255, 255, 0.08);
+  --border-primary: 1px solid rgba(22, 163, 74, 0.20);
+  --shadow-glow-green: 0 0 20px rgba(22, 163, 74, 0.25), 0 0 60px rgba(22, 163, 74, 0.10);
+  --shadow-glow-blue: 0 0 20px rgba(30, 64, 175, 0.20), 0 0 60px rgba(30, 64, 175, 0.10);
 }
 
 @layer base {
@@ -64,8 +85,16 @@
     font-weight: 700;
   }
 
+  /* Tighter letter-spacing on display sizes — Linear/Vercel feel */
+  h1 {
+    letter-spacing: -0.02em;
+  }
+  h2 {
+    letter-spacing: -0.02em;
+  }
+
   ::selection {
-    background-color: rgba(34, 197, 94, 0.3);
+    background-color: rgba(22, 163, 74, 0.3);
     color: #fff;
   }
 }
@@ -93,11 +122,11 @@
   }
 
   .glow-green {
-    box-shadow: 0 0 20px var(--color-primary-glow), 0 0 60px rgba(34, 197, 94, 0.1);
+    box-shadow: var(--shadow-glow-green);
   }
 
   .glow-blue {
-    box-shadow: 0 0 20px var(--color-secondary-glow), 0 0 60px rgba(59, 130, 246, 0.1);
+    box-shadow: var(--shadow-glow-blue);
   }
 
   .section-padding {
