@@ -88,6 +88,8 @@ const { lang, nav } = Astro.props;
     }
   };
   window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('pageshow', handleScroll);
+  handleScroll();
 
   // Mobile toggle
   const openMenu = () => {

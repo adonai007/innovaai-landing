@@ -84,6 +84,8 @@ const { nav, lang = 'es' } = Astro.props;
     }
   };
   window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('pageshow', handleScroll);
+  handleScroll();
 
   const openMenu = () => {
     isOpen = true;
