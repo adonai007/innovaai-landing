@@ -1,14 +1,14 @@
 const whatsappNumber = '59172004767';
 const ctaPrimaryMessage =
-  'Hola Adonai, quiero agendar una consulta gratuita de IA para mi empresa.';
+  'Hola Adonai, quiero agendar una consultoría de IA para mi empresa.';
 const ctaWhatsappMessage =
-  'Hola Adonai, vi InnovaAI y me gustaria conversar sobre IA para mi empresa.';
+  'Hola Adonai, vi InnovaAI y me gustaria agendar una consultoría para ver cómo aplicar IA en mi empresa.';
 
 export const cta = {
-  title: '¿Listo para transformar tu negocio con IA?',
+  title: 'Hablemos de Cómo Usar IA en tu Empresa',
   subtitle:
-    'Agenda una consulta gratuita y descubre cómo la inteligencia artificial puede impulsar tus resultados.',
-  ctaPrimary: 'Agenda tu Consulta Gratuita',
+    'En una primera conversación revisamos tus procesos, tus datos y tus prioridades para definir por dónde empezar sin complicar tu operación.',
+  ctaPrimary: 'Agendar Consultoría',
   ctaPrimaryHref: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(ctaPrimaryMessage)}`,
   ctaWhatsApp: 'Escríbenos por WhatsApp',
   whatsappNumber,
@@ -16,21 +16,21 @@ export const cta = {
 };
 
 export const footer = {
-  tagline: 'Inteligencia Artificial para Latinoamérica',
+  tagline: 'Consultoría y productos de IA aplicada para Latinoamérica',
   columns: [
     {
       title: 'Servicios',
       links: [
-        { label: 'Estrategia de IA', href: '#servicios' },
-        { label: 'Desarrollo', href: '#servicios' },
-        { label: 'Capacitación', href: '#servicios' },
+        { label: 'Consultoría en IA', href: '#servicios' },
+        { label: 'Automatización práctica', href: '#servicios' },
+        { label: 'Adopción del equipo', href: '#servicios' },
       ],
     },
     {
       title: 'Productos',
       links: [
         { label: 'Dicta', href: '#productos' },
-        { label: 'DiarioMed', href: '#productos' },
+        { label: 'DentiMed', href: '#productos' },
       ],
     },
     {

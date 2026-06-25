@@ -1,23 +1,23 @@
 export const servicesSection = {
-  badge: 'Our Services',
-  title: 'AI Consulting Tailored to You',
-  subtitle: 'Custom solutions that transform the way your business operates.',
+  badge: 'AI Consulting for Companies',
+  title: 'What We Can Improve',
+  subtitle: 'We start with your processes, not the technology. First we understand the problem; then we choose the best way to solve it with AI.',
 };
 
 export const services = [
   {
     icon: 'brain',
-    title: 'AI Strategy',
-    description: 'We assess your organization and design a custom AI roadmap with clear objectives and measurable ROI.',
+    title: 'Processes that Save Time',
+    description: 'We identify repetitive tasks, bottlenecks, and manual work that AI can support without forcing you to change your whole operation.',
   },
   {
     icon: 'code',
-    title: 'Solution Development',
-    description: 'We build AI models, pipelines, and applications fully integrated into your existing systems.',
+    title: 'Information that Is Easy to Find',
+    description: 'We organize documents, reports, and internal knowledge so your team can find reliable answers without losing hours searching.',
   },
   {
     icon: 'users',
-    title: 'Training & Adoption',
-    description: 'We train your team to confidently adopt and scale AI solutions with full autonomy.',
+    title: 'A Team Ready to Use AI',
+    description: 'We train leaders and teams to use AI with judgment, measure results, and adopt better work habits.',
   },
 ];

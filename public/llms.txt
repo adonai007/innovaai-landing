@@ -1,0 +1,31 @@
+# InnovaAI
+
+> InnovaAI is an applied AI consultancy and product studio based in Bolivia, serving companies in Latin America.
+
+InnovaAI helps companies use artificial intelligence to save time, organize information, improve operations, and prepare teams to adopt AI responsibly.
+
+## Main Pages
+
+- [Spanish homepage](https://innovaai-landing.onrender.com/es/): Applied AI consulting for companies in Latin America.
+- [English homepage](https://innovaai-landing.onrender.com/en/): Applied AI consulting for companies, focused on practical adoption.
+- [DentiMed Spanish](https://innovaai-landing.onrender.com/es/dentimed/): Voice-assisted dental clinic documentation and follow-up.
+- [DentiMed English](https://innovaai-landing.onrender.com/en/dentimed/): Voice-assisted dental clinic records and follow-up.
+
+## What InnovaAI Does
+
+- Applied AI consulting for companies.
+- Process analysis to identify practical AI opportunities.
+- Automation support for repetitive work.
+- Internal information organization so teams can find reliable answers faster.
+- Team training and adoption support.
+- AI product development through Dicta and DentiMed.
+
+## Products
+
+- Dicta: voice dictation and instant translation for daily work.
+- DentiMed: voice-assisted dental records, digital odontogram, and patient follow-up for dental clinics.
+
+## Contact
+
+- Website: https://innovaai-landing.onrender.com/es/
+- WhatsApp: https://wa.me/59172004767

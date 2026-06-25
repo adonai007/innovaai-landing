@@ -6,6 +6,6 @@ export const navigation = {
     { label: 'Proceso', href: '#proceso' },
     { label: 'Contacto', href: '#contacto' },
   ],
-  cta: 'Agenda una Consulta',
+  cta: 'Agendar Consultoría',
   langSwitch: { label: 'EN', href: '/en/' },
 };

@@ -1,5 +1,5 @@
-export const dmNavigation = {
-  logo: 'DiarioMed',
+﻿export const dmNavigation = {
+  logo: 'DentiMed',
   links: [
     { label: 'Solucion', href: '#solucion' },
     { label: 'Como Funciona', href: '#como-funciona' },
@@ -44,7 +44,7 @@ export const dmProblem = {
 
 export const dmHero = {
   badge: 'Nuevo: Odontograma IA en tiempo real',
-  headline: 'Habla. DiarioMed hace el resto.',
+  headline: 'Habla. DentiMed hace el resto.',
   subheadline:
     'Transforma tu voz en historias clinicas FHIR, presupuestos automaticos y seguimiento de pacientes. Sin teclear. Sin esperar.',
   ctaPrimary: 'Agendar Demo Guiada',
@@ -59,7 +59,7 @@ export const dmSolution = {
   tabs: [
     {
       id: 'diariomed',
-      label: 'DiarioMed',
+      label: 'DentiMed',
       icon: 'clipboard',
       tagline: 'Dicta. Se genera. Se valida.',
       features: [
@@ -185,7 +185,7 @@ export const dmFeatures = {
 
 export const dmResults = {
   sectionTitle: 'Objetivos medibles, no promesas',
-  sectionSubtitle: 'Lo que DiarioMed apunta a entregar — metas claras, no marketing.',
+  sectionSubtitle: 'Lo que DentiMed apunta a entregar — metas claras, no marketing.',
   counters: [
     {
       value: 'Hasta 87%',
@@ -211,7 +211,7 @@ export const dmResults = {
   testimonials: [
     {
       quote:
-        'Construi DiarioMed porque vi a mi propio dentista perder horas escribiendo en lugar de atender. Si lo que ves resuelve un problema que reconoces, hablemos.',
+        'Construi DentiMed porque vi a mi propio dentista perder horas escribiendo en lugar de atender. Si lo que ves resuelve un problema que reconoces, hablemos.',
       author: 'Adonai Callejas',
       role: 'Fundador, InnovaAI',
       location: 'Cochabamba, Bolivia',
@@ -318,7 +318,7 @@ export const dmComparison = {
   sectionSubtitle:
     'No somos los mas baratos. Somos los unicos pensados para odontologia LatAm.',
   columns: {
-    diariomed: 'DiarioMed',
+    diariomed: 'DentiMed',
     wispr: 'Wispr Flow',
     cloudEmr: 'Cloud EMR',
   },
@@ -368,7 +368,7 @@ export const dmComparison = {
       cloudEmr: '$200+/mes',
     },
   ],
-  note: 'DiarioMed cuesta un poco mas que Wispr Flow, pero incluye 5x mas funcionalidad clinica y zero riesgo de privacidad.',
+  note: 'DentiMed cuesta un poco mas que Wispr Flow, pero incluye 5x mas funcionalidad clinica y zero riesgo de privacidad.',
   recommendedLabel: 'Recomendado',
 };
 
@@ -424,22 +424,22 @@ export const dmFaq = {
     {
       question: '¿Que pasa si la IA se equivoca?',
       answer:
-        'El doctor SIEMPRE valida antes de guardar. DiarioMed es un asistente, no un reemplazo: toda historia pasa por tu revision y tu click de aprobacion.',
+        'El doctor SIEMPRE valida antes de guardar. DentiMed es un asistente, no un reemplazo: toda historia pasa por tu revision y tu click de aprobacion.',
     },
   ],
 };
 
 const dmWhatsappNumber = '59172004767';
 const dmWaPrimaryMessage =
-  'Hola Adonai, vi DiarioMed y quiero hablar con el fundador sobre mi clinica dental.';
+  'Hola Adonai, vi DentiMed y quiero hablar con el fundador sobre mi clinica dental.';
 const dmWaSecondaryMessage =
-  'Quiero agendar una demo 1-a-1 de DiarioMed para mi clinica dental.';
-const dmWaFooterMessage = 'Hola, vi DiarioMed y quiero agendar una demo para mi clinica dental.';
+  'Quiero agendar una demo 1-a-1 de DentiMed para mi clinica dental.';
+const dmWaFooterMessage = 'Hola, vi DentiMed y quiero agendar una demo para mi clinica dental.';
 
 export const dmCtaFinal = {
   title: 'Hablemos de tu clinica',
   subtitle:
-    'Dia 1 todavia. Sin pruebas automaticas: agendamos una demo guiada por WhatsApp y te muestro DiarioMed en vivo.',
+    'Dia 1 todavia. Sin pruebas automaticas: agendamos una demo guiada por WhatsApp y te muestro DentiMed en vivo.',
   ctaPrimary: 'Hablar con el Fundador',
   ctaPrimaryHref: `https://wa.me/${dmWhatsappNumber}?text=${encodeURIComponent(dmWaPrimaryMessage)}`,
   ctaSecondary: 'Agendar Demo 1-a-1',

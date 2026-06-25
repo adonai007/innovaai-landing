@@ -1,0 +1,63 @@
+﻿---
+import Layout from '../../../layouts/Layout.astro';
+import DmNavbar from '../../../components/diariomed/DmNavbar.astro';
+import DmHero from '../../../components/diariomed/DmHero.astro';
+import ParticleBackground from '../../../components/ParticleBackground.astro';
+import DmProblem from '../../../components/diariomed/DmProblem.astro';
+import DmSolution from '../../../components/diariomed/DmSolution.astro';
+import DmHowItWorks from '../../../components/diariomed/DmHowItWorks.astro';
+import DmFeatures from '../../../components/diariomed/DmFeatures.astro';
+import DmResults from '../../../components/diariomed/DmResults.astro';
+import DmPricing from '../../../components/diariomed/DmPricing.astro';
+import DmSecurity from '../../../components/diariomed/DmSecurity.astro';
+import DmComparison from '../../../components/diariomed/DmComparison.astro';
+import DmFaq from '../../../components/diariomed/DmFaq.astro';
+import DmCtaFinal from '../../../components/diariomed/DmCtaFinal.astro';
+import WhatsAppButton from '../../../components/WhatsAppButton.astro';
+import Footer from '../../../components/Footer.astro';
+
+import {
+  dmNavigation,
+  dmHero,
+  dmProblem,
+  dmSolution,
+  dmHowItWorks,
+  dmFeatures,
+  dmResults,
+  dmPricing,
+  dmSecurity,
+  dmComparison,
+  dmFaq,
+  dmCtaFinal,
+  dmFooter,
+} from '../../../data/en/diariomed';
+---
+
+<Layout
+  title="DentiMed — Voice-Powered Dental Management with AI | FHIR R4"
+  description="Turn your voice into clinical records, automatic treatment plans and a digital odontogram. DentiMed: the voice-first platform for dental clinics in Latin America."
+  lang="en"
+>
+  <DmNavbar nav={dmNavigation} lang="en" />
+  <main>
+    <DmHero hero={dmHero}>
+      <ParticleBackground slot="default" />
+    </DmHero>
+    <DmProblem section={dmProblem} />
+    <DmSolution section={dmSolution} />
+    <DmHowItWorks section={dmHowItWorks} />
+    <DmFeatures section={dmFeatures} />
+    <DmResults section={dmResults} />
+    <DmPricing section={dmPricing} />
+    <DmSecurity section={dmSecurity} />
+    <DmComparison section={dmComparison} />
+    <DmFaq section={dmFaq} />
+    <DmCtaFinal cta={dmCtaFinal} />
+  </main>
+  <Footer footer={dmFooter} lang="en" />
+  <WhatsAppButton number={dmCtaFinal.whatsappNumber} message={dmCtaFinal.whatsappMessage} />
+
+  <script>
+    import '../../../scripts/animations';
+  </script>
+</Layout>

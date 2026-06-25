@@ -1,32 +1,32 @@
 export const whySection = {
   badge: 'Nuestra Diferencia',
   title: 'Por Qué InnovaAI',
-  subtitle: 'Lo que nos hace el aliado ideal para tu transformación con IA.',
+  subtitle: 'Experiencia real, productos propios y una forma de trabajar pensada para empresas de Latinoamérica.',
 };
 
 export const differentiators = [
   {
     icon: 'globe',
-    title: 'Enfoque 100% Latinoamericano',
-    description: 'Entendemos tu mercado, tu idioma y los desafíos únicos de la región. No somos una consultora genérica — somos tu socio local.',
+    title: 'Experiencia Empresarial Real',
+    description: 'Más de 17 años trabajando con tecnología para procesos importantes. Traducimos esa experiencia en soluciones prácticas para empresas de la región.',
     accent: 'primary' as const,
   },
   {
     icon: 'target',
-    title: 'IA Aplicada, No Teórica',
-    description: 'Soluciones que funcionan desde el día 1. Nada de PowerPoints eternos — implementamos, medimos y entregamos resultados.',
+    title: 'IA Aplicada, Sin Complicar',
+    description: 'No vendemos teoría ni moda. Elegimos la tecnología adecuada detrás de escena para resolver un problema concreto de tu operación.',
     accent: 'secondary' as const,
   },
   {
     icon: 'shield',
-    title: 'Privacidad y Seguridad',
-    description: 'Tus datos siempre protegidos. Trabajamos con los más altos estándares de seguridad y cumplimiento normativo.',
+    title: 'Cuidado de Datos Desde el Inicio',
+    description: 'Diseñamos cada solución pensando en quién puede ver la información, cómo se usa y cuándo debe intervenir una persona.',
     accent: 'primary' as const,
   },
   {
     icon: 'handshake',
-    title: 'Acompañamiento Continuo',
-    description: 'No te dejamos solo después de entregar. Te acompañamos en la adopción, el escalamiento y la evolución de tu solución.',
+    title: 'Tu Equipo Aprende con Nosotros',
+    description: 'No entregamos una caja negra. Acompañamos a tu equipo para entender, adoptar y mejorar la solución con criterio propio.',
     accent: 'secondary' as const,
   },
 ];

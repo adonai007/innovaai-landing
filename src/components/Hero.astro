@@ -10,11 +10,13 @@ interface Props {
     ctaSecondary: string;
     ctaSecondaryHref: string;
     badges: string[];
+    accentWords?: string[];
   };
 }
 
 const { hero } = Astro.props;
 const words = hero.headline.split(' ');
+const accentWords = new Set(hero.accentWords ?? ['Inteligencia', 'Artificial', 'Intelligence']);
 ---
 
 <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -41,7 +43,7 @@ const words = hero.headline.split(' ');
       {words.map((word, i) => (
         <span
           class={`inline-block opacity-0 translate-y-8 hero-word ${
-            word === 'Inteligencia' || word === 'Artificial' || word === 'Intelligence'
+            accentWords.has(word)
               ? 'gradient-text'
               : ''
           }`}

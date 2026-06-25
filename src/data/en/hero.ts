@@ -1,9 +1,10 @@
 export const hero = {
-  headline: 'We Transform Your Business with Artificial Intelligence',
-  subheadline: 'Specialized consulting and AI products that drive innovation across your industry.',
-  ctaPrimary: 'Discover Our Services',
-  ctaPrimaryHref: '#servicios',
-  ctaSecondary: 'See Products',
-  ctaSecondaryHref: '#productos',
-  badges: ['Enterprise Security', 'Custom AI', 'Measurable Results'],
+  headline: 'Applied AI to Save Time and Make Better Decisions',
+  subheadline: 'We help you find practical ways to use AI: reduce repetitive work, organize information, improve service, and support your team through the change.',
+  ctaPrimary: 'Book an AI Consulting Session',
+  ctaPrimaryHref: '#contacto',
+  ctaSecondary: 'See How We Help',
+  ctaSecondaryHref: '#servicios',
+  badges: ['Clear Consulting', 'Tailored Solutions', 'Hands-On Support'],
+  accentWords: ['AI', 'Time', 'Decisions'],
 };

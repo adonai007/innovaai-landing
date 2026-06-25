@@ -18,8 +18,70 @@ const { title, description, lang = 'es' } = Astro.props;
 const altLang = lang === 'es' ? 'en' : 'es';
 const currentPath = Astro.url.pathname;
 const altPath = currentPath.replace(`/${lang}`, `/${altLang}`);
-const canonicalURL = new URL(currentPath, Astro.site ?? 'https://innovaai.com');
-const altURL = new URL(altPath, Astro.site ?? 'https://innovaai.com');
+const canonicalURL = new URL(currentPath, Astro.site ?? 'https://innovaai-landing.onrender.com');
+const altURL = new URL(altPath, Astro.site ?? 'https://innovaai-landing.onrender.com');
+const defaultURL = new URL(currentPath.replace(`/${lang}`, '/es'), Astro.site ?? 'https://innovaai-landing.onrender.com');
+const siteURL = new URL('/', Astro.site ?? 'https://innovaai-landing.onrender.com');
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${siteURL.href}#organization`,
+      name: 'InnovaAI',
+      url: siteURL.href,
+      description:
+        lang === 'es'
+          ? 'Consultoría de inteligencia artificial aplicada y productos de IA para empresas en Latinoamérica.'
+          : 'Applied artificial intelligence consulting and AI products for companies in Latin America.',
+      areaServed: ['Bolivia', 'Latin America'],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: '+59172004767',
+        contactType: 'sales',
+        availableLanguage: ['Spanish', 'English'],
+      },
+      knowsAbout: [
+        'AI consulting',
+        'business automation',
+        'knowledge management',
+        'team adoption',
+        'voice dictation',
+        'dental clinic software',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteURL.href}#website`,
+      name: 'InnovaAI',
+      url: siteURL.href,
+      publisher: { '@id': `${siteURL.href}#organization` },
+      inLanguage: ['es', 'en'],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonicalURL.href}#webpage`,
+      url: canonicalURL.href,
+      name: title,
+      description,
+      isPartOf: { '@id': `${siteURL.href}#website` },
+      about: { '@id': `${siteURL.href}#organization` },
+      inLanguage: lang,
+    },
+    {
+      '@type': 'Service',
+      '@id': `${siteURL.href}#applied-ai-consulting`,
+      name: lang === 'es' ? 'Consultoría de IA aplicada' : 'Applied AI consulting',
+      provider: { '@id': `${siteURL.href}#organization` },
+      areaServed: ['Bolivia', 'Latin America'],
+      serviceType: lang === 'es' ? 'Consultoría de inteligencia artificial' : 'Artificial intelligence consulting',
+      description:
+        lang === 'es'
+          ? 'Consultoría para identificar oportunidades reales de IA, ahorrar tiempo, ordenar información y acompañar la adopción del equipo.'
+          : 'Consulting to identify practical AI opportunities, save time, organize information, and support team adoption.',
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -28,19 +90,26 @@ const altURL = new URL(altPath, Astro.site ?? 'https://innovaai.com');
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
     <meta name="generator" content={Astro.generator} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL.href} />
     <link rel="alternate" hreflang={lang} href={canonicalURL.href} />
     <link rel="alternate" hreflang={altLang} href={altURL.href} />
+    <link rel="alternate" hreflang="x-default" href={defaultURL.href} />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:site_name" content="InnovaAI" />
     <meta property="og:locale" content={lang === 'es' ? 'es_LA' : 'en_US'} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
     <title>{title}</title>
   </head>

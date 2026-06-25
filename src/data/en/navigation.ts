@@ -6,6 +6,6 @@ export const navigation = {
     { label: 'Process', href: '#proceso' },
     { label: 'Contact', href: '#contacto' },
   ],
-  cta: 'Book a Consultation',
+  cta: 'Book Consulting',
   langSwitch: { label: 'ES', href: '/es/' },
 };

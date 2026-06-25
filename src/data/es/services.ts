@@ -1,23 +1,23 @@
 export const servicesSection = {
-  badge: 'Nuestros Servicios',
-  title: 'Consultoría en IA a tu Medida',
-  subtitle: 'Soluciones personalizadas que transforman la manera en que opera tu negocio.',
+  badge: 'Consultoría de IA para Empresas',
+  title: 'Qué Podemos Mejorar',
+  subtitle: 'Partimos de tus procesos, no de la tecnología. Primero entendemos el problema; después elegimos la mejor forma de resolverlo con IA.',
 };
 
 export const services = [
   {
     icon: 'brain',
-    title: 'Estrategia de IA',
-    description: 'Evaluamos tu organización y diseñamos una hoja de ruta de IA personalizada con objetivos claros y ROI medible.',
+    title: 'Procesos que Ahorran Tiempo',
+    description: 'Detectamos tareas repetitivas, cuellos de botella y trabajo manual que la IA puede apoyar sin cambiar toda tu operación.',
   },
   {
     icon: 'code',
-    title: 'Desarrollo de Soluciones',
-    description: 'Construimos modelos, pipelines y aplicaciones de IA integradas en tus sistemas existentes.',
+    title: 'Información Fácil de Encontrar',
+    description: 'Ordenamos documentos, reportes y conocimiento interno para que tu equipo encuentre respuestas confiables sin perder horas buscando.',
   },
   {
     icon: 'users',
-    title: 'Capacitación y Adopción',
-    description: 'Entrenamos a tu equipo para adoptar y escalar soluciones de IA con confianza y autonomía.',
+    title: 'Equipo Preparado para Usar IA',
+    description: 'Capacitamos a líderes y equipos para usar IA con criterio, medir resultados y adoptar nuevos hábitos de trabajo.',
   },
 ];

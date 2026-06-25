@@ -1,0 +1,40 @@
+# InnovaAI
+
+InnovaAI is an applied AI consultancy and product studio based in Bolivia. It helps companies in Latin America use artificial intelligence in practical ways: saving time, organizing information, improving operations, and preparing teams to adopt AI responsibly.
+
+## Applied AI Consulting
+
+InnovaAI starts with the company's real processes instead of starting with technology. The consulting process identifies repetitive tasks, bottlenecks, internal information problems, and work habits that can be improved with AI.
+
+In a first consulting conversation, InnovaAI reviews the company's processes, data, and priorities to define where to start without complicating the operation.
+
+## How InnovaAI Helps
+
+1. Understand the operation: discuss processes, current pain points, and business goals.
+2. Choose the best use case: prioritize the opportunity with the highest impact and the lowest friction.
+3. Test a solution: create a first version using real documents, data, or workflows to validate value.
+4. Support adoption: measure results, train the team, and adjust the solution until it is useful in daily work.
+
+## Main Consulting Areas
+
+- Processes that save time: identify repetitive tasks, bottlenecks, and manual work that AI can support.
+- Information that is easy to find: organize documents, reports, and internal knowledge so teams can find reliable answers faster.
+- A team ready to use AI: train leaders and teams to use AI with judgment, measure results, and adopt better work habits.
+
+## Products
+
+Dicta helps people write faster with their voice. It works inside work applications so users can document, respond, and translate with less friction.
+
+DentiMed helps dental clinics turn patient conversations into organized records, digital odontograms, and follow-up workflows.
+
+## Why InnovaAI
+
+InnovaAI combines more than 17 years of technology experience with product-building practice. The company focuses on practical AI adoption, data care from the start, and clear capability transfer to the client's team.
+
+## Important URLs
+
+- Spanish homepage: https://innovaai-landing.onrender.com/es/
+- English homepage: https://innovaai-landing.onrender.com/en/
+- DentiMed Spanish: https://innovaai-landing.onrender.com/es/dentimed/
+- DentiMed English: https://innovaai-landing.onrender.com/en/dentimed/
+- WhatsApp: https://wa.me/59172004767

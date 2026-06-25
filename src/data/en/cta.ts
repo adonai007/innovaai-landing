@@ -1,14 +1,14 @@
 const whatsappNumber = '59172004767';
 const ctaPrimaryMessage =
-  'Hi Adonai, I would like to schedule a free AI consultation for my company.';
+  'Hi Adonai, I would like to book an AI consulting session for my company.';
 const ctaWhatsappMessage =
-  'Hi Adonai, I saw InnovaAI and would like to talk about AI for my company.';
+  'Hi Adonai, I saw InnovaAI and would like to book a consulting session to see how AI could help my company.';
 
 export const cta = {
-  title: 'Ready to Transform Your Business with AI?',
+  title: 'Let Us Talk About How AI Can Help Your Company',
   subtitle:
-    'Book a free consultation and discover how artificial intelligence can boost your results.',
-  ctaPrimary: 'Book Your Free Consultation',
+    'In the first conversation we review your processes, data, and priorities to define where to start without complicating your operation.',
+  ctaPrimary: 'Book a Consulting Session',
   ctaPrimaryHref: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(ctaPrimaryMessage)}`,
   ctaWhatsApp: 'Message Us on WhatsApp',
   whatsappNumber,
@@ -16,21 +16,21 @@ export const cta = {
 };
 
 export const footer = {
-  tagline: 'Artificial Intelligence for Latin America',
+  tagline: 'Consulting and applied AI products for Latin America',
   columns: [
     {
       title: 'Services',
       links: [
-        { label: 'AI Strategy', href: '#servicios' },
-        { label: 'Development', href: '#servicios' },
-        { label: 'Training', href: '#servicios' },
+        { label: 'AI Consulting', href: '#servicios' },
+        { label: 'Practical automation', href: '#servicios' },
+        { label: 'Team adoption', href: '#servicios' },
       ],
     },
     {
       title: 'Products',
       links: [
         { label: 'Dicta', href: '#productos' },
-        { label: 'DiarioMed', href: '#productos' },
+        { label: 'DentiMed', href: '#productos' },
       ],
     },
     {

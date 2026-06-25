@@ -1,28 +1,28 @@
 export const processSection = {
-  badge: 'Nuestro Proceso',
-  title: 'Cómo Trabajamos',
-  subtitle: 'Un enfoque probado para llevar la IA a tu organización.',
+  badge: 'Forma de Trabajo',
+  title: 'De Conversación a Resultado',
+  subtitle: 'Empezamos entendiendo tu operación y terminamos con un plan claro para aplicar IA donde tenga sentido.',
 };
 
 export const steps = [
   {
     number: '01',
-    title: 'Diagnóstico',
-    description: 'Analizamos tu situación actual y detectamos oportunidades de IA.',
+    title: 'Entendemos tu Operación',
+    description: 'Conversamos sobre tus procesos, dolores actuales y metas de negocio.',
   },
   {
     number: '02',
-    title: 'Estrategia',
-    description: 'Diseñamos un plan a medida con ROI claro y timeline definido.',
+    title: 'Elegimos el Mejor Caso',
+    description: 'Priorizamos la oportunidad con más impacto y menor fricción para empezar.',
   },
   {
     number: '03',
-    title: 'Implementación',
-    description: 'Desarrollamos e integramos la solución en tus sistemas.',
+    title: 'Probamos una Solución',
+    description: 'Creamos una primera versión con tus documentos, datos o flujos reales para validar el valor.',
   },
   {
     number: '04',
-    title: 'Escalamiento',
-    description: 'Optimizamos y expandimos los resultados a toda la organización.',
+    title: 'Acompañamos la Adopción',
+    description: 'Medimos resultados, capacitamos al equipo y ajustamos la solución hasta que sea útil en el día a día.',
   },
 ];

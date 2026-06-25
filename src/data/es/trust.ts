@@ -1,10 +1,10 @@
 export const trustBar = {
-  text: 'Impulsando la innovación en empresas de toda Latinoamérica',
+  text: 'Consultoría de IA para ahorrar tiempo, ordenar información y mejorar la operación',
   industries: [
     { icon: 'heart-pulse', label: 'Salud' },
     { icon: 'landmark', label: 'Finanzas' },
-    { icon: 'shopping-bag', label: 'Retail' },
-    { icon: 'truck', label: 'Logística' },
+    { icon: 'truck', label: 'Operaciones' },
+    { icon: 'shopping-bag', label: 'Experiencia Cliente' },
     { icon: 'graduation-cap', label: 'Educación' },
     { icon: 'factory', label: 'Manufactura' },
   ],

@@ -1,4 +1,4 @@
----
+﻿---
 import Button from '../Button.astro';
 
 interface Props {
@@ -40,7 +40,7 @@ const { hero } = Astro.props;
       {hero.headline.split(' ').map((word, i) => (
         <span
           class={`inline-block opacity-0 translate-y-8 hero-word ${
-            word === 'DiarioMed' ? 'gradient-text' : ''
+            word === 'DentiMed' ? 'gradient-text' : ''
           }`}
           style={`animation-delay: ${i * 0.08}s`}
         >
