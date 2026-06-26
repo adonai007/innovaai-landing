@@ -38,6 +38,17 @@ const accentWords = new Set(hero.accentWords ?? ['Inteligencia', 'Artificial', '
 
   <!-- Content -->
   <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-24">
+    <!-- Brand -->
+    <img
+      src="/images/innovaai-logo-full.webp"
+      alt="InnovaAI"
+      class="mx-auto mb-8 h-16 sm:h-20 w-auto object-contain opacity-0 drop-shadow-[0_0_35px_rgba(34,211,238,0.22)]"
+      width="576"
+      height="220"
+      data-animate="hero-sub"
+      fetchpriority="high"
+    />
+
     <!-- Headline -->
     <h1 class="text-[length:var(--text-hero)] font-bold leading-[1.1] mb-6" data-animate="hero-headline">
       {words.map((word, i) => (

@@ -17,10 +17,14 @@ const { lang, nav } = Astro.props;
 <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
     <!-- Logo -->
-    <a href={`/${lang}/`} class="flex items-center gap-2 group">
-      <span class="text-2xl font-bold font-[family-name:var(--font-heading)]">
-        <span class="text-text-primary">Innova</span><span class="gradient-text">AI</span>
-      </span>
+    <a href={`/${lang}/`} class="flex items-center gap-2 group" aria-label="InnovaAI">
+      <img
+        src="/images/innovaai-logo-full.webp"
+        alt="InnovaAI"
+        class="h-9 sm:h-10 w-auto object-contain drop-shadow-[0_0_18px_rgba(34,211,238,0.18)] transition-transform duration-300 group-hover:scale-[1.02]"
+        width="576"
+        height="220"
+      />
     </a>
 
     <!-- Desktop Nav Links -->

@@ -18,10 +18,15 @@ const { footer, lang } = Astro.props;
     <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
       <!-- Brand Column -->
       <div class="lg:col-span-2">
-        <a href={`/${lang}/`} class="inline-block mb-4">
-          <span class="text-2xl font-bold font-[family-name:var(--font-heading)]">
-            <span class="text-text-primary">Innova</span><span class="gradient-text">AI</span>
-          </span>
+        <a href={`/${lang}/`} class="inline-block mb-4" aria-label="InnovaAI">
+          <img
+            src="/images/innovaai-logo-full.webp"
+            alt="InnovaAI"
+            class="h-12 w-auto object-contain drop-shadow-[0_0_22px_rgba(34,211,238,0.14)]"
+            width="576"
+            height="220"
+            loading="lazy"
+          />
         </a>
         <p class="text-text-secondary text-sm leading-relaxed max-w-sm mb-6">{footer.tagline}</p>
 
