@@ -8,10 +8,10 @@ export const whySection = {
 
 export const differentiators = [
   {
-    icon: 'experience',
-    title: '17+ Años Cerca de la Operación',
+    icon: 'context',
+    title: 'La IA Se Adapta a Tu Empresa. No al Revés.',
     description:
-      'Entendemos sistemas, procesos críticos y el costo real de introducir cambios en una empresa.',
+      'Primero entendemos tu cultura, tus procesos críticos y dónde se pierde tiempo. Luego implementamos IA sin romper lo que ya funciona.',
     accent: 'primary' as const,
     featured: true,
   },

@@ -8,10 +8,10 @@ export const whySection = {
 
 export const differentiators = [
   {
-    icon: 'experience',
-    title: '17+ Years Close to Operations',
+    icon: 'context',
+    title: 'AI Adapts to Your Company. Not the Other Way Around.',
     description:
-      'We understand systems, critical processes, and the real cost of introducing change in a company.',
+      'First, we understand your culture, critical processes, and where time gets lost. Then we implement AI without breaking what already works.',
     accent: 'primary' as const,
     featured: true,
   },
