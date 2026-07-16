@@ -1,11 +1,13 @@
 ---
-const target = '/en/dentimed/';
+const targetPath = '/en/dentimed/';
+const target = new URL(targetPath, Astro.site ?? 'https://innovai.click').href;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="robots" content="noindex, follow" />
     <meta http-equiv="refresh" content={`0; url=${target}`} />
     <link rel="canonical" href={target} />
     <title>DentiMed</title>

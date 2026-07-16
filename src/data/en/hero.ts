@@ -8,7 +8,7 @@ export const hero = {
   headlineAccent: 'Weeks,',
   headlineAfter: 'Not Months.',
   subheadline:
-    'We diagnose your operation, select the highest-impact use case, and build a useful solution around your real processes, data, and team.',
+    'InnovaAI is a Bolivian applied AI studio. We diagnose your operation, select the highest-impact use case, and build a useful solution around your real processes, data, and team.',
   ctaPrimary: 'Book a Free Diagnostic',
   ctaPrimaryHref: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(diagnosticMessage)}`,
   ctaSecondary: 'See Our Products',

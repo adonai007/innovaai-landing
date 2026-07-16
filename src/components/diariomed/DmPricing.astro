@@ -17,18 +17,22 @@ interface Props {
     sectionSubtitle: string;
     note: string;
     plans: Plan[];
-    billingMonthly?: string;
-    billingAnnual?: string;
-    badgePopular?: string;
-    contactLabel?: string;
+    billingMonthly: string;
+    billingAnnual: string;
+    billingToggleLabel: string;
+    badgePopular: string;
+    contactLabel: string;
   };
 }
 
 const { section } = Astro.props;
-const billingMonthly = section.billingMonthly ?? 'Mensual';
-const billingAnnual = section.billingAnnual ?? 'Anual';
-const badgePopular = section.badgePopular ?? 'Popular';
-const contactLabel = section.contactLabel ?? 'Contactar';
+const {
+  billingMonthly,
+  billingAnnual,
+  billingToggleLabel,
+  badgePopular,
+  contactLabel,
+} = section;
 ---
 
 <section id="precios" class="section-padding relative">
@@ -42,8 +46,10 @@ const contactLabel = section.contactLabel ?? 'Contactar';
         <span class="text-sm text-text-primary font-medium" id="label-monthly">{billingMonthly}</span>
         <button
           id="billing-toggle"
+          type="button"
           class="relative w-12 h-6 rounded-full bg-primary/20 transition-colors duration-300 cursor-pointer"
-          aria-label="Toggle annual billing"
+          aria-label={billingToggleLabel}
+          aria-pressed="false"
         >
           <span id="toggle-dot" class="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-primary transition-transform duration-300"></span>
         </button>
@@ -127,6 +133,7 @@ const contactLabel = section.contactLabel ?? 'Contactar';
 
   toggle?.addEventListener('click', () => {
     isAnnual = !isAnnual;
+    toggle.setAttribute('aria-pressed', String(isAnnual));
 
     if (isAnnual) {
       dot!.style.transform = 'translateX(1.5rem)';

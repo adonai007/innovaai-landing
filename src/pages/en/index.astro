@@ -21,12 +21,61 @@ import { processSection, steps } from '../../data/en/process-steps';
 import { whySection, differentiators } from '../../data/en/stats';
 import { faqSection, faqItems } from '../../data/en/faq';
 import { cta, footer } from '../../data/en/cta';
+import { seo } from '../../data/en/seo';
+
+const siteURL = new URL('/', Astro.site ?? 'https://innovai.click');
+const pageURL = new URL('/en/', siteURL);
+const serviceId = `${pageURL.href}#applied-ai-consulting`;
+const structuredData = [
+  {
+    '@type': 'Service',
+    '@id': serviceId,
+    name: seo.home.serviceName,
+    serviceType: seo.home.serviceType,
+    description: seo.home.serviceDescription,
+    url: pageURL.href,
+    provider: { '@id': `${siteURL.href}#organization` },
+    areaServed: ['Bolivia', 'Latin America'],
+    audience: {
+      '@type': 'BusinessAudience',
+      audienceType: seo.home.audience,
+    },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: seo.home.serviceName,
+      itemListElement: services.map((service) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: service.title,
+          description: service.description,
+        },
+      })),
+    },
+  },
+  {
+    '@type': 'FAQPage',
+    '@id': `${pageURL.href}#faq`,
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+] satisfies Record<string, unknown>[];
 ---
 
 <Layout
-  title="InnovaAI — Applied AI for Companies in Latin America"
-  description="We diagnose, prototype, and implement AI solutions with your real processes and data. Applied AI consulting and products from Bolivia."
+  title={seo.home.title}
+  description={seo.home.description}
   lang="en"
+  organizationDescription={seo.organizationDescription}
+  ogImageAlt={seo.ogImageAlt}
+  structuredData={structuredData}
+  mainEntityId={serviceId}
 >
   <Navbar lang="en" nav={navigation} />
   <main>

@@ -31,12 +31,62 @@ import {
   dmCtaFinal,
   dmFooter,
 } from '../../../data/es/diariomed';
+import { seo } from '../../../data/es/seo';
+
+const siteURL = new URL('/', Astro.site ?? 'https://innovai.click');
+const pageURL = new URL('/es/dentimed/', siteURL);
+const softwareId = `${pageURL.href}#software`;
+const structuredData = [
+  {
+    '@type': ['SoftwareApplication', 'WebApplication'],
+    '@id': softwareId,
+    name: dmNavigation.logo,
+    url: pageURL.href,
+    description: seo.dentimed.description,
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Web',
+    softwareRequirements: seo.dentimed.softwareRequirements,
+    provider: { '@id': `${siteURL.href}#organization` },
+    audience: {
+      '@type': 'Audience',
+      audienceType: seo.dentimed.audience,
+    },
+    featureList: dmFeatures.cards.map(
+      (feature) => `${feature.title}: ${feature.description}`,
+    ),
+    offers: dmPricing.plans
+      .filter((plan) => plan.price > 0)
+      .map((plan) => ({
+        '@type': 'Offer',
+        name: plan.name,
+        price: plan.price,
+        priceCurrency: 'USD',
+        url: `${pageURL.href}#precios`,
+      })),
+  },
+  {
+    '@type': 'FAQPage',
+    '@id': `${pageURL.href}#faq-schema`,
+    mainEntity: dmFaq.items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+] satisfies Record<string, unknown>[];
 ---
 
 <Layout
-  title="DentiMed — Gestion Dental por Voz con IA | FHIR R4"
-  description="Transforma tu voz en historias clinicas, presupuestos automaticos y odontograma digital. DentiMed: la plataforma voice-first para clinicas dentales en Latinoamerica."
+  title={seo.dentimed.title}
+  description={seo.dentimed.description}
   lang="es"
+  organizationDescription={seo.organizationDescription}
+  ogImageAlt={seo.ogImageAlt}
+  structuredData={structuredData}
+  mainEntityId={softwareId}
 >
   <DmNavbar nav={dmNavigation} lang="es" />
   <main>

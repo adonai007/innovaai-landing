@@ -8,6 +8,8 @@
     { label: 'FAQ', href: '#faq' },
   ],
   cta: 'Agendar Demo',
+  menuLabel: 'Abrir menu',
+  closeLabel: 'Cerrar menu',
 };
 
 export const dmProblem = {
@@ -46,7 +48,7 @@ export const dmHero = {
   badge: 'Nuevo: Odontograma IA en tiempo real',
   headline: 'Habla. DentiMed hace el resto.',
   subheadline:
-    'Transforma tu voz en historias clinicas FHIR, presupuestos automaticos y seguimiento de pacientes. Sin teclear. Sin esperar.',
+    'DentiMed es un software dental por voz para clinicas de Latinoamerica. Convierte tu voz en historias clinicas FHIR, presupuestos automaticos y seguimiento de pacientes.',
   ctaPrimary: 'Agendar Demo Guiada',
   ctaPrimaryHref: '#cta-final',
   ctaSecondary: 'Como Funciona',
@@ -225,6 +227,7 @@ export const dmPricing = {
   note: 'Precios en USD. Facturacion en Bs. disponible.',
   billingMonthly: 'Mensual',
   billingAnnual: 'Anual',
+  billingToggleLabel: 'Cambiar entre facturacion mensual y anual',
   badgePopular: 'Popular',
   contactLabel: 'Contactar',
   plans: [
@@ -451,6 +454,7 @@ export const dmCtaFinal = {
 export const dmFooter = {
   tagline:
     'Gestion clinica dental por voz con IA. Historias FHIR, presupuestos automaticos y odontograma digital.',
+  location: 'Bolivia · Latinoamerica',
   columns: [
     {
       title: 'Producto',
@@ -462,8 +466,6 @@ export const dmFooter = {
     },
   ],
   social: [
-    // TODO: replace with founder LinkedIn URL
-    { label: 'LinkedIn', href: '#', icon: 'linkedin' },
     { label: 'WhatsApp', href: `https://wa.me/${dmWhatsappNumber}`, icon: 'whatsapp' },
   ],
   copyright: '2024-2026 InnovaAI SRL. Todos los derechos reservados.',
