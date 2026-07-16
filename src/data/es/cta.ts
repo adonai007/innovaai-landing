@@ -48,6 +48,11 @@ export const footer = {
     },
   ],
   social: [
+    {
+      label: 'LinkedIn',
+      href: 'https://www.linkedin.com/company/innovai-click/',
+      icon: 'linkedin',
+    },
     { label: 'WhatsApp', href: whatsappHref, icon: 'whatsapp' },
   ],
   copyright: '© 2026 InnovaAI. Todos los derechos reservados.',

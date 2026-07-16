@@ -467,6 +467,11 @@ export const dmFooter = {
     },
   ],
   social: [
+    {
+      label: 'LinkedIn',
+      href: 'https://www.linkedin.com/company/innovai-click/',
+      icon: 'linkedin',
+    },
     { label: 'WhatsApp', href: `https://wa.me/${dmWhatsappNumber}`, icon: 'whatsapp' },
   ],
   copyright: '2024-2026 InnovaAI SRL. All rights reserved.',
