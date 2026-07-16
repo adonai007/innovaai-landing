@@ -13,39 +13,75 @@ interface Props {
   title: string;
   description: string;
   lang?: 'es' | 'en';
+  organizationDescription: string;
+  ogImageAlt: string;
+  structuredData?: Record<string, unknown>[];
+  mainEntityId?: string;
 }
 
-const { title, description, lang = 'es' } = Astro.props;
+const {
+  title,
+  description,
+  lang = 'es',
+  organizationDescription,
+  ogImageAlt,
+  structuredData = [],
+  mainEntityId,
+} = Astro.props;
 const altLang = lang === 'es' ? 'en' : 'es';
 const currentPath = Astro.url.pathname;
 const altPath = currentPath.replace(`/${lang}`, `/${altLang}`);
-const canonicalURL = new URL(currentPath, Astro.site ?? 'https://innovaai-landing.onrender.com');
-const altURL = new URL(altPath, Astro.site ?? 'https://innovaai-landing.onrender.com');
-const defaultURL = new URL(currentPath.replace(`/${lang}`, '/es'), Astro.site ?? 'https://innovaai-landing.onrender.com');
-const siteURL = new URL('/', Astro.site ?? 'https://innovaai-landing.onrender.com');
+const canonicalURL = new URL(currentPath, Astro.site ?? 'https://innovai.click');
+const altURL = new URL(altPath, Astro.site ?? 'https://innovai.click');
+const defaultURL = new URL(currentPath.replace(`/${lang}`, '/es'), Astro.site ?? 'https://innovai.click');
+const siteURL = new URL('/', Astro.site ?? 'https://innovai.click');
 const logoURL = new URL('/images/innovaai-logo-full.png', siteURL);
 const ogImageURL = new URL('/images/innovaai-og.jpg', siteURL);
+const organizationId = `${siteURL.href}#organization`;
+const websiteId = `${siteURL.href}#website`;
+const webpageId = `${canonicalURL.href}#webpage`;
+const pageEntityId = mainEntityId ?? organizationId;
 const schema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Organization',
-      '@id': `${siteURL.href}#organization`,
+      '@id': organizationId,
       name: 'InnovaAI',
+      alternateName: 'Innova AI',
+      legalName: 'InnovaAI SRL',
       url: siteURL.href,
-      logo: logoURL.href,
-      image: ogImageURL.href,
-      description:
-        lang === 'es'
-          ? 'Consultoría y productos de inteligencia artificial aplicada para empresas en Latinoamérica.'
-          : 'Applied artificial intelligence consulting and AI products for companies in Latin America.',
+      logo: {
+        '@type': 'ImageObject',
+        url: logoURL.href,
+        contentUrl: logoURL.href,
+        width: 576,
+        height: 220,
+      },
+      image: {
+        '@type': 'ImageObject',
+        url: ogImageURL.href,
+        contentUrl: ogImageURL.href,
+        width: 1200,
+        height: 630,
+      },
+      description: organizationDescription,
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'BO',
+      },
       areaServed: ['Bolivia', 'Latin America'],
+      founder: {
+        '@type': 'Person',
+        name: 'Adonai Callejas',
+      },
       contactPoint: {
         '@type': 'ContactPoint',
         telephone: '+59172004767',
         contactType: 'sales',
         availableLanguage: ['Spanish', 'English'],
       },
+      knowsLanguage: ['Spanish', 'English'],
       knowsAbout: [
         'AI consulting',
         'business automation',
@@ -57,34 +93,32 @@ const schema = {
     },
     {
       '@type': 'WebSite',
-      '@id': `${siteURL.href}#website`,
+      '@id': websiteId,
       name: 'InnovaAI',
+      alternateName: 'Innova AI',
       url: siteURL.href,
-      publisher: { '@id': `${siteURL.href}#organization` },
+      publisher: { '@id': organizationId },
       inLanguage: ['es', 'en'],
     },
     {
       '@type': 'WebPage',
-      '@id': `${canonicalURL.href}#webpage`,
+      '@id': webpageId,
       url: canonicalURL.href,
       name: title,
       description,
-      isPartOf: { '@id': `${siteURL.href}#website` },
-      about: { '@id': `${siteURL.href}#organization` },
+      isPartOf: { '@id': websiteId },
+      about: { '@id': pageEntityId },
+      mainEntity: { '@id': pageEntityId },
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: ogImageURL.href,
+        contentUrl: ogImageURL.href,
+        width: 1200,
+        height: 630,
+      },
       inLanguage: lang,
     },
-    {
-      '@type': 'Service',
-      '@id': `${siteURL.href}#applied-ai-consulting`,
-      name: lang === 'es' ? 'Consultoría de IA aplicada' : 'Applied AI consulting',
-      provider: { '@id': `${siteURL.href}#organization` },
-      areaServed: ['Bolivia', 'Latin America'],
-      serviceType: lang === 'es' ? 'Consultoría de inteligencia artificial' : 'Artificial intelligence consulting',
-      description:
-        lang === 'es'
-          ? 'Diagnóstico, prototipado e implementación de soluciones de IA con procesos y datos reales.'
-          : 'Diagnostic, prototyping, and implementation of AI solutions with real processes and data.',
-    },
+    ...structuredData,
   ],
 };
 ---
@@ -95,7 +129,11 @@ const schema = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow" />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <meta name="author" content="InnovaAI" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#060D18" />
     <meta name="color-scheme" content="dark" />
@@ -103,6 +141,7 @@ const schema = {
     <link rel="icon" type="image/png" sizes="32x32" href="/images/innovaai-logo-mark-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/images/innovaai-logo-mark-192.png" />
     <link rel="apple-touch-icon" href="/images/innovaai-logo-mark-192.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
     <link rel="canonical" href={canonicalURL.href} />
     <link rel="alternate" hreflang={lang} href={canonicalURL.href} />
     <link rel="alternate" hreflang={altLang} href={altURL.href} />
@@ -114,17 +153,16 @@ const schema = {
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:site_name" content="InnovaAI" />
-    <meta property="og:locale" content={lang === 'es' ? 'es_LA' : 'en_US'} />
-    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_LA'} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_BO' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_BO'} />
     <meta property="og:image" content={ogImageURL.href} />
+    <meta property="og:image:secure_url" content={ogImageURL.href} />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content={lang === 'es'
-        ? 'InnovaAI — IA aplicada a negocios en Latinoamérica'
-        : 'InnovaAI — Applied AI for businesses in Latin America'}
+      content={ogImageAlt}
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -132,9 +170,7 @@ const schema = {
     <meta name="twitter:image" content={ogImageURL.href} />
     <meta
       name="twitter:image:alt"
-      content={lang === 'es'
-        ? 'InnovaAI — IA aplicada a negocios en Latinoamérica'
-        : 'InnovaAI — Applied AI for businesses in Latin America'}
+      content={ogImageAlt}
     />
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 

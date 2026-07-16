@@ -8,6 +8,8 @@
     { label: 'FAQ', href: '#faq' },
   ],
   cta: 'Schedule Demo',
+  menuLabel: 'Open menu',
+  closeLabel: 'Close menu',
 };
 
 export const dmProblem = {
@@ -46,7 +48,7 @@ export const dmHero = {
   badge: 'New: Real-Time AI Odontogram',
   headline: 'Speak. DentiMed Does the Rest.',
   subheadline:
-    'Turn your voice into FHIR clinical records, automatic treatment plans and patient follow-up. No typing. No waiting.',
+    'DentiMed is voice-powered dental software for clinics in Latin America. It turns speech into FHIR clinical records, treatment plans, and patient follow-up.',
   ctaPrimary: 'Schedule a Guided Demo',
   ctaPrimaryHref: '#cta-final',
   ctaSecondary: 'How It Works',
@@ -225,6 +227,7 @@ export const dmPricing = {
   note: 'Prices in USD. Boliviano invoicing available.',
   billingMonthly: 'Monthly',
   billingAnnual: 'Annual',
+  billingToggleLabel: 'Switch between monthly and annual billing',
   badgePopular: 'Popular',
   contactLabel: 'Contact Us',
   plans: [
@@ -452,6 +455,7 @@ export const dmCtaFinal = {
 export const dmFooter = {
   tagline:
     'Voice-powered dental clinic management with AI. FHIR records, automatic treatment plans and a digital odontogram.',
+  location: 'Bolivia · Latin America',
   columns: [
     {
       title: 'Product',
@@ -463,8 +467,6 @@ export const dmFooter = {
     },
   ],
   social: [
-    // TODO: replace with founder LinkedIn URL
-    { label: 'LinkedIn', href: '#', icon: 'linkedin' },
     { label: 'WhatsApp', href: `https://wa.me/${dmWhatsappNumber}`, icon: 'whatsapp' },
   ],
   copyright: '2024-2026 InnovaAI SRL. All rights reserved.',

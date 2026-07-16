@@ -24,10 +24,21 @@ const { section } = Astro.props;
     </h2>
 
     <!-- Tab buttons -->
-    <div class="flex flex-wrap justify-center gap-3 mb-12" data-animate="fade-up">
+    <div
+      class="flex flex-wrap justify-center gap-3 mb-12"
+      data-animate="fade-up"
+      role="tablist"
+      aria-label={section.sectionTitle}
+    >
       {section.tabs.map((tab, i) => (
         <button
+          id={`dm-tab-${tab.id}`}
+          type="button"
+          role="tab"
           data-tab-btn={tab.id}
+          aria-controls={`dm-panel-${tab.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
           class={`tab-btn flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 cursor-pointer ${
             i === 0
               ? 'bg-primary text-bg-primary glow-green'
@@ -35,13 +46,13 @@ const { section } = Astro.props;
           }`}
         >
           {tab.icon === 'clipboard' && (
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            <svg aria-hidden="true" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
           )}
           {tab.icon === 'mic' && (
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+            <svg aria-hidden="true" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
           )}
           {tab.icon === 'calculator' && (
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+            <svg aria-hidden="true" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
           )}
           {tab.label}
         </button>
@@ -51,7 +62,11 @@ const { section } = Astro.props;
     <!-- Tab panels -->
     {section.tabs.map((tab, i) => (
       <div
+        id={`dm-panel-${tab.id}`}
+        role="tabpanel"
+        aria-labelledby={`dm-tab-${tab.id}`}
         data-tab-panel={tab.id}
+        hidden={i !== 0}
         class={`tab-panel transition-all duration-500 ${i === 0 ? '' : 'hidden'}`}
       >
         <div class="glass rounded-2xl p-8 md:p-12 max-w-3xl mx-auto">
@@ -76,26 +91,42 @@ const { section } = Astro.props;
   const btns = document.querySelectorAll<HTMLElement>('[data-tab-btn]');
   const panels = document.querySelectorAll<HTMLElement>('[data-tab-panel]');
 
-  btns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.tabBtn;
+  const activateTab = (activeButton: HTMLElement) => {
+    const target = activeButton.dataset.tabBtn;
 
-      // Update buttons
-      btns.forEach(b => {
-        b.classList.remove('bg-primary', 'text-bg-primary', 'glow-green');
-        b.classList.add('glass', 'text-text-secondary');
-      });
-      btn.classList.add('bg-primary', 'text-bg-primary', 'glow-green');
-      btn.classList.remove('glass', 'text-text-secondary');
+    btns.forEach((button) => {
+      const isActive = button === activeButton;
+      button.setAttribute('aria-selected', String(isActive));
+      button.tabIndex = isActive ? 0 : -1;
+      button.classList.toggle('bg-primary', isActive);
+      button.classList.toggle('text-bg-primary', isActive);
+      button.classList.toggle('glow-green', isActive);
+      button.classList.toggle('glass', !isActive);
+      button.classList.toggle('text-text-secondary', !isActive);
+    });
 
-      // Update panels
-      panels.forEach(p => {
-        if (p.dataset.tabPanel === target) {
-          p.classList.remove('hidden');
-        } else {
-          p.classList.add('hidden');
-        }
-      });
+    panels.forEach((panel) => {
+      const isActive = panel.dataset.tabPanel === target;
+      panel.hidden = !isActive;
+      panel.classList.toggle('hidden', !isActive);
+    });
+  };
+
+  btns.forEach((button, index) => {
+    button.addEventListener('click', () => activateTab(button));
+    button.addEventListener('keydown', (event) => {
+      let nextIndex = index;
+
+      if (event.key === 'ArrowRight') nextIndex = (index + 1) % btns.length;
+      if (event.key === 'ArrowLeft') nextIndex = (index - 1 + btns.length) % btns.length;
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = btns.length - 1;
+      if (nextIndex === index) return;
+
+      event.preventDefault();
+      const nextButton = btns[nextIndex];
+      activateTab(nextButton);
+      nextButton.focus();
     });
   });
 </script>

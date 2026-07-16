@@ -6,6 +6,8 @@ interface Props {
     logo: string;
     links: { label: string; href: string }[];
     cta: string;
+    menuLabel: string;
+    closeLabel: string;
   };
   lang?: 'es' | 'en';
 }
@@ -14,9 +16,16 @@ const { nav, lang = 'es' } = Astro.props;
 ---
 
 <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+  <nav
+    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between"
+    aria-label={nav.logo}
+  >
     <!-- Logo -->
-    <a href={`/${lang}/dentimed/`} class="flex items-center gap-2 group">
+    <a
+      href={`/${lang}/dentimed/`}
+      class="flex items-center gap-2 group"
+      aria-label={nav.logo}
+    >
       <span class="text-2xl font-bold font-[family-name:var(--font-heading)]">
         <span class="text-text-primary">Denti</span><span class="gradient-text">Med</span>
       </span>
@@ -39,9 +48,13 @@ const { nav, lang = 'es' } = Astro.props;
     <!-- Mobile Hamburger -->
     <button
       id="dm-mobile-toggle"
+      type="button"
       class="md:hidden flex flex-col gap-1.5 p-2"
-      aria-label="Toggle menu"
+      aria-label={nav.menuLabel}
       aria-expanded="false"
+      aria-controls="dm-mobile-menu"
+      data-open-label={nav.closeLabel}
+      data-closed-label={nav.menuLabel}
     >
       <span class="block w-6 h-0.5 bg-text-primary transition-all duration-300 origin-center" id="dm-bar1"></span>
       <span class="block w-6 h-0.5 bg-text-primary transition-all duration-300" id="dm-bar2"></span>
@@ -52,6 +65,7 @@ const { nav, lang = 'es' } = Astro.props;
   <!-- Mobile Menu -->
   <div
     id="dm-mobile-menu"
+    aria-hidden="true"
     class="md:hidden fixed inset-0 top-[72px] z-40 bg-bg-primary/95 backdrop-blur-xl transition-all duration-300 opacity-0 pointer-events-none translate-y-[-10px]"
   >
     <div class="flex flex-col justify-center items-center h-full px-8 pb-20 gap-6">
@@ -93,6 +107,8 @@ const { nav, lang = 'es' } = Astro.props;
     menu.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
     document.body.classList.add('overflow-hidden');
     toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', toggle.dataset.openLabel || '');
+    menu.setAttribute('aria-hidden', 'false');
     bar1.style.transform = 'rotate(45deg) translate(4px, 4px)';
     bar2.style.opacity = '0';
     bar3.style.transform = 'rotate(-45deg) translate(4px, -4px)';
@@ -104,6 +120,8 @@ const { nav, lang = 'es' } = Astro.props;
     menu.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
     document.body.classList.remove('overflow-hidden');
     toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', toggle.dataset.closedLabel || '');
+    menu.setAttribute('aria-hidden', 'true');
     bar1.style.transform = '';
     bar2.style.opacity = '1';
     bar3.style.transform = '';
@@ -111,4 +129,13 @@ const { nav, lang = 'es' } = Astro.props;
 
   toggle.addEventListener('click', () => { isOpen ? closeMenu() : openMenu(); });
   menu.querySelectorAll('a').forEach(link => { link.addEventListener('click', closeMenu); });
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && isOpen) {
+      closeMenu();
+      toggle.focus();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768 && isOpen) closeMenu();
+  });
 </script>

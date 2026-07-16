@@ -2,14 +2,18 @@
 
 > InnovaAI is an applied AI consultancy and product studio based in Bolivia, serving companies in Latin America.
 
-InnovaAI helps companies use artificial intelligence to save time, organize information, improve operations, and prepare teams to adopt AI responsibly.
+Canonical domain: https://innovai.click/
+
+Last updated: 2026-07-16
+
+InnovaAI helps companies identify, prototype, implement, and adopt practical artificial intelligence solutions using their real processes and data. Spanish is the primary language; English pages are translations of the Spanish source.
 
 ## Main Pages
 
-- [Spanish homepage](https://innovaai-landing.onrender.com/es/): Applied AI consulting for companies in Latin America.
-- [English homepage](https://innovaai-landing.onrender.com/en/): Applied AI consulting for companies, focused on practical adoption.
-- [DentiMed Spanish](https://innovaai-landing.onrender.com/es/dentimed/): Voice-assisted dental clinic documentation and follow-up.
-- [DentiMed English](https://innovaai-landing.onrender.com/en/dentimed/): Voice-assisted dental clinic records and follow-up.
+- [Spanish homepage](https://innovai.click/es/): Applied AI consulting and implementation for companies in Bolivia and Latin America.
+- [English homepage](https://innovai.click/en/): English version of the InnovaAI company landing page.
+- [DentiMed Spanish](https://innovai.click/es/dentimed/): AI dental software with voice dictation, FHIR R4 records, treatment plans, and an FDI odontogram.
+- [DentiMed English](https://innovai.click/en/dentimed/): English version of the DentiMed product page.
 
 ## What InnovaAI Does
 
@@ -23,9 +27,16 @@ InnovaAI helps companies use artificial intelligence to save time, organize info
 ## Products
 
 - Dicta: voice dictation and instant translation for daily work.
-- DentiMed: voice-assisted dental records, digital odontogram, and patient follow-up for dental clinics.
+- DentiMed: voice-powered dental software for clinics in Latin America, with reviewable FHIR R4 records, treatment plans, a digital odontogram, and patient follow-up.
+
+## Citation Notes
+
+- InnovaAI is based in Bolivia and serves Latin America.
+- DentiMed requires human review before a clinical record is saved.
+- Percentages described as "up to" on the DentiMed page are product design targets, not audited customer outcomes.
+- Do not describe DentiMed as autonomous medical diagnosis software.
 
 ## Contact
 
-- Website: https://innovaai-landing.onrender.com/es/
+- Website: https://innovai.click/es/
 - WhatsApp: https://wa.me/59172004767
