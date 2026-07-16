@@ -1,28 +1,42 @@
 export const processSection = {
-  badge: 'Forma de Trabajo',
-  title: 'De Conversación a Resultado',
-  subtitle: 'Empezamos entendiendo tu operación y terminamos con un plan claro para aplicar IA donde tenga sentido.',
+  badge: 'UN CAMINO CLARO',
+  titleBefore: 'Avanzamos con',
+  titleAccent: 'Evidencia',
+  subtitle:
+    'Este es un recorrido típico para un primer caso acotado. El alcance real se define durante el diagnóstico.',
 };
 
 export const steps = [
   {
     number: '01',
-    title: 'Entendemos tu Operación',
-    description: 'Conversamos sobre tus procesos, dolores actuales y metas de negocio.',
+    timing: 'DÍA 1',
+    title: 'Mapeamos la Operación',
+    description:
+      'Entendemos el problema, quién lo vive y qué resultado vale la pena mover.',
+    output: 'Caso y métrica definidos',
   },
   {
     number: '02',
-    title: 'Elegimos el Mejor Caso',
-    description: 'Priorizamos la oportunidad con más impacto y menor fricción para empezar.',
+    timing: 'SEMANA 1',
+    title: 'Construimos la Prueba',
+    description:
+      'Conectamos el flujo mínimo con documentos, datos o conversaciones reales.',
+    output: 'Prototipo funcional',
   },
   {
     number: '03',
-    title: 'Probamos una Solución',
-    description: 'Creamos una primera versión con tus documentos, datos o flujos reales para validar el valor.',
+    timing: 'SEMANAS 2–4',
+    title: 'Validamos con el Equipo',
+    description:
+      'Observamos uso, errores y fricción antes de ampliar la solución.',
+    output: 'Piloto medido',
   },
   {
     number: '04',
-    title: 'Acompañamos la Adopción',
-    description: 'Medimos resultados, capacitamos al equipo y ajustamos la solución hasta que sea útil en el día a día.',
+    timing: 'OPERACIÓN',
+    title: 'Adoptamos y Mejoramos',
+    description:
+      'Documentamos, capacitamos y dejamos un ciclo claro de mejora.',
+    output: 'Sistema integrado al trabajo',
   },
 ];

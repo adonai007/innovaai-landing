@@ -1,11 +1,13 @@
 export const navigation = {
   logo: 'InnovaAI',
   links: [
-    { label: 'Servicios', href: '#servicios' },
+    { label: 'Implementación', href: '#servicios' },
     { label: 'Productos', href: '#productos' },
     { label: 'Proceso', href: '#proceso' },
-    { label: 'Contacto', href: '#contacto' },
+    { label: 'Preguntas', href: '#preguntas' },
   ],
-  cta: 'Agendar Consultoría',
-  langSwitch: { label: 'EN', href: '/en/' },
+  cta: 'Diagnóstico Gratuito',
+  ctaHref: '#contacto',
+  menuLabel: 'Abrir menú',
+  closeLabel: 'Cerrar menú',
 };

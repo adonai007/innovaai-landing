@@ -1,28 +1,42 @@
 export const processSection = {
-  badge: 'How We Work',
-  title: 'From Conversation to Results',
-  subtitle: 'We start by understanding your operation and end with a clear plan to apply AI where it makes sense.',
+  badge: 'A CLEAR PATH',
+  titleBefore: 'We Move Forward with',
+  titleAccent: 'Evidence',
+  subtitle:
+    'This is a typical path for a focused first use case. The actual scope is defined during the diagnostic.',
 };
 
 export const steps = [
   {
     number: '01',
-    title: 'We Understand Your Operation',
-    description: 'We discuss your processes, current pain points, and business goals.',
+    timing: 'DAY 1',
+    title: 'Map the Operation',
+    description:
+      'We understand the problem, who experiences it, and which result is worth moving.',
+    output: 'Use case and metric defined',
   },
   {
     number: '02',
-    title: 'We Choose the Best Use Case',
-    description: 'We prioritize the opportunity with the highest impact and the lowest friction to start.',
+    timing: 'WEEK 1',
+    title: 'Build the Test',
+    description:
+      'We connect the minimum workflow to real documents, data, or conversations.',
+    output: 'Working prototype',
   },
   {
     number: '03',
-    title: 'We Test a Solution',
-    description: 'We create a first version with your real documents, data, or workflows to validate value.',
+    timing: 'WEEKS 2–4',
+    title: 'Validate with the Team',
+    description:
+      'We observe use, errors, and friction before expanding the solution.',
+    output: 'Measured pilot',
   },
   {
     number: '04',
-    title: 'We Support Adoption',
-    description: 'We measure results, train the team, and adjust the solution until it becomes useful in daily work.',
+    timing: 'OPERATIONS',
+    title: 'Adopt and Improve',
+    description:
+      'We document, train, and establish a clear improvement cycle.',
+    output: 'System integrated into daily work',
   },
 ];

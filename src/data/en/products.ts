@@ -1,27 +1,54 @@
-﻿export const productsSection = {
-  badge: 'In-House Solutions',
-  title: 'Products Built from Real Problems',
-  subtitle: 'Beyond consulting, we build our own tools to solve concrete day-to-day problems.',
+export const productsSection = {
+  badge: 'IN-HOUSE PRODUCTS',
+  titleBefore: 'Proof that We',
+  titleAccent: 'Execute',
+  subtitle:
+    'We do more than recommend AI. We build complete products, test them with users, and learn from every real workflow.',
 };
 
 export const products = [
   {
     name: 'Dicta',
-    tagline: 'Dictate and translate without switching apps.',
-    description: 'Dicta helps you write faster with your voice. It works inside your work applications so you can document, respond, and translate with less friction.',
-    pills: ['Write by voice', 'Instant translation', 'For daily work'],
+    eyebrow: 'PERSONAL PRODUCTIVITY',
+    tagline: 'You speak. Text appears wherever your cursor is.',
+    description:
+      'Voice dictation for Windows that works inside your applications. Press F9, choose the processing level, and keep working without switching windows.',
+    bullets: [
+      'Push-to-talk and hands-free modes',
+      'Raw, Clean, Polish, and Smart modes',
+      'Spanish and English with translation',
+      'Lightweight native Windows client',
+    ],
+    meta: ['WINDOWS', 'ES + EN', '4 MODES'],
     color: 'dicta' as const,
-    logo: '/images/logo_dicta.png',
-    cta: 'Download Dicta',
-    ctaHref: '/downloads/dIctA-1.0.0-win64.zip',
+    cta: 'Discover Dicta',
+    ctaHref: 'https://dicta-web.onrender.com',
+    image: '/images/landing/dicta-product.png',
+    imageAlt: 'Real landing page and product demonstration for Dicta',
+    visualLabel: 'DICTATION IN ANY APP',
   },
   {
     name: 'DentiMed',
-    tagline: 'Less typing for dental clinics.',
-    description: 'DentiMed helps turn the patient conversation into organized records, odontograms, and follow-up for dental clinics.',
-    pills: ['Voice records', 'Digital odontogram', 'For dental clinics'],
+    eyebrow: 'HEALTHCARE · DENTISTRY',
+    tagline: 'From one voice note to a visit ready to close.',
+    description:
+      'A mobile-first assistant for dentists. The doctor dictates what happened and reviews a draft with procedures, payment, estimate, next appointment, and follow-up.',
+    bullets: [
+      'Dictation between patients',
+      'Reviewable clinical draft',
+      'Structured payments and estimates',
+      'Follow-up prepared for WhatsApp',
+    ],
+    meta: ['MOBILE-FIRST', 'HUMAN REVIEW', 'DENTAL WORKFLOW'],
     color: 'diariomed' as const,
-    cta: 'Discover DentiMed',
+    cta: 'Explore DentiMed',
     ctaHref: '/en/dentimed/',
+    image: '/images/landing/dentist-dictating.webp',
+    imageAlt: 'Dentist dictating a voice note between patients',
+    secondaryImage: '/images/landing/dentimed-grabacion.png',
+    secondaryImageAlt: 'Real DentiMed recording screen',
+    tertiaryImage: '/images/landing/dentimed-borrador.png',
+    tertiaryImageAlt: 'Real DentiMed draft with procedures and payment',
+    visualLabel: 'ASSISTED CLINICAL CLOSE',
   },
 ];

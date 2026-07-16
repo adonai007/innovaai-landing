@@ -1,10 +1,33 @@
+const whatsappNumber = '59172004767';
+const diagnosticMessage =
+  'Hi Adonai, I would like to book a free diagnostic session to identify a practical AI use case for my company.';
+
 export const hero = {
-  headline: 'Applied AI to Save Time and Make Better Decisions',
-  subheadline: 'We help you find practical ways to use AI: reduce repetitive work, organize information, improve service, and support your team through the change.',
-  ctaPrimary: 'Book an AI Consulting Session',
-  ctaPrimaryHref: '#contacto',
-  ctaSecondary: 'See How We Help',
-  ctaSecondaryHref: '#servicios',
-  badges: ['Clear Consulting', 'Tailored Solutions', 'Hands-On Support'],
-  accentWords: ['AI', 'Time', 'Decisions'],
+  eyebrow: 'APPLIED AI STUDIO · BOLIVIA',
+  headlineBefore: 'AI Working in Your Business in',
+  headlineAccent: 'Weeks,',
+  headlineAfter: 'Not Months.',
+  subheadline:
+    'We diagnose your operation, select the highest-impact use case, and build a useful solution around your real processes, data, and team.',
+  ctaPrimary: 'Book a Free Diagnostic',
+  ctaPrimaryHref: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(diagnosticMessage)}`,
+  ctaSecondary: 'See Our Products',
+  ctaSecondaryHref: '#productos',
+  note: 'No cost and no commitment — a direct conversation about your operation.',
+  metrics: [
+    { value: '17+', label: 'years in enterprise technology' },
+    { value: '2', label: 'in-house products built on real workflows' },
+    { value: '100%', label: 'Latin American focus' },
+  ],
+  visual: {
+    eyebrow: 'IN-HOUSE PRODUCTS',
+    title: 'We build what we recommend.',
+    description:
+      'Dicta and DentiMed turn voice and everyday workflows into finished work.',
+    dictaLabel: 'Dicta · Voice to Text',
+    dictaAlt: 'Real view of Dicta, InnovaAI’s voice dictation product',
+    dentimedLabel: 'DentiMed · Clinical Close',
+    dentimedAlt: 'Real mobile recording screen from DentiMed',
+    status: 'Applied AI for real work',
+  },
 };

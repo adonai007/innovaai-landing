@@ -1,82 +1,265 @@
 ---
 interface Props {
-  section: { badge: string; title: string; subtitle: string };
-  differentiators: { icon: string; title: string; description: string; accent: 'primary' | 'secondary' }[];
+  section: {
+    badge: string;
+    titleBefore: string;
+    titleAccent: string;
+    subtitle: string;
+  };
+  differentiators: {
+    icon: string;
+    title: string;
+    description: string;
+    accent: 'primary' | 'secondary';
+    featured?: boolean;
+  }[];
 }
 
 const { section, differentiators } = Astro.props;
-
-// Gradient-text discipline: gradient only the last word.
-const titleWords = section.title.split(' ');
-const titleLead = titleWords.slice(0, -1).join(' ');
-const titleAccent = titleWords[titleWords.length - 1];
 ---
 
-<section class="section-padding relative overflow-hidden">
-  <!-- Background Decoration -->
-  <div class="absolute inset-0 pointer-events-none">
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/[0.03] blur-[100px]"></div>
-    <div class="absolute top-1/4 right-0 w-[300px] h-[300px] rounded-full bg-secondary/[0.04] blur-[80px]"></div>
-  </div>
-
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Header -->
-    <div class="text-center mb-16" data-animate="fade-up">
-      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase bg-primary/10 text-primary border border-primary/20 mb-4">
-        {section.badge}
-      </span>
-      <h2 class="text-[length:var(--text-4xl)] font-bold mb-4">
-        {titleLead && <span class="text-text-primary">{titleLead} </span>}
-        <span class="gradient-text">{titleAccent}</span>
+<section class="why-section section-padding">
+  <div class="section-shell">
+    <header class="why-intro" data-animate="fade-up">
+      <span class="section-kicker">{section.badge}</span>
+      <h2>
+        <span>{section.titleBefore}</span>
+        <span class="gradient-text">{section.titleAccent}</span>
       </h2>
-      <p class="text-text-secondary text-[length:var(--text-xl)] max-w-2xl mx-auto">{section.subtitle}</p>
-    </div>
+      <p>{section.subtitle}</p>
+    </header>
 
-    <!-- Differentiators Grid -->
-    <div class="grid md:grid-cols-2 gap-5 lg:gap-6">
-      {differentiators.map((item, i) => (
-        <div
-          class="group relative rounded-2xl p-[1px] transition-all duration-500 hover:scale-[1.02]"
+    <div class="why-grid">
+      {differentiators.map((item, index) => (
+        <article
+          class:list={[
+            'why-card',
+            `accent-${item.accent}`,
+            { featured: item.featured },
+          ]}
           data-animate="fade-up"
-          data-delay={i * 0.12}
+          data-delay={index * 0.1}
         >
-          <!-- Gradient border -->
-          <div class={`absolute inset-0 rounded-2xl opacity-30 group-hover:opacity-100 transition-opacity duration-500 ${
-            item.accent === 'primary'
-              ? 'bg-gradient-to-br from-primary/50 via-transparent to-primary/15'
-              : 'bg-gradient-to-br from-secondary/50 via-transparent to-secondary/15'
-          }`}></div>
-
-          <!-- Card content -->
-          <div class="relative rounded-2xl bg-bg-secondary/80 backdrop-blur-sm p-8 h-full flex gap-5">
-            <!-- Icon -->
-            <div class={`w-14 h-14 rounded-xl flex items-center justify-center shrink-0 ${
-              item.accent === 'primary'
-                ? 'bg-primary/10 text-primary-light shadow-[0_0_25px_rgba(22,163,74,0.15)]'
-                : 'bg-secondary/10 text-secondary-light shadow-[0_0_25px_rgba(30,64,175,0.15)]'
-            }`}>
-              {item.icon === 'globe' && (
-                <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          <div class="why-card-top">
+            <div class="why-icon" aria-hidden="true">
+              {item.icon === 'experience' && (
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M4 19V9M10 19V5M16 19v-7M22 19V3" />
+                  <path d="M2 19h22" />
+                </svg>
               )}
-              {item.icon === 'target' && (
-                <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              {item.icon === 'product' && (
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="m12 2 8 4.5v10L12 21l-8-4.5v-10Z" />
+                  <path d="m4 6.5 8 4.5 8-4.5M12 11v10" />
+                </svg>
               )}
-              {item.icon === 'shield' && (
-                <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              {item.icon === 'human' && (
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="8" r="3.5" />
+                  <path d="M5 21c.8-4 3.1-6 7-6s6.2 2 7 6" />
+                  <path d="m17.5 4.5 1.3 1.3 2.7-2.7" />
+                </svg>
               )}
-              {item.icon === 'handshake' && (
-                <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14h2"/><path d="m3 3 7.07 7.07"/><path d="m7.18 11.82-4.12 4.12a1 1 0 1 0 3 3l4.12-4.12"/></svg>
+              {item.icon === 'latam' && (
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M3 12h18M12 3c2.7 2.6 4 5.6 4 9s-1.3 6.4-4 9c-2.7-2.6-4-5.6-4-9s1.3-6.4 4-9Z" />
+                </svg>
               )}
             </div>
-
-            <!-- Text -->
-            <div>
-              <h3 class="text-lg font-bold mb-2 group-hover:text-text-primary transition-colors">{item.title}</h3>
-              <p class="text-text-secondary text-sm leading-relaxed">{item.description}</p>
-            </div>
+            <span class="why-index">0{index + 1}</span>
           </div>
-        </div>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </article>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .why-section {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(148, 163, 184, 0.09);
+    background:
+      radial-gradient(circle at 72% 34%, rgba(59, 130, 246, 0.06), transparent 28%),
+      rgba(8, 15, 27, 0.64);
+  }
+
+  .section-shell {
+    width: min(100% - 2rem, 1380px);
+    margin: 0 auto;
+  }
+
+  .why-intro {
+    max-width: 990px;
+    margin-bottom: clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .section-kicker {
+    display: block;
+    margin-bottom: 1rem;
+    color: var(--color-primary-light);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(2.65rem, 5.4vw, 5.6rem);
+    line-height: 0.98;
+    letter-spacing: -0.06em;
+    text-wrap: balance;
+  }
+
+  h2 > span {
+    display: block;
+  }
+
+  .why-intro > p {
+    max-width: 720px;
+    margin: 1.5rem 0 0;
+    color: var(--color-text-secondary);
+    font-size: clamp(1rem, 1.35vw, 1.17rem);
+    line-height: 1.7;
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .why-card {
+    --card-accent: var(--color-primary-light);
+    position: relative;
+    min-height: 310px;
+    overflow: hidden;
+    padding: clamp(1.5rem, 3vw, 2.4rem);
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 1.35rem;
+    background:
+      linear-gradient(145deg, rgba(20, 33, 52, 0.78), rgba(9, 17, 29, 0.72));
+    transition: transform 260ms ease, border-color 260ms ease;
+  }
+
+  .why-card::after {
+    content: '';
+    position: absolute;
+    right: -4rem;
+    bottom: -5rem;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    background: var(--card-accent);
+    filter: blur(80px);
+    opacity: 0.08;
+  }
+
+  .why-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--card-accent) 36%, transparent);
+  }
+
+  .why-card.accent-secondary {
+    --card-accent: var(--color-secondary-light);
+  }
+
+  .why-card.featured {
+    grid-column: span 2;
+    min-height: 370px;
+    background:
+      linear-gradient(115deg, rgba(34, 197, 94, 0.11), transparent 42%),
+      linear-gradient(145deg, rgba(20, 33, 52, 0.88), rgba(9, 17, 29, 0.8));
+  }
+
+  .why-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .why-icon {
+    display: grid;
+    width: 3.3rem;
+    height: 3.3rem;
+    place-items: center;
+    border: 1px solid color-mix(in srgb, var(--card-accent) 25%, transparent);
+    border-radius: 1rem;
+    color: var(--card-accent);
+    background: color-mix(in srgb, var(--card-accent) 10%, transparent);
+  }
+
+  .why-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .why-index {
+    color: rgba(148, 163, 184, 0.36);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+  }
+
+  h3 {
+    max-width: 650px;
+    margin: clamp(2rem, 5vw, 4.5rem) 0 0;
+    font-size: clamp(1.65rem, 2.8vw, 3rem);
+    line-height: 1.04;
+    letter-spacing: -0.05em;
+  }
+
+  .why-card:not(.featured) h3 {
+    font-size: clamp(1.45rem, 2.1vw, 2rem);
+  }
+
+  .why-card > p {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 1rem 0 0;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+  }
+
+  @media (min-width: 981px) {
+    .why-card:nth-child(2),
+    .why-card:nth-child(3),
+    .why-card:nth-child(4) {
+      grid-column: span 1;
+    }
+
+    .why-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .why-card.featured {
+      grid-column: span 3;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .section-shell {
+      width: min(100% - 1.25rem, 1380px);
+    }
+
+    .why-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .why-card,
+    .why-card.featured {
+      grid-column: auto;
+      min-height: 300px;
+    }
+  }
+</style>

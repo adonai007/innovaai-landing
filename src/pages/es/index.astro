@@ -2,12 +2,12 @@
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
 import Hero from '../../components/Hero.astro';
-import ParticleBackground from '../../components/ParticleBackground.astro';
 import TrustBar from '../../components/TrustBar.astro';
 import Services from '../../components/Services.astro';
 import Products from '../../components/Products.astro';
 import Process from '../../components/Process.astro';
 import Stats from '../../components/Stats.astro';
+import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
 import WhatsAppButton from '../../components/WhatsAppButton.astro';
 import Footer from '../../components/Footer.astro';
@@ -19,28 +19,32 @@ import { servicesSection, services } from '../../data/es/services';
 import { productsSection, products } from '../../data/es/products';
 import { processSection, steps } from '../../data/es/process-steps';
 import { whySection, differentiators } from '../../data/es/stats';
+import { faqSection, faqItems } from '../../data/es/faq';
 import { cta, footer } from '../../data/es/cta';
 ---
 
 <Layout
-  title="InnovaAI — Consultoría de IA Aplicada para Empresas"
-  description="Agenda una consultoría con InnovaAI para descubrir cómo usar IA en tu empresa, ahorrar tiempo, ordenar información y acompañar a tu equipo."
+  title="InnovaAI — IA Aplicada para Empresas en Latinoamérica"
+  description="Diagnosticamos, prototipamos e implementamos soluciones de IA con tus procesos y datos reales. Consultoría y productos de IA aplicada desde Bolivia."
   lang="es"
 >
   <Navbar lang="es" nav={navigation} />
   <main>
-    <Hero hero={hero}>
-      <ParticleBackground slot="default" />
-    </Hero>
+    <Hero hero={hero} />
     <TrustBar trust={trustBar} />
     <Services section={servicesSection} services={services} />
     <Products section={productsSection} products={products} />
     <Process section={processSection} steps={steps} />
     <Stats section={whySection} differentiators={differentiators} />
+    <FAQ section={faqSection} items={faqItems} />
     <CTASection cta={cta} />
   </main>
   <Footer footer={footer} lang="es" />
-  <WhatsAppButton number={cta.whatsappNumber} message={cta.whatsappMessage} />
+  <WhatsAppButton
+    number={cta.whatsappNumber}
+    message={cta.whatsappMessage}
+    label={cta.ctaPrimary}
+  />
 
   <script>
     import '../../scripts/animations';

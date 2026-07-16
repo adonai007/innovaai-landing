@@ -4,72 +4,508 @@ import Button from './Button.astro';
 interface Props {
   product: {
     name: string;
+    eyebrow: string;
     tagline: string;
     description: string;
-    pills: string[];
+    bullets: string[];
+    meta: string[];
     color: 'dicta' | 'diariomed';
     cta: string;
     ctaHref: string;
-    logo?: string;
+    image: string;
+    imageAlt: string;
+    secondaryImage?: string;
+    secondaryImageAlt?: string;
+    tertiaryImage?: string;
+    tertiaryImageAlt?: string;
+    visualLabel: string;
   };
   reversed?: boolean;
 }
 
 const { product, reversed = false } = Astro.props;
-const colorMap = {
-  dicta: { text: 'text-dicta', bg: 'bg-dicta/10', border: 'border-dicta/20', glow: 'rgba(52,211,153,0.15)' },
-  diariomed: { text: 'text-diariomed', bg: 'bg-diariomed/10', border: 'border-diariomed/20', glow: 'rgba(16,185,129,0.15)' },
-};
-const colors = colorMap[product.color];
 ---
 
-<div class={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center ${reversed ? 'lg:direction-rtl' : ''}`} data-animate="fade-up">
-  <!-- Visual -->
-  <div class={`relative ${reversed ? 'lg:order-2' : ''}`}>
-    <div class="relative rounded-2xl overflow-hidden glass p-8 aspect-[4/3] flex items-center justify-center" style={`box-shadow: 0 0 60px ${colors.glow}`}>
-      {product.logo ? (
-        <img src={product.logo} alt={`${product.name} logo`} class="max-w-[70%] max-h-[70%] object-contain drop-shadow-[0_0_30px_rgba(52,211,153,0.3)]" loading="lazy" />
-      ) : (
-        <div class="w-full max-w-sm space-y-4">
-          <div class="flex items-center gap-3 mb-6">
-            <div class={`w-3 h-3 rounded-full ${colors.bg} ${colors.text}`} style="box-shadow: 0 0 8px currentColor"></div>
-            <div class="h-2 w-24 rounded-full bg-white/10"></div>
-            <div class="ml-auto h-2 w-16 rounded-full bg-white/5"></div>
-          </div>
-          <div class="h-3 w-full rounded-full bg-white/8"></div>
-          <div class="h-3 w-4/5 rounded-full bg-white/6"></div>
-          <div class="h-3 w-3/5 rounded-full bg-white/4"></div>
-          <div class="mt-6 flex gap-3">
-            <div class={`h-8 w-20 rounded-lg ${colors.bg}`}></div>
-            <div class="h-8 w-20 rounded-lg bg-white/5"></div>
-          </div>
-          <div class="mt-4 h-24 rounded-xl bg-white/[0.03] border border-white/5 p-4">
-            <div class="h-2 w-full rounded bg-white/8 mb-2"></div>
-            <div class="h-2 w-3/4 rounded bg-white/5 mb-2"></div>
-            <div class="h-2 w-1/2 rounded bg-white/3"></div>
-          </div>
-        </div>
-      )}
+<article
+  class:list={[
+    'product-story',
+    `product-${product.color}`,
+    { 'is-reversed': reversed },
+  ]}
+  data-animate="fade-up"
+>
+  <div class="product-copy">
+    <div class="product-heading">
+      <span class="product-eyebrow">{product.eyebrow}</span>
+      <span class="product-number">{product.name}</span>
     </div>
-  </div>
 
-  <!-- Content -->
-  <div class={`${reversed ? 'lg:order-1 lg:text-right' : ''}`} style="direction: ltr;">
-    <span class={`inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase ${colors.bg} ${colors.text} border ${colors.border} mb-4`}>
-      {product.name}
-    </span>
-    <h3 class="text-[length:var(--text-3xl)] font-bold mb-4">{product.tagline}</h3>
-    <p class="text-text-secondary text-lg leading-relaxed mb-6">{product.description}</p>
+    <h3>{product.tagline}</h3>
+    <p class="product-description">{product.description}</p>
 
-    <!-- Pills -->
-    <div class={`flex flex-wrap gap-3 mb-8 ${reversed ? 'lg:justify-end' : ''}`}>
-      {product.pills.map(pill => (
-        <span class="px-3 py-1.5 rounded-lg text-sm font-medium bg-white/5 text-text-secondary border border-white/10">
-          {pill}
-        </span>
+    <ul class="product-bullets">
+      {product.bullets.map((bullet) => (
+        <li>
+          <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+            <path d="m5 10 3 3 7-7" />
+          </svg>
+          {bullet}
+        </li>
       ))}
+    </ul>
+
+    <div class="product-meta">
+      {product.meta.map((item) => <span>{item}</span>)}
     </div>
 
-    <Button variant="primary" href={product.ctaHref}>{product.cta}</Button>
+    <Button variant="primary" href={product.ctaHref}>
+      <span>{product.cta}</span>
+      <svg class="button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </svg>
+    </Button>
   </div>
-</div>
+
+  <div class="product-visual">
+    {product.color === 'dicta' ? (
+      <div class="dicta-stage">
+        <div class="visual-label">
+          <span></span>
+          {product.visualLabel}
+        </div>
+        <div class="dicta-browser">
+          <div class="browser-bar" aria-hidden="true">
+            <i></i><i></i><i></i>
+            <span>dicta-web.onrender.com</span>
+          </div>
+          <img
+            src={product.image}
+            alt={product.imageAlt}
+            width="1200"
+            height="800"
+            loading="lazy"
+          />
+        </div>
+        <div class="dicta-signal" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    ) : (
+      <div class="dentimed-stage">
+        <img
+          class="clinic-photo"
+          src={product.image}
+          alt={product.imageAlt}
+          width="1600"
+          height="844"
+          loading="lazy"
+        />
+        <div class="clinic-shade" aria-hidden="true"></div>
+        <div class="visual-label">
+          <span></span>
+          {product.visualLabel}
+        </div>
+
+        {product.secondaryImage && (
+          <figure class="phone phone-primary">
+            <div aria-hidden="true"></div>
+            <img
+              src={product.secondaryImage}
+              alt={product.secondaryImageAlt}
+              width="412"
+              height="915"
+              loading="lazy"
+            />
+          </figure>
+        )}
+
+        {product.tertiaryImage && (
+          <figure class="phone phone-secondary">
+            <div aria-hidden="true"></div>
+            <img
+              src={product.tertiaryImage}
+              alt={product.tertiaryImageAlt}
+              width="397"
+              height="1053"
+              loading="lazy"
+            />
+          </figure>
+        )}
+      </div>
+    )}
+  </div>
+</article>
+
+<style>
+  .product-story {
+    --product-accent: var(--color-primary-light);
+    --product-glow: rgba(34, 197, 94, 0.16);
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(480px, 1.18fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  .product-story.is-reversed .product-copy {
+    order: 2;
+  }
+
+  .product-story.is-reversed .product-visual {
+    order: 1;
+  }
+
+  .product-diariomed {
+    --product-accent: #34d399;
+    --product-glow: rgba(16, 185, 129, 0.18);
+  }
+
+  .product-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .product-eyebrow {
+    color: var(--product-accent);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+  }
+
+  .product-number {
+    color: rgba(148, 163, 184, 0.28);
+    font-family: var(--font-heading);
+    font-size: clamp(2.4rem, 4vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.06em;
+  }
+
+  h3 {
+    max-width: 680px;
+    margin: 1.25rem 0 0;
+    font-size: clamp(2.35rem, 4.4vw, 4.6rem);
+    line-height: 0.99;
+    letter-spacing: -0.058em;
+    text-wrap: balance;
+  }
+
+  .product-description {
+    max-width: 610px;
+    margin: 1.5rem 0 0;
+    color: var(--color-text-secondary);
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
+    line-height: 1.7;
+  }
+
+  .product-bullets {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.7rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .product-bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    color: var(--color-text-primary);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .product-bullets svg {
+    flex: none;
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-top: 0.18rem;
+    stroke: var(--product-accent);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin: 1.8rem 0;
+  }
+
+  .product-meta span {
+    padding: 0.5rem 0.65rem;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 0.55rem;
+    color: var(--color-text-tertiary);
+    background: rgba(255, 255, 255, 0.025);
+    font-family: var(--font-mono);
+    font-size: 0.59rem;
+    letter-spacing: 0.09em;
+  }
+
+  .button-arrow {
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-left: 0.65rem;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .product-visual {
+    min-width: 0;
+  }
+
+  .dicta-stage,
+  .dentimed-stage {
+    position: relative;
+    min-height: 620px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 1.9rem;
+    background: #070d15;
+    box-shadow:
+      0 30px 100px rgba(0, 0, 0, 0.34),
+      0 0 80px var(--product-glow);
+  }
+
+  .dicta-stage {
+    display: grid;
+    place-items: center;
+    padding: clamp(2rem, 6vw, 4.5rem);
+    background:
+      radial-gradient(circle at 72% 28%, rgba(16, 185, 129, 0.17), transparent 32%),
+      radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1), transparent 30%),
+      #050909;
+  }
+
+  .dicta-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(circle at center, black, transparent 78%);
+  }
+
+  .visual-label {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.68);
+    background: rgba(4, 9, 15, 0.72);
+    backdrop-filter: blur(14px);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+  }
+
+  .visual-label span {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: var(--product-accent);
+    box-shadow: 0 0 12px var(--product-accent);
+  }
+
+  .dicta-browser {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 720px);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 1.1rem;
+    background: #090909;
+    box-shadow: 0 32px 90px rgba(0, 0, 0, 0.54);
+    transform: perspective(1100px) rotateY(-5deg) rotateX(2deg);
+  }
+
+  .browser-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    height: 2.35rem;
+    padding: 0 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: #151515;
+  }
+
+  .browser-bar i {
+    width: 0.48rem;
+    height: 0.48rem;
+    border-radius: 50%;
+    background: #ff6257;
+  }
+
+  .browser-bar i:nth-child(2) {
+    background: #ffbd2e;
+  }
+
+  .browser-bar i:nth-child(3) {
+    background: #28c840;
+  }
+
+  .browser-bar span {
+    margin-left: auto;
+    color: rgba(255, 255, 255, 0.32);
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+  }
+
+  .dicta-browser img {
+    display: block;
+    width: 100%;
+  }
+
+  .dicta-signal {
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    z-index: 2;
+    display: flex;
+    align-items: end;
+    gap: 0.28rem;
+    height: 2.1rem;
+  }
+
+  .dicta-signal span {
+    width: 0.24rem;
+    border-radius: 99px;
+    background: var(--product-accent);
+    animation: signal 1.2s ease-in-out infinite;
+  }
+
+  .dicta-signal span:nth-child(1) { height: 35%; }
+  .dicta-signal span:nth-child(2) { height: 72%; animation-delay: 100ms; }
+  .dicta-signal span:nth-child(3) { height: 100%; animation-delay: 200ms; }
+  .dicta-signal span:nth-child(4) { height: 58%; animation-delay: 300ms; }
+  .dicta-signal span:nth-child(5) { height: 28%; animation-delay: 400ms; }
+
+  .dentimed-stage {
+    min-height: 680px;
+  }
+
+  .clinic-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .clinic-shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(5, 15, 14, 0.18), rgba(5, 15, 14, 0.7)),
+      linear-gradient(to top, rgba(2, 8, 12, 0.82), transparent 56%);
+  }
+
+  .phone {
+    position: absolute;
+    z-index: 2;
+    overflow: hidden;
+    margin: 0;
+    padding: 0.38rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1.9rem;
+    background: #0a0f14;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.52);
+  }
+
+  .phone > div {
+    position: absolute;
+    top: 0.75rem;
+    left: 50%;
+    z-index: 1;
+    width: 2.6rem;
+    height: 0.24rem;
+    border-radius: 99px;
+    background: rgba(0, 0, 0, 0.45);
+    transform: translateX(-50%);
+  }
+
+  .phone img {
+    display: block;
+    width: 100%;
+    border-radius: 1.5rem;
+  }
+
+  .phone-primary {
+    right: 4%;
+    bottom: -10%;
+    width: 33%;
+    transform: rotate(2.5deg);
+  }
+
+  .phone-secondary {
+    right: 31%;
+    bottom: -16%;
+    width: 31%;
+    transform: rotate(-4deg);
+  }
+
+  @keyframes signal {
+    0%, 100% { transform: scaleY(0.65); opacity: 0.62; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+
+  @media (max-width: 1080px) {
+    .product-story {
+      grid-template-columns: 1fr;
+    }
+
+    .product-story.is-reversed .product-copy,
+    .product-story.is-reversed .product-visual {
+      order: initial;
+    }
+
+    .product-copy {
+      max-width: 760px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .dicta-stage,
+    .dentimed-stage {
+      min-height: 470px;
+      border-radius: 1.3rem;
+    }
+
+    .dicta-stage {
+      padding: 1.15rem;
+    }
+
+    .dicta-browser {
+      transform: none;
+    }
+
+    .dentimed-stage {
+      min-height: 520px;
+    }
+
+    .clinic-photo {
+      object-position: 42% center;
+    }
+
+    .phone-primary {
+      right: 2%;
+      width: 44%;
+    }
+
+    .phone-secondary {
+      right: 38%;
+      width: 41%;
+    }
+  }
+</style>

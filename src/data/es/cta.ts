@@ -1,55 +1,55 @@
 const whatsappNumber = '59172004767';
-const ctaPrimaryMessage =
-  'Hola Adonai, quiero agendar una consultoría de IA para mi empresa.';
-const ctaWhatsappMessage =
-  'Hola Adonai, vi InnovaAI y me gustaria agendar una consultoría para ver cómo aplicar IA en mi empresa.';
+const whatsappMessage =
+  'Hola Adonai, quiero agendar un diagnóstico gratuito para identificar un caso de IA aplicable en mi empresa.';
+const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
 export const cta = {
-  title: 'Hablemos de Cómo Usar IA en tu Empresa',
+  eyebrow: 'PRIMER PASO',
+  titleBefore: 'Encuentra el Caso de IA que',
+  titleAccent: 'Sí Vale la Pena.',
   subtitle:
-    'En una primera conversación revisamos tus procesos, tus datos y tus prioridades para definir por dónde empezar sin complicar tu operación.',
-  ctaPrimary: 'Agendar Consultoría',
-  ctaPrimaryHref: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(ctaPrimaryMessage)}`,
-  ctaWhatsApp: 'Escríbenos por WhatsApp',
+    'En una conversación de 30 minutos revisamos tu operación, detectamos oportunidades y definimos si existe un buen punto de partida.',
+  ctaPrimary: 'Agendar por WhatsApp',
+  ctaPrimaryHref: whatsappHref,
+  ctaSecondary: 'Ver Pitch Deck',
+  ctaSecondaryHref: '/deck/',
+  note: 'Sin costo · Sin compromiso · En español o inglés',
   whatsappNumber,
-  whatsappMessage: ctaWhatsappMessage,
+  whatsappMessage,
 };
 
 export const footer = {
-  tagline: 'Consultoría y productos de IA aplicada para Latinoamérica',
+  tagline:
+    'Consultoría y productos de IA aplicada para empresas que quieren resultados concretos, no más abstracción.',
+  location: 'La Paz, Bolivia · Latinoamérica',
   columns: [
     {
-      title: 'Servicios',
+      title: 'Explorar',
       links: [
-        { label: 'Consultoría en IA', href: '#servicios' },
-        { label: 'Automatización práctica', href: '#servicios' },
-        { label: 'Adopción del equipo', href: '#servicios' },
+        { label: 'Implementación', href: '#servicios' },
+        { label: 'Productos', href: '#productos' },
+        { label: 'Proceso', href: '#proceso' },
       ],
     },
     {
       title: 'Productos',
       links: [
-        { label: 'Dicta', href: '#productos' },
-        { label: 'DentiMed', href: '#productos' },
+        { label: 'Dicta', href: 'https://dicta-web.onrender.com' },
+        { label: 'DentiMed', href: '/es/dentimed/' },
       ],
     },
     {
-      title: 'Empresa',
+      title: 'Contacto',
       links: [
+        { label: 'Diagnóstico Gratuito', href: whatsappHref },
         { label: 'Pitch Deck', href: '/deck/' },
-        // TODO: replace with real /nosotros page when ready
-        { label: 'Nosotros', href: '#' },
-        // TODO: replace with real /blog when ready
-        { label: 'Blog', href: '#' },
-        { label: 'Contacto', href: '#contacto' },
+        { label: 'English', href: '/en/' },
       ],
     },
   ],
   social: [
-    // TODO: replace with founder LinkedIn URL
-    { label: 'LinkedIn', href: '#', icon: 'linkedin' },
-    { label: 'WhatsApp', href: `https://wa.me/${whatsappNumber}`, icon: 'whatsapp' },
+    { label: 'WhatsApp', href: whatsappHref, icon: 'whatsapp' },
   ],
   copyright: '© 2026 InnovaAI. Todos los derechos reservados.',
-  madeWith: 'Hecho con IA en Latinoamérica',
+  madeWith: 'IA Aplicada, No Teórica',
 };

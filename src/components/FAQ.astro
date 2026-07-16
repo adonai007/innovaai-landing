@@ -1,0 +1,175 @@
+---
+interface Props {
+  section: {
+    badge: string;
+    titleBefore: string;
+    titleAccent: string;
+    subtitle: string;
+  };
+  items: {
+    question: string;
+    answer: string;
+  }[];
+}
+
+const { section, items } = Astro.props;
+---
+
+<section id="preguntas" class="faq-section section-padding">
+  <div class="faq-shell">
+    <header class="faq-intro" data-animate="fade-up">
+      <span class="section-kicker">{section.badge}</span>
+      <h2>
+        {section.titleBefore}
+        <span class="gradient-text">{section.titleAccent}</span>
+      </h2>
+      <p>{section.subtitle}</p>
+    </header>
+
+    <div class="faq-list" data-animate="fade-up">
+      {items.map((item, index) => (
+        <details class="faq-item" open={index === 0}>
+          <summary>
+            <span class="faq-number">0{index + 1}</span>
+            <span>{item.question}</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    position: relative;
+  }
+
+  .faq-shell {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.7fr) minmax(0, 1.3fr);
+    gap: clamp(3rem, 8vw, 9rem);
+    width: min(100% - 2rem, 1240px);
+    margin: 0 auto;
+  }
+
+  .faq-intro {
+    position: sticky;
+    top: 8rem;
+    align-self: start;
+  }
+
+  .section-kicker {
+    display: block;
+    margin-bottom: 1rem;
+    color: var(--color-primary-light);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(2.65rem, 5vw, 5rem);
+    line-height: 0.98;
+    letter-spacing: -0.06em;
+  }
+
+  h2 span {
+    display: block;
+  }
+
+  .faq-intro p {
+    max-width: 30rem;
+    margin: 1.45rem 0 0;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .faq-list {
+    border-top: 1px solid rgba(148, 163, 184, 0.16);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+  }
+
+  summary {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr) 1.5rem;
+    gap: 1rem;
+    align-items: center;
+    min-height: 96px;
+    padding: 1rem 0;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-heading);
+    font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+    font-weight: 650;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-number {
+    color: var(--color-text-tertiary);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+  }
+
+  summary svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    stroke: var(--color-primary-light);
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 220ms ease;
+  }
+
+  details[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .faq-item > p {
+    max-width: 720px;
+    margin: -0.35rem 0 1.8rem 3.5rem;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+  }
+
+  @media (max-width: 860px) {
+    .faq-shell {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .faq-intro {
+      position: static;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .faq-shell {
+      width: min(100% - 1.25rem, 1240px);
+    }
+
+    summary {
+      grid-template-columns: 2rem minmax(0, 1fr) 1.2rem;
+      gap: 0.65rem;
+    }
+
+    .faq-item > p {
+      margin-left: 2.65rem;
+    }
+  }
+</style>

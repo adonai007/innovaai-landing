@@ -1,23 +1,39 @@
 export const servicesSection = {
-  badge: 'AI Consulting for Companies',
-  title: 'What We Can Improve',
-  subtitle: 'We start with your processes, not the technology. First we understand the problem; then we choose the best way to solve it with AI.',
+  badge: 'FAST IMPLEMENTATION',
+  titleBefore: 'From Idea to AI',
+  titleAccent: 'In Operation',
+  subtitle:
+    'We start with the bottleneck, not the tool. Every stage ends with something your team can review, use, and measure.',
+  image: '/images/landing/workflow-collaboration.webp',
+  imageAlt:
+    'Latin American professionals mapping a business process before implementing AI',
+  imageEyebrow: 'PROCESS FIRST',
+  imageTitle: 'The right technology comes after we understand the work.',
 };
 
 export const services = [
   {
-    icon: 'brain',
-    title: 'Processes that Save Time',
-    description: 'We identify repetitive tasks, bottlenecks, and manual work that AI can support without forcing you to change your whole operation.',
+    number: '01',
+    icon: 'search',
+    title: 'Opportunity Diagnostic',
+    description:
+      'We map repetitive tasks, slow decisions, and places where your team loses time or information.',
+    deliverable: 'Prioritized map of AI use cases',
   },
   {
-    icon: 'code',
-    title: 'Information that Is Easy to Find',
-    description: 'We organize documents, reports, and internal knowledge so your team can find reliable answers without losing hours searching.',
+    number: '02',
+    icon: 'build',
+    title: 'Prototype with Real Data',
+    description:
+      'We test the selected case with real documents, conversations, or workflows to validate usefulness before scaling.',
+    deliverable: 'First working solution',
   },
   {
-    icon: 'users',
-    title: 'A Team Ready to Use AI',
-    description: 'We train leaders and teams to use AI with judgment, measure results, and adopt better work habits.',
+    number: '03',
+    icon: 'adopt',
+    title: 'Adoption and Continuous Improvement',
+    description:
+      'We support the team, measure results, and refine the system until it fits daily work.',
+    deliverable: 'Measurable use, not an isolated demo',
   },
 ];

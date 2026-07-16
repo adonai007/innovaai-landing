@@ -1,27 +1,54 @@
-﻿export const productsSection = {
-  badge: 'Soluciones Propias',
-  title: 'Productos que Nacen de Problemas Reales',
-  subtitle: 'Además de consultoría, construimos herramientas propias para resolver dolores concretos del día a día.',
+export const productsSection = {
+  badge: 'PRODUCTOS PROPIOS',
+  titleBefore: 'Prueba de que',
+  titleAccent: 'Ejecutamos',
+  subtitle:
+    'No sólo recomendamos IA. Construimos productos completos, los probamos con usuarios y aprendemos de cada flujo real.',
 };
 
 export const products = [
   {
     name: 'Dicta',
-    tagline: 'Dicta y traduce sin cambiar de aplicación.',
-    description: 'Dicta ayuda a escribir más rápido usando la voz. Funciona dentro de tus aplicaciones de trabajo para documentar, responder y traducir con menos fricción.',
-    pills: ['Escribe por voz', 'Traduce al instante', 'Para trabajo diario'],
+    eyebrow: 'PRODUCTIVIDAD PERSONAL',
+    tagline: 'Hablas. El texto aparece donde está tu cursor.',
+    description:
+      'Dictado por voz para Windows que funciona dentro de tus aplicaciones. Usa F9, elige el nivel de procesamiento y sigue trabajando sin cambiar de ventana.',
+    bullets: [
+      'Push-to-talk y manos libres',
+      'Modos Crudo, Limpio, Pulido e Inteligente',
+      'Español e inglés con traducción',
+      'Cliente nativo ligero para Windows',
+    ],
+    meta: ['WINDOWS', 'ES + EN', '4 MODOS'],
     color: 'dicta' as const,
-    logo: '/images/logo_dicta.png',
-    cta: 'Descargar Dicta',
-    ctaHref: '/downloads/dIctA-1.0.0-win64.zip',
+    cta: 'Conocer Dicta',
+    ctaHref: 'https://dicta-web.onrender.com',
+    image: '/images/landing/dicta-product.png',
+    imageAlt: 'Landing y demostración real del producto Dicta',
+    visualLabel: 'DICTADO EN CUALQUIER APP',
   },
   {
     name: 'DentiMed',
-    tagline: 'Menos escritura para clínicas dentales.',
-    description: 'DentiMed ayuda a convertir la conversación con el paciente en registros ordenados, odontograma y seguimiento para clínicas dentales.',
-    pills: ['Historias por voz', 'Odontograma digital', 'Para clínicas dentales'],
+    eyebrow: 'SALUD · ODONTOLOGÍA',
+    tagline: 'De una nota de voz a una atención lista para cerrar.',
+    description:
+      'Un asistente mobile-first para odontólogos. La doctora dicta lo ocurrido y revisa un borrador con procedimientos, cobro, presupuesto, próxima cita y seguimiento.',
+    bullets: [
+      'Dictado entre paciente y paciente',
+      'Borrador clínico revisable',
+      'Cobros y presupuestos estructurados',
+      'Seguimiento preparado para WhatsApp',
+    ],
+    meta: ['MOBILE-FIRST', 'REVISIÓN HUMANA', 'FLUJO DENTAL'],
     color: 'diariomed' as const,
-    cta: 'Descubre DentiMed',
+    cta: 'Explorar DentiMed',
     ctaHref: '/es/dentimed/',
+    image: '/images/landing/dentist-dictating.webp',
+    imageAlt: 'Odontóloga dictando una nota de voz entre pacientes',
+    secondaryImage: '/images/landing/dentimed-grabacion.png',
+    secondaryImageAlt: 'Pantalla real de grabación de DentiMed',
+    tertiaryImage: '/images/landing/dentimed-borrador.png',
+    tertiaryImageAlt: 'Borrador real con cobro y procedimientos en DentiMed',
+    visualLabel: 'CIERRE CLÍNICO ASISTIDO',
   },
 ];

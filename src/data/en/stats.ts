@@ -1,32 +1,39 @@
 export const whySection = {
-  badge: 'Our Difference',
-  title: 'Why InnovaAI',
-  subtitle: 'Real experience, in-house products, and a way of working built for companies in Latin America.',
+  badge: 'WHY INNOVAAI',
+  titleBefore: 'Enterprise Judgment.',
+  titleAccent: 'Product Execution.',
+  subtitle:
+    'The combination you need to move from an attractive idea to a tool your team actually uses.',
 };
 
 export const differentiators = [
   {
-    icon: 'globe',
-    title: 'Real Enterprise Experience',
-    description: 'More than 17 years working with technology for important business processes. We turn that experience into practical solutions for companies in the region.',
+    icon: 'experience',
+    title: '17+ Years Close to Operations',
+    description:
+      'We understand systems, critical processes, and the real cost of introducing change in a company.',
     accent: 'primary' as const,
+    featured: true,
   },
   {
-    icon: 'target',
-    title: 'Applied AI, Without the Complexity',
-    description: 'We do not sell theory or hype. We choose the right technology behind the scenes to solve a concrete operational problem.',
+    icon: 'product',
+    title: 'Products, Not Just Presentations',
+    description:
+      'Dicta and DentiMed force us to solve onboarding, errors, privacy, and adoption for real.',
     accent: 'secondary' as const,
   },
   {
-    icon: 'shield',
-    title: 'Data Care from the Start',
-    description: 'We design each solution with clarity on who can see information, how it is used, and when a person should step in.',
+    icon: 'human',
+    title: 'AI with Human Review',
+    description:
+      'We design clear control points so people retain judgment, context, and decision-making.',
     accent: 'primary' as const,
   },
   {
-    icon: 'handshake',
-    title: 'Your Team Learns with Us',
-    description: 'We do not deliver a black box. We support your team so they can understand, adopt, and improve the solution with their own judgment.',
+    icon: 'latam',
+    title: 'Built for Latin America',
+    description:
+      'Language, channels, budget, and regional operating realities are part of the design from day one.',
     accent: 'secondary' as const,
   },
 ];

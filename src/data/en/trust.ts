@@ -1,11 +1,12 @@
 export const trustBar = {
-  text: 'AI consulting to save time, organize information, and improve operations',
+  text: 'WE APPLY AI IN',
   industries: [
-    { icon: 'heart-pulse', label: 'Healthcare' },
-    { icon: 'landmark', label: 'Finance' },
-    { icon: 'truck', label: 'Operations' },
-    { icon: 'shopping-bag', label: 'Customer Experience' },
-    { icon: 'graduation-cap', label: 'Education' },
-    { icon: 'factory', label: 'Manufacturing' },
+    'Healthcare',
+    'Finance',
+    'Operations',
+    'Customer Experience',
+    'Education',
+    'Manufacturing',
   ],
+  closing: 'From Bolivia for Latin America',
 };

@@ -1,11 +1,13 @@
 export const navigation = {
   logo: 'InnovaAI',
   links: [
-    { label: 'Services', href: '#servicios' },
+    { label: 'Implementation', href: '#servicios' },
     { label: 'Products', href: '#productos' },
     { label: 'Process', href: '#proceso' },
-    { label: 'Contact', href: '#contacto' },
+    { label: 'Questions', href: '#preguntas' },
   ],
-  cta: 'Book Consulting',
-  langSwitch: { label: 'ES', href: '/es/' },
+  cta: 'Free Diagnostic',
+  ctaHref: '#contacto',
+  menuLabel: 'Open menu',
+  closeLabel: 'Close menu',
 };
