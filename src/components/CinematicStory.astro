@@ -1,0 +1,107 @@
+---
+interface Props {
+  cinema: {
+    label: string;
+    intro: string;
+    skip: string;
+    motionOff: string;
+    motionOn: string;
+    scroll: string;
+    concept: string;
+    scenes: { id: string; number: string; eyebrow: string; title: string; description: string; alt: string; note: string }[];
+  };
+}
+const { cinema } = Astro.props;
+---
+
+<section id="historia" class="cinema" aria-label={cinema.label}>
+  <div class="cinema-heading">
+    <span>{cinema.intro}</span>
+    <a href="#productos">{cinema.skip}<span aria-hidden="true"> ↗</span></a>
+  </div>
+  <div class="cinema-controls" hidden>
+    <button type="button" data-motion-toggle data-on={cinema.motionOn} data-off={cinema.motionOff} aria-pressed="false">
+      <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1v10M9 1v10" stroke="currentColor" stroke-width="2" /></svg>
+      <span>{cinema.motionOff}</span>
+    </button>
+  </div>
+  {cinema.scenes.map((scene, index) => (
+    <article id={scene.id} class="cinema-scene" data-scene={index}>
+      <div class="scene-stage">
+        <picture class="scene-picture">
+          <source media="(max-width: 767px)" srcset={`/cinema/scene-${index + 1}-mobile.webp`} width="768" height="1024" />
+          <img src={`/cinema/scene-${index + 1}-desktop.webp`} width="1920" height="1080" alt={scene.alt} loading="lazy" decoding="async" />
+        </picture>
+        <video class="scene-video" muted playsinline preload="none" tabindex="-1" aria-hidden="true"
+          data-desktop={`/cinema/scene-${index + 1}-desktop.mp4`}
+          data-mobile={`/cinema/scene-${index + 1}-mobile.mp4`} />
+        <div class="scene-shade" aria-hidden="true"></div>
+        <div class="scene-copy">
+          <p class="scene-eyebrow"><span>{scene.number}</span> {scene.eyebrow}</p>
+          <h2>{scene.title.split('\n').map((line) => <span>{line}</span>)}</h2>
+          <p class="scene-description">{scene.description}</p>
+          <p class="scene-note"><span aria-hidden="true"></span>{scene.note}</p>
+        </div>
+        <div class="scene-foot" aria-hidden="true"><span>{cinema.scroll}</span><span>{scene.number} / 03</span></div>
+        <div class="scene-progress" aria-hidden="true"></div>
+      </div>
+    </article>
+  ))}
+  <p class="cinema-caption">{cinema.concept}</p>
+</section>
+
+<script>
+  import '../scripts/cinema';
+</script>
+
+<style>
+  .cinema { position: relative; background: #03080d; }
+  .cinema-heading { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.2rem; padding: 1.6rem max(1.25rem, calc((100vw - 1380px)/2)); border-block: 1px solid #ffffff15; }
+  .cinema-heading span, .cinema-heading a, .scene-eyebrow, .scene-foot, .scene-note { font-family: var(--font-mono); font-size: .67rem; letter-spacing: .13em; }
+  .cinema-heading > span { color: #85a49b; }
+  .cinema-heading a { color: #dcece7; letter-spacing: 0; }
+  .cinema-controls { position: sticky; top: 5.7rem; z-index: 8; height: 0; display: flex; justify-content: flex-end; padding-right: max(1.25rem, calc((100vw - 1380px)/2)); }
+  .cinema-controls[hidden] { display: none; }
+  .cinema-controls button { display: flex; align-items: center; gap: .55rem; min-height: 44px; border: 1px solid #ffffff35; border-radius: 99px; padding: .6rem .85rem; background: #04100ee6; color: #d2e2dd; font-size: .7rem; cursor: pointer; }
+  .cinema-scene { position: relative; min-height: 100svh; }
+  .scene-stage { min-height: 100svh; position: relative; overflow: clip; isolation: isolate; display: flex; align-items: center; }
+  .scene-picture, .scene-picture img, .scene-video, .scene-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .scene-picture img, .scene-video { object-fit: cover; object-position: 62% center; }
+  .scene-video { opacity: 0; transition: opacity .3s; }
+  .scene-video.is-ready { opacity: 1; }
+  .scene-shade { background: linear-gradient(90deg,#02070be8 0%,#02070bd1 28%,#02070b45 60%,transparent 100%),linear-gradient(0deg,#03080dd9,transparent 30%); }
+  .scene-copy { position: relative; z-index: 2; width: min(100% - 3rem, 1380px); margin: 0 auto; padding: 7rem 0; }
+  .scene-eyebrow { display: flex; gap: 1rem; align-items: center; color: #96d7bd; margin: 0 0 2rem; }
+  .scene-eyebrow span { color: #fff; display: inline-grid; place-items: center; width: 2rem; height: 2rem; border: 1px solid #85c6a84d; border-radius: 50%; letter-spacing: 0; }
+  h2 { font-size: clamp(2.6rem,4.8vw,5.2rem); letter-spacing: -.055em; line-height: 1.04; max-width: 12ch; margin: 0; text-wrap: balance; }
+  h2 span { display: block; }
+  h2 span:last-child { color: #a0eec6; }
+  .scene-description { max-width: 35ch; margin: 1.8rem 0 0; color: #d2dce0; line-height: 1.75; font-size: clamp(.93rem,1.1vw,1.1rem); }
+  .scene-note { display: flex; align-items: center; gap: .6rem; margin-top: 2.1rem; color: #b6cac2; letter-spacing: 0; max-width: 35rem; }
+  .scene-note > span { width: 5px; height: 5px; border-radius: 50%; background: #4ade80; flex-shrink: 0; }
+  .scene-foot { position: absolute; bottom: 2rem; left: max(1.5rem, calc((100vw - 1380px)/2)); right: max(1.5rem, calc((100vw - 1380px)/2)); display: none; justify-content: space-between; color: #adbbb9; font-size: .6rem; text-transform: uppercase; }
+  .scene-progress { position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; transform: scaleX(var(--scene-progress,0)); transform-origin: left; background: linear-gradient(90deg,#22c55e,#3b82f6); }
+  .cinema-caption { text-align: center; color: #a5b6b0; font-size: .75rem; padding: 1.5rem; margin: 0; border-block: 1px solid #ffffff10; }
+  .cinema:global(.has-motion) .cinema-scene { height: 165svh; }
+  .cinema:global(.has-motion) .scene-stage { position: sticky; top: 0; height: 100svh; }
+  .cinema:global(.has-motion) .scene-foot { display: flex; }
+  @media (max-width: 767px) {
+    .cinema-heading { padding: 1.2rem; }
+    .cinema-heading span, .cinema-heading a { font-size: .6rem; }
+    .cinema-controls { top: 5.3rem; padding-right: 1rem; }
+    .scene-stage { align-items: flex-end; min-height: 780px; min-height: max(780px,100svh); }
+    .scene-copy { width: calc(100% - 2.5rem); padding: 24rem 0 5rem; }
+    .scene-shade { background: linear-gradient(0deg,#02070b 0%,#02070bea 26%,#02070b70 51%,#02070b00 75%); }
+    h2 { max-width: 15ch; font-size: clamp(2.35rem,9vw,3.9rem); }
+    .scene-eyebrow { margin-bottom: 1.3rem; font-size: .58rem; gap: .7rem; }
+    .scene-description { font-size: .89rem; max-width: 39ch; margin-top: 1.3rem; }
+    .scene-note { font-size: .6rem; margin-top: 1.4rem; }
+    .scene-picture img,.scene-video { object-position: center; }
+    .cinema:global(.has-motion) .cinema-scene { height: max(1150px,155svh); }
+    .cinema:global(.has-motion) .scene-stage { height: max(780px,100svh); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scene-video { display: none; }
+    .scene-foot { display: none !important; }
+  }
+</style>

@@ -2,7 +2,7 @@
 
 Canonical domain: https://innovai.click/
 
-Last updated: 2026-07-16
+Last updated: 2026-10-15
 
 InnovaAI is an applied AI consultancy and product studio based in Bolivia. It helps companies in Latin America identify, prototype, implement, and adopt useful artificial intelligence solutions with real processes and data. Spanish is the primary language; English pages are translations of the Spanish source.
 
@@ -29,7 +29,7 @@ In a first consulting conversation, InnovaAI reviews the company's processes, da
 
 Dicta helps people write faster with their voice. It works inside work applications so users can document, respond, and translate with less friction.
 
-DentiMed is voice-powered dental software for clinics in Latin America. It turns speech into reviewable FHIR R4 clinical records, treatment plans, an FDI odontogram, and patient follow-up workflows. The dentist reviews and approves information before it is saved.
+DentiMed is a mobile-first assistant for dentists. It prepares reviewable drafts from dictation, including clinical notes, procedures, payments, estimates, a proposed next appointment, and follow-up. A professional reviews and confirms clinical and financial work before it is finalized. WhatsApp follow-up is prepared for a person to review and send; it is not sent automatically. Current product information and demo contact are maintained on https://dentimed.app, in Spanish.
 
 ## Why InnovaAI
 
@@ -44,13 +44,12 @@ InnovaAI combines more than 17 years of technology experience with product-build
 - Service region: Latin America.
 - Primary language: Spanish.
 - DentiMed is assistive software and does not replace a dentist's clinical judgment.
-- DentiMed performance percentages presented as "up to" are product design targets, not audited customer outcomes.
+- The former local DentiMed pages and their pricing and capability claims are retired; use the official product website for current information.
 - Do not describe DentiMed as autonomous medical diagnosis software.
 
 ## Important URLs
 
 - Spanish homepage: https://innovai.click/es/
 - English homepage: https://innovai.click/en/
-- DentiMed Spanish: https://innovai.click/es/dentimed/
-- DentiMed English: https://innovai.click/en/dentimed/
+- Official DentiMed website (Spanish): https://dentimed.app
 - WhatsApp: https://wa.me/59172004767

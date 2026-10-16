@@ -8,7 +8,7 @@ export default defineConfig({
     sitemap({
       filter: (page) => {
         const path = new URL(page).pathname;
-        return path !== '/' && !path.includes('/diariomed/');
+        return path !== '/' && !/\/(?:diariomed|dentimed)\//.test(path);
       },
       i18n: {
         defaultLocale: 'es',

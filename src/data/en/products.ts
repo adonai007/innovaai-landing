@@ -42,7 +42,7 @@ export const products = [
     meta: ['MOBILE-FIRST', 'HUMAN REVIEW', 'DENTAL WORKFLOW'],
     color: 'diariomed' as const,
     cta: 'Explore DentiMed',
-    ctaHref: '/en/dentimed/',
+    ctaHref: 'https://dentimed.app',
     image: '/images/landing/dentist-dictating.webp',
     imageAlt: 'Dentist dictating a voice note between patients',
     secondaryImage: '/images/landing/dentimed-grabacion.png',
