@@ -4,11 +4,14 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://innovai.click',
+  build: {
+    inlineStylesheets: 'always',
+  },
   integrations: [
     sitemap({
       filter: (page) => {
         const path = new URL(page).pathname;
-        return path !== '/' && !path.includes('/diariomed/');
+        return path !== '/' && !path.includes('/diariomed/') && !path.includes('/dentimed/');
       },
       i18n: {
         defaultLocale: 'es',
@@ -28,7 +31,8 @@ export default defineConfig({
     locales: ['es', 'en'],
     routing: {
       prefixDefaultLocale: true,
-      redirectToDefaultLocale: true,
+      // false: src/pages/index.astro renders its own instant redirect to /es/ (Astro's built-in one waits 2 seconds).
+      redirectToDefaultLocale: false,
     },
   },
   vite: {

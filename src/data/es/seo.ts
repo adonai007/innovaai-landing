@@ -1,23 +1,15 @@
+import type { SeoData } from '../types';
+
 export const seo = {
-  organizationDescription:
-    'Estudio boliviano de consultoría, implementación y productos de inteligencia artificial aplicada para empresas en Latinoamérica.',
-  ogImageAlt:
-    'InnovaAI — consultoría e implementación de inteligencia artificial aplicada desde Bolivia',
+  organizationDescription: 'Estudio boliviano de IA aplicada. Construimos herramientas que preparan el trabajo para que tu equipo decida. Creadores de Dicta y DentiMed.',
+  ogImage: '/images/innovaai-og.jpg',
+  ogImageAlt: 'InnovaAI: la IA prepara el trabajo, tu equipo decide.',
   home: {
-    title: 'InnovaAI — Consultoría e Implementación de IA en Bolivia',
-    description:
-      'Consultoría e implementación de IA para empresas en Bolivia y Latinoamérica. Diagnosticamos procesos, prototipamos con datos reales y acompañamos la adopción.',
-    serviceName: 'Consultoría e implementación de IA aplicada',
-    serviceType: 'Consultoría de inteligencia artificial para empresas',
-    serviceDescription:
-      'Diagnóstico de oportunidades, prototipado con datos reales, implementación y adopción de soluciones de inteligencia artificial para empresas.',
+    title: 'InnovaAI · Estudio de IA aplicada en Bolivia',
+    description: 'Estudio boliviano de IA aplicada, creadores de Dicta y DentiMed. Construimos herramientas que preparan el trabajo para que tu equipo decida.',
+    serviceName: 'Diagnóstico, prototipo e implementación de IA aplicada',
+    serviceType: 'Consultoría e implementación de inteligencia artificial',
+    serviceDescription: 'Elegimos una tarea concreta de tu empresa, probamos una herramienta con material real y la dejamos funcionando con tu equipo.',
     audience: 'Empresas en Bolivia y Latinoamérica',
   },
-  dentimed: {
-    title: 'DentiMed — Software Dental con IA y Dictado por Voz',
-    description:
-      'Software dental con IA para convertir voz en historias clínicas FHIR R4, presupuestos y odontogramas. Diseñado para clínicas de Bolivia y Latinoamérica.',
-    audience: 'Clínicas dentales y profesionales de odontología en Latinoamérica',
-    softwareRequirements: 'Navegador moderno y micrófono',
-  },
-};
+} satisfies SeoData;

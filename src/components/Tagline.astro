@@ -1,0 +1,24 @@
+---
+/** 4.7 Tagline: the mantra, three lines, words scrubbed in by scripts/motion/tagline.ts. */
+import type { TaglineData } from '../data/types';
+interface Props { data: TaglineData }
+const { data } = Astro.props;
+---
+
+<section id="resumen" class="section-lg bg-soft" aria-label={data.ariaLabel}>
+  <div class="wrap">
+    <p data-tagline class="max-w-5xl font-display text-display font-semibold text-ink lg:mx-auto lg:text-center">
+      {
+        data.lines.map((line, i) => (
+          <span class:list={['block text-balance', { 'text-action': i === 2 }]}>
+            {line.split(' ').map((word) => (
+              <Fragment>
+                <span data-word>{word}</span>{' '}
+              </Fragment>
+            ))}
+          </span>
+        ))
+      }
+    </p>
+  </div>
+</section>

@@ -1,0 +1,286 @@
+---
+/**
+ * "Bandeja de operaciones": the window mock inside the Ejemplo section (decorative, aria-hidden;
+ * the section carries an sr-only summary). The markup is the FINAL state (everything reviewed,
+ * the WhatsApp reply sent, the log visible). scripts/motion/example.ts renders earlier states from
+ * scroll progress by setting text, chips, counts and data-state attributes only.
+ */
+import Icon from './ui/Icon.astro';
+import type { ExampleData, InboxChip, InboxRow } from '../data/types';
+
+interface Props {
+  inbox: ExampleData['inbox'];
+}
+const { inbox } = Astro.props;
+const [first] = inbox.rows;
+
+const finalChip: Record<InboxRow['id'], InboxChip> = { wa: 'sent', pdf: 'approved', voice: 'approved' };
+const chipClass: Record<InboxChip, string> = { new: 'chip-new', draft: 'chip-draft', approved: 'chip-ok', sent: 'chip-ok' };
+---
+
+<div
+  data-ex-window
+  data-chips={JSON.stringify(inbox.chips)}
+  aria-hidden="true"
+  class="ox relative flex flex-col overflow-hidden rounded-[20px] bg-white font-sans text-ui text-ink shadow-window-dark lg:aspect-[4/3] xl:aspect-[16/11]"
+>
+  {/* title bar */}
+  <div class="flex h-10 shrink-0 items-center gap-2 border-b border-line bg-[#f3f6fa] pr-2 pl-3 max-[389px]:pr-1.5 max-[389px]:pl-2.5 sm:gap-3 sm:pl-4">
+    <span class="hidden shrink-0 gap-1.5 sm:flex">
+      <span class="size-2.5 rounded-full bg-[#d5dde6]"></span>
+      <span class="size-2.5 rounded-full bg-[#d5dde6]"></span>
+      <span class="size-2.5 rounded-full bg-[#d5dde6]"></span>
+    </span>
+    <span class="min-w-0 truncate font-semibold">{inbox.title}</span>
+    <span class="ml-auto flex shrink-0 gap-1">
+      <span class="rounded-full bg-white px-2 py-1 text-[11px] ring-1 ring-line max-[389px]:px-1.5 sm:px-2.5 sm:text-xs">
+        {inbox.tabPending}<span data-ex-count="pending" class="ml-1 font-semibold tabular-nums">0</span>
+      </span>
+      <span class="rounded-full px-2 py-1 text-[11px] text-muted max-[389px]:px-1.5 sm:px-2.5 sm:text-xs">
+        {/* below 390px a check stands in for the word, so the window title is not cut */}
+        <span class="max-[389px]:hidden">{inbox.tabApproved}</span><Icon name="check" class="hidden size-3 align-[-2px] text-ok max-[389px]:inline" /><span data-ex-count="approved" class="ml-1 font-semibold text-ink tabular-nums">3</span>
+      </span>
+    </span>
+  </div>
+
+  <div class="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[46%_minmax(0,1fr)]">
+    {/* list pane */}
+    <ul class="border-b border-line lg:border-r lg:border-b-0">
+      {
+        inbox.rows.map((row, i) => (
+          <li data-ex-row={row.id} data-selected={i === 0 ? '' : undefined} class="ox-row flex gap-3 px-4 py-3">
+            <span class="grid size-8 shrink-0 place-items-center rounded-xl bg-soft ring-1 ring-line/70">
+              <Icon
+                name={row.icon}
+                weight={row.id === 'wa' ? 'fill' : 'regular'}
+                class:list={['size-4', row.id === 'wa' ? 'text-whatsapp' : 'text-muted']}
+              />
+            </span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2">
+                <span data-ex-unread data-off class="ox-unread size-2 shrink-0 rounded-full bg-electric" />
+                <span class="truncate font-semibold">{row.from}</span>
+                <span class="ml-auto shrink-0 text-xs text-muted tabular-nums">{row.time}</span>
+              </div>
+              <p class="hidden truncate text-muted sm:block">
+                {row.channel} · {row.preview}
+              </p>
+              <div class="mt-1 flex min-w-0 items-center gap-2 lg:flex-col lg:items-start lg:gap-1">
+                <span data-ex-chip class:list={['ox-chip chip', chipClass[finalChip[row.id]]]}>
+                  {inbox.chips[finalChip[row.id]]}
+                </span>
+                <span data-ex-summary class="ox-fade flex max-w-full min-w-0 items-center gap-1 text-xs text-action lg:items-start">
+                  <Icon name="sparkle" weight="fill" class="size-3 shrink-0 lg:mt-0.5" />
+                  {/* lg: the narrow list pane lets a summary take two lines instead of cutting it (its space is reserved in every state) */}
+                  <span class="truncate lg:line-clamp-2 lg:whitespace-normal">{row.draftSummary}</span>
+                </span>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* detail pane */}
+    <div data-ex-detail data-state="ready" class="ox-detail bg-soft p-4 pb-[52px] sm:p-5 sm:pb-[56px]">
+      {/* the message being answered: desktop only (fixed-ratio window), opens when the row is selected */}
+      <div data-ex-context class="ox-context hidden lg:grid">
+        <div class="min-h-0 overflow-hidden">
+          <div class="pb-4">
+            <p class="flex items-center gap-1.5 text-xs text-muted">
+              <Icon name={first.icon} weight="fill" class="size-3.5 shrink-0 text-whatsapp" />
+              <span class="font-semibold text-ink">{first.from}</span>
+              <span>·</span>
+              <span>{first.channel}</span>
+              <span class="ml-auto tabular-nums">{first.time}</span>
+            </p>
+            <p class="mt-2 w-fit max-w-[92%] rounded-2xl rounded-tl-md bg-[#edf1f5] px-3 py-2 text-[14px] leading-snug">
+              {first.preview}
+            </p>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs font-medium text-muted">{inbox.replyLabel}</p>
+      <div class="ox-reply mt-2 grid min-h-[104px] rounded-xl bg-white p-4 text-[14px] leading-relaxed ring-1 ring-line">
+        <p class="ox-layer ox-idle text-muted">{inbox.idle}</p>
+        <div class="ox-layer ox-prep">
+          <p class="text-xs font-medium text-action">{inbox.preparing}</p>
+          <span class="mt-2 block h-[3px] overflow-hidden rounded-full bg-sky">
+            <span data-ex-prep class="ox-prep-bar block h-full origin-left rounded-full"></span>
+          </span>
+          <span class="mt-4 block h-2 w-[90%] rounded-full bg-line"></span>
+          <span class="mt-2 block h-2 w-[75%] rounded-full bg-line"></span>
+          <span class="mt-2 block h-2 w-1/2 rounded-full bg-line"></span>
+        </div>
+        <p class="ox-layer ox-text"><span data-ex-before>{inbox.replyBefore}</span><span data-ex-old class="ox-old" hidden>{inbox.replyOld}</span><span data-ex-new class="ox-new rounded bg-sky px-0.5">{inbox.replyNew}</span><span data-ex-after>{inbox.replyAfter}</span></p>
+        {/* reserves the height of the longest state (original draft plus the correction) so the box never jumps */}
+        <p class="ox-ghost invisible">{inbox.replyBefore}{inbox.replyOld} {inbox.replyNew}{inbox.replyAfter}</p>
+      </div>
+      <p data-ex-source class="ox-fade ox-source mt-3 flex gap-1.5 text-xs text-muted">
+        <Icon name="file-text" class="mt-px size-3.5 shrink-0" />
+        <span>{inbox.source}</span>
+      </p>
+      <div data-ex-actions data-state="sent" class="ox-actions ox-fade relative mt-4 grid min-h-7 items-center justify-items-end">
+        <span class="ox-act flex gap-2" data-act="approve">
+          <span class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold ring-1 ring-line">{inbox.edit}</span>
+          <span data-ex-approve class="rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-white">{inbox.approve}</span>
+        </span>
+        <span class="ox-act" data-act="send">
+          <span data-ex-send class="inline-flex items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-white">
+            <Icon name="whatsapp-logo" weight="fill" class="size-3.5 text-whatsapp" />
+            {inbox.send}
+          </span>
+        </span>
+        <span class="ox-act flex items-center gap-1.5 text-xs font-semibold text-ok" data-act="sent">
+          <Icon name="check" class="size-3.5" />
+          {inbox.sent}
+        </span>
+        <span data-ex-ripple class="pointer-events-none absolute top-0 left-0 size-6 rounded-full opacity-0 ring-2 ring-electric"></span>
+      </div>
+    </div>
+  </div>
+
+  {/* log bar */}
+  <div data-ex-log class="absolute inset-x-0 bottom-0 flex h-9 items-center gap-2 border-t border-line bg-white px-4 text-xs text-muted">
+    <Icon name="checks" class="size-4 shrink-0 text-ok" />
+    <span class="truncate">{inbox.log}</span>
+  </div>
+
+  {/* pointer (motion only) */}
+  <span data-ex-cursor class="ox-cursor pointer-events-none absolute top-0 left-0 z-10 size-6 text-ink opacity-0">
+    <Icon name="cursor" weight="fill" class="size-6" />
+  </span>
+</div>
+
+<style>
+  /* rows */
+  .ox-row {
+    transition: background-color 300ms var(--ease-brand);
+  }
+  .ox-row + .ox-row {
+    border-top: 1px solid rgb(216 225 234 / 0.6);
+  }
+  .ox-row[data-selected] {
+    background: var(--color-sky);
+  }
+  .ox-unread {
+    transition:
+      opacity 300ms var(--ease-brand),
+      width 300ms var(--ease-brand),
+      margin 300ms var(--ease-brand);
+  }
+  .ox-unread[data-off] {
+    width: 0;
+    margin-inline-end: -0.5rem;
+    opacity: 0;
+  }
+  .ox-chip {
+    transition:
+      background-color 300ms var(--ease-brand),
+      color 300ms var(--ease-brand);
+  }
+
+  /* generic fade for parts the timeline switches on and off */
+  .ox-fade {
+    transition:
+      opacity 300ms var(--ease-brand),
+      visibility 300ms;
+  }
+  .ox-fade[data-off] {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* context: collapses while nothing is selected */
+  .ox-context {
+    grid-template-rows: 1fr;
+    transition:
+      grid-template-rows 400ms var(--ease-brand),
+      opacity 300ms var(--ease-brand);
+  }
+  .ox-context[data-off] {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
+  /* reply box: idle, preparing and text layers share one grid cell */
+  .ox-reply > * {
+    grid-area: 1 / 1;
+  }
+  .ox-layer {
+    transition:
+      opacity 300ms var(--ease-brand),
+      visibility 300ms;
+  }
+  [data-ex-detail]:not([data-state='idle']) .ox-idle,
+  [data-ex-detail]:not([data-state='preparing']) .ox-prep,
+  [data-ex-detail][data-state='idle'] .ox-text,
+  [data-ex-detail][data-state='preparing'] .ox-text {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .ox-prep-bar {
+    background: var(--gradient-logo);
+  }
+  .ox-old[data-struck] {
+    border-radius: 0.25rem;
+    padding-inline: 0.125rem;
+    background: var(--color-draft-bg);
+    color: var(--color-draft);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+  }
+  .ox-old:not([hidden]) + .ox-new {
+    margin-inline-start: 0.3em;
+  }
+  /* typing caret: at the end of the draft while it is written, after the correction while it is typed */
+  [data-ex-detail][data-state='typing'] .ox-text::after,
+  .ox-new[data-caret]::after {
+    /* an empty inline box (not inline-block), so it never creates a line break before the next character */
+    content: '';
+    margin-inline-start: 1px;
+    border-inline-end: 2px solid var(--color-electric);
+  }
+
+  /* actions: approve, send and sent share one grid cell */
+  .ox-actions > .ox-act {
+    grid-area: 1 / 1;
+    transition:
+      opacity 300ms var(--ease-brand),
+      visibility 300ms;
+  }
+  .ox-actions:not([data-state='approve']) > [data-act='approve'],
+  .ox-actions:not([data-state='send']) > [data-act='send'],
+  .ox-actions:not([data-state='sent']) > [data-act='sent'] {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* phones (sticky stage only): a denser window so the window, the active step and the dots fit in 100svh */
+  @media (max-width: 1023px) and (max-height: 859px) {
+    :global(html.motion) :global(.is-ready) .ox-row {
+      padding-block: 0.5rem;
+    }
+    :global(html.motion) :global(.is-ready) .ox-detail {
+      padding: 0.75rem 0.75rem 3rem;
+    }
+    :global(html.motion) :global(.is-ready) .ox-reply {
+      padding: 0.75rem;
+      line-height: 1.375;
+    }
+    :global(html.motion) :global(.is-ready) .ox-source {
+      display: none;
+    }
+    :global(html.motion) :global(.is-ready) .ox-actions {
+      margin-top: 0.75rem;
+    }
+  }
+
+  .ox-cursor {
+    filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 1px #fff) drop-shadow(0 2px 3px rgb(7 22 40 / 0.35));
+    will-change: transform, opacity;
+  }
+  :global(html.motion) .ox-row {
+    will-change: transform, opacity;
+  }
+</style>

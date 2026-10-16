@@ -1,6 +1,5 @@
 ---
-const targetPath = '/es/dentimed/';
-const target = new URL(targetPath, Astro.site ?? 'https://innovai.click').href;
+const target = 'https://dentimed.app/';
 ---
 
 <!doctype html>
@@ -11,11 +10,7 @@ const target = new URL(targetPath, Astro.site ?? 'https://innovai.click').href;
     <meta http-equiv="refresh" content={`0; url=${target}`} />
     <link rel="canonical" href={target} />
     <title>DentiMed</title>
-    <script is:inline>
-      window.location.replace('/es/dentimed/');
-    </script>
+    <script is:inline>window.location.replace('https://dentimed.app/');</script>
   </head>
-  <body>
-    <a href={target}>Ir a DentiMed</a>
-  </body>
+  <body><a href={target}>Ir a DentiMed</a></body>
 </html>

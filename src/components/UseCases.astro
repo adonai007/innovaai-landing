@@ -1,0 +1,104 @@
+---
+/**
+ * Qué construimos: a bento of concrete tools. The featured card carries a static mini mock
+ * (voice note -> record ready to review); the rest are icon cards. Reveals only.
+ */
+import Icon from './ui/Icon.astro';
+import SectionHead from './ui/SectionHead.astro';
+import type { UseCasesData } from '../data/types';
+
+interface Props {
+  data: UseCasesData;
+}
+const { data } = Astro.props;
+const { featured, items, wide } = data;
+
+/** Static waveform heights in px (SPEC 4.3). */
+const bars = [6, 10, 16, 12, 20, 14, 8, 18, 24, 16, 10, 6, 12, 20, 14, 22, 18, 10, 8, 14, 20, 12, 8, 6];
+const delay = (i: number) => `--reveal-delay:${(i % 3) * 80}ms`;
+---
+
+<section id="que-construimos" class="section bg-soft" aria-labelledby="que-construimos-title">
+  <div class="wrap">
+    <SectionHead head={data.head} titleId="que-construimos-title" />
+
+    <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+      <li
+        data-reveal
+        style={delay(0)}
+        class="flex flex-col justify-between gap-8 rounded-3xl bg-sky p-6 sm:col-span-2 sm:p-8 md:grid md:grid-cols-2 md:items-center lg:col-span-1 lg:row-span-2 lg:flex lg:p-6 xl:p-8"
+      >
+        <div aria-hidden="true" class="rounded-2xl bg-white p-4 text-ui ring-1 ring-line sm:max-w-[28rem] md:order-last md:max-w-none lg:order-none">
+          <div class="flex items-center gap-3 rounded-xl bg-sky/70 p-2.5">
+            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-white text-action">
+              <Icon name="microphone" class="size-4" weight="fill" />
+            </span>
+            <div class="min-w-0">
+              <span class="flex h-6 items-center gap-[3px]">
+                {bars.map((h) => <span class="w-[3px] shrink-0 rounded-full bg-electric" style={`height:${h}px`} />)}
+              </span>
+              <p class="mt-0.5 text-xs text-muted tabular-nums">{featured.demo.audioLabel}</p>
+            </div>
+          </div>
+
+          <Icon name="arrow-down" class="mx-auto my-2 size-4 text-muted" />
+
+          <div class="rounded-xl p-3 ring-1 ring-line">
+            <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
+              <p class="font-semibold">{featured.demo.recordTitle}</p>
+              <span class="chip chip-draft">{featured.demo.chip}</span>
+            </div>
+            {/* lg to xl the card is one narrow bento column: each label sits over its value instead of beside it */}
+            <dl class="mt-2.5 grid grid-cols-[max-content_minmax(0,1fr)] gap-x-4 gap-y-2 border-t border-line pt-2.5 lg:grid-cols-1 xl:grid-cols-[max-content_minmax(0,1fr)]">
+              {
+                featured.demo.rows.map((row) => (
+                  <div class="contents">
+                    <dt class="text-muted">{row.label}</dt>
+                    <dd class="font-medium text-balance lg:-mt-1.5 xl:mt-0">{row.value}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+          </div>
+        </div>
+
+        {/* no icon tile here: the mock above already carries the microphone */}
+        <div>
+          <h3 class="text-h3-lg font-semibold">{featured.title}</h3>
+          <p class="mt-3 max-w-[34rem] text-muted">{featured.body}</p>
+          <p class="mt-6 max-w-[34rem] border-t border-ink/10 pt-4 text-sm text-muted">{featured.footnote}</p>
+        </div>
+      </li>
+
+      {
+        items.map((item, i) => (
+          <li data-reveal style={delay(i + 1)} class="rounded-3xl border border-line bg-white p-6 sm:p-8 lg:p-6 xl:p-8">
+            <span class="grid size-12 place-items-center rounded-2xl bg-sky text-action">
+              <Icon name={item.icon} class="size-6" />
+            </span>
+            {/* two-line minimum from sm, bottom-aligned: bodies start on the same line across each row of cards
+                and a one-line title still sits right above its body */}
+            <h3 class="mt-6 text-xl font-semibold tracking-tight sm:flex sm:min-h-[2.6em] sm:items-end">{item.title}</h3>
+            <p class="mt-2 text-muted">{item.body}</p>
+          </li>
+        ))
+      }
+
+      <li
+        data-reveal
+        style={delay(items.length + 1)}
+        class="rounded-3xl border border-line bg-white p-6 sm:col-span-2 sm:p-8 lg:col-span-3 lg:grid lg:grid-cols-subgrid lg:items-center lg:p-6 xl:p-8"
+      >
+        {/* lg: icon and title sit in the first bento column; the body starts on the text edge of the cards above. */}
+        <div class="lg:flex lg:items-center lg:gap-6">
+          <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-sky text-action">
+            <Icon name={wide.icon} class="size-6" />
+          </span>
+          <h3 class="mt-6 text-xl font-semibold tracking-tight lg:mt-0">{wide.title}</h3>
+        </div>
+        <p class="mt-2 max-w-[34rem] text-muted lg:col-span-2 lg:mt-0 lg:max-w-none lg:pl-[calc(1.5rem+1px)] xl:pl-[calc(2rem+1px)]">{wide.body}</p>
+      </li>
+    </ul>
+    <p class="mt-4 text-xs text-muted">{data.caption}</p>
+  </div>
+</section>

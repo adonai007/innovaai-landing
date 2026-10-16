@@ -21,7 +21,7 @@ Apply the repository-wide guidance from `../copilot-instructions.md`.
 ## Third-party scripts
 
 - Keep the dependency list lean; every added client-side script widens the attack surface and the bundle
-- Prefer trusted, widely-audited libraries (GSAP, tsParticles) already in use. New client dependencies require review
+- Prefer trusted, widely-audited libraries (GSAP, Lenis) already in use. New client dependencies require review
 - When embedding third-party widgets, load them from the vendor's canonical CDN over HTTPS and pin versions
 
 ## Links and forms

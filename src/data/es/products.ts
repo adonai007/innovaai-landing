@@ -1,54 +1,54 @@
-export const productsSection = {
-  badge: 'PRODUCTOS PROPIOS',
-  titleBefore: 'Prueba de que',
-  titleAccent: 'Ejecutamos',
-  subtitle:
-    'No sólo recomendamos IA. Construimos productos completos, los probamos con usuarios y aprendemos de cada flujo real.',
-};
+import type { ProductsData } from '../types';
+import { DENTIMED_URL, DICTA_URL } from '../links';
 
-export const products = [
-  {
-    name: 'Dicta',
-    eyebrow: 'PRODUCTIVIDAD PERSONAL',
-    tagline: 'Hablas. El texto aparece donde está tu cursor.',
-    description:
-      'Dictado por voz para Windows que funciona dentro de tus aplicaciones. Usa F9, elige el nivel de procesamiento y sigue trabajando sin cambiar de ventana.',
-    bullets: [
-      'Push-to-talk y manos libres',
-      'Modos Crudo, Limpio, Pulido e Inteligente',
-      'Español e inglés con traducción',
-      'Cliente nativo ligero para Windows',
-    ],
-    meta: ['WINDOWS', 'ES + EN', '4 MODOS'],
-    color: 'dicta' as const,
-    cta: 'Conocer Dicta',
-    ctaHref: 'https://dicta-web.onrender.com',
-    image: '/images/landing/dicta-product.png',
-    imageAlt: 'Landing y demostración real del producto Dicta',
-    visualLabel: 'DICTADO EN CUALQUIER APP',
+export const products = {
+  head: {
+    eyebrow: 'Nuestros productos',
+    title: 'Construimos lo que recomendamos.',
+    intro: 'Dicta y DentiMed son nuestros. Hacerlos nos enseña lo que de verdad cuesta llevar IA al trabajo diario: los errores, la privacidad y que la gente quiera usarla.',
   },
-  {
+  dentimed: {
     name: 'DentiMed',
-    eyebrow: 'SALUD · ODONTOLOGÍA',
-    tagline: 'De una nota de voz a una atención lista para cerrar.',
-    description:
-      'Un asistente mobile-first para odontólogos. La doctora dicta lo ocurrido y revisa un borrador con procedimientos, cobro, presupuesto, próxima cita y seguimiento.',
+    eyebrow: 'Para odontólogos',
+    tagline: 'Tu asistente prepara la ficha, tú confirmas.',
+    body: 'Dictas al terminar la atención y DentiMed prepara el borrador de la nota clínica, los procedimientos por pieza, el cobro, el presupuesto y la próxima cita. Nada se guarda sin tu aprobación.',
     bullets: [
-      'Dictado entre paciente y paciente',
-      'Borrador clínico revisable',
-      'Cobros y presupuestos estructurados',
-      'Seguimiento preparado para WhatsApp',
+      'Dictado desde la ficha del paciente',
+      'Procedimientos por pieza y superficie, con tu arancel',
+      'Próxima cita en un horario libre, que reservas con un toque',
+      'Mensaje de WhatsApp listo, que envías tú',
     ],
-    meta: ['MOBILE-FIRST', 'REVISIÓN HUMANA', 'FLUJO DENTAL'],
-    color: 'diariomed' as const,
-    cta: 'Explorar DentiMed',
-    ctaHref: '/es/dentimed/',
-    image: '/images/landing/dentist-dictating.webp',
-    imageAlt: 'Odontóloga dictando una nota de voz entre pacientes',
-    secondaryImage: '/images/landing/dentimed-grabacion.png',
-    secondaryImageAlt: 'Pantalla real de grabación de DentiMed',
-    tertiaryImage: '/images/landing/dentimed-borrador.png',
-    tertiaryImageAlt: 'Borrador real con cobro y procedimientos en DentiMed',
-    visualLabel: 'CIERRE CLÍNICO ASISTIDO',
+    meta: 'Desde el navegador del teléfono · Piloto para fundadores',
+    cta: { label: 'Conocer DentiMed', href: DENTIMED_URL, external: true, srHint: '(abre dentimed.app en una pestaña nueva)' },
+    imageAlt: 'Una odontóloga saluda a una paciente en la recepción mientras otro paciente sonríe mirando su teléfono.',
+    chip: { title: 'Borrador de la atención', detail: 'José Pérez · pieza 36', draft: 'Borrador', approved: 'Aprobado' },
   },
-];
+  dicta: {
+    name: 'Dicta',
+    eyebrow: 'Dictado por voz',
+    tagline: 'Hablas y el texto aparece donde está tu cursor.',
+    body: 'Una aplicación liviana para tu computadora. Mantienes F9, hablas y el texto se escribe en la aplicación que tengas abierta.',
+    bullets: [
+      'Mantén F9 para hablar o tócalo dos veces para manos libres',
+      'Funciona donde puedas escribir',
+      'Quita las muletillas al transcribir',
+      'Español e inglés',
+    ],
+    meta: 'Para Windows y Linux · Empieza gratis',
+    cta: { label: 'Conocer Dicta', href: DICTA_URL, external: true, srHint: '(abre el sitio de Dicta en una pestaña nueva)' },
+    mock: {
+      windowTitle: 'Nuevo mensaje',
+      to: 'Para: Equipo de ventas',
+      subject: 'Asunto: Pedido del viernes',
+      text: 'Hola equipo, el pedido del viernes sale a las 10:00. Por favor confirmen el stock antes del jueves.',
+      pillIdle: 'Presiona F9 y habla',
+      pillListening: 'Escuchando... (F9)',
+    },
+  },
+  caption: 'Datos de demostración.',
+  next: {
+    title: 'El próximo puede ser para tu equipo.',
+    body: 'Si una tarea se repite todos los días en tu empresa, conversemos.',
+    cta: 'Cuéntanos tu caso',
+  },
+} satisfies ProductsData;

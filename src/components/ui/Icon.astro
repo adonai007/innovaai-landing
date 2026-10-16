@@ -1,0 +1,21 @@
+---
+/** Phosphor icon, inlined at build time (MIT, @phosphor-icons/core). Decorative unless `label` is set. */
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import type { IconName } from '../../data/types';
+
+interface Props {
+  name: IconName;
+  class?: string;
+  label?: string;
+  weight?: 'regular' | 'fill';
+}
+const { name, class: className = 'size-5', label, weight = 'regular' } = Astro.props;
+
+const file = weight === 'regular' ? `${name}.svg` : `${name}-${weight}.svg`;
+const raw = readFileSync(join(process.cwd(), 'node_modules/@phosphor-icons/core/assets', weight, file), 'utf8');
+const attrs = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true" focusable="false"';
+const svg = raw.replace('<svg ', `<svg class="${className}" ${attrs} `);
+---
+
+<Fragment set:html={svg} />

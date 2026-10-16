@@ -1,13 +1,18 @@
+import type { NavigationData } from '../types';
+import { LINKEDIN_URL } from '../links';
+
 export const navigation = {
-  logo: 'InnovaAI',
+  homeLabel: 'InnovaAI, back to top',
+  navLabel: 'Main',
   links: [
-    { label: 'Implementation', href: '#servicios' },
+    { label: 'What we build', href: '#que-construimos' },
     { label: 'Products', href: '#productos' },
-    { label: 'Process', href: '#proceso' },
+    { label: 'How we work', href: '#como-trabajamos' },
     { label: 'Questions', href: '#preguntas' },
   ],
-  cta: 'Free Diagnostic',
-  ctaHref: '#contacto',
-  menuLabel: 'Open menu',
-  closeLabel: 'Close menu',
-};
+  lang: { short: 'ES', long: 'Español', href: '/es/', hreflang: 'es', ariaLabel: 'ES, leer esta página en español' },
+  menuOpen: 'Open menu',
+  menuClose: 'Close menu',
+  menuTitle: 'Menu',
+  linkedin: { label: 'InnovaAI on LinkedIn', href: LINKEDIN_URL, external: true },
+} satisfies NavigationData;

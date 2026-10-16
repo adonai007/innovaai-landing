@@ -1,33 +1,27 @@
-const whatsappNumber = '59172004767';
-const diagnosticMessage =
-  'Hi Adonai, I would like to book a free diagnostic session to identify a practical AI use case for my company.';
+import type { HeroData } from '../types';
 
 export const hero = {
-  eyebrow: 'APPLIED AI STUDIO · BOLIVIA',
-  headlineBefore: 'AI Working in Your Business in',
-  headlineAccent: 'Weeks,',
-  headlineAfter: 'Not Months.',
-  subheadline:
-    'InnovaAI is a Bolivian applied AI studio. We diagnose your operation, select the highest-impact use case, and build a useful solution around your real processes, data, and team.',
-  ctaPrimary: 'Book a Free Diagnostic',
-  ctaPrimaryHref: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(diagnosticMessage)}`,
-  ctaSecondary: 'See Our Products',
-  ctaSecondaryHref: '#productos',
-  note: 'No cost and no commitment — a direct conversation about your operation.',
-  metrics: [
-    { value: '17+', label: 'years in enterprise technology' },
-    { value: '2', label: 'in-house products built on real workflows' },
-    { value: '100%', label: 'Latin American focus' },
-  ],
-  visual: {
-    eyebrow: 'IN-HOUSE PRODUCTS',
-    title: 'We build what we recommend.',
-    description:
-      'Dicta and DentiMed turn voice and everyday workflows into finished work.',
-    dictaLabel: 'Dicta · Voice to Text',
-    dictaAlt: 'Real view of Dicta, InnovaAI’s voice dictation product',
-    dentimedLabel: 'DentiMed · Clinical Close',
-    dentimedAlt: 'Real mobile recording screen from DentiMed',
-    status: 'Applied AI for real work',
+  eyebrow: 'Applied AI studio in Bolivia',
+  title: 'AI prepares the work. Your team decides.',
+  lead: 'Together we pick the task where your team loses the most time, and we build a tool that prepares it: drafts, records and replies ready to review. The decision stays with your people.',
+  ctaSecondary: { label: 'See an example', href: '#ejemplo' },
+  reassurance: 'The first conversation takes 30 minutes, costs nothing and can be in Spanish or English.',
+  photoAlt: 'A person points at a process diagram drawn on paper, next to a laptop.',
+  draft: {
+    ariaLabel: 'Example with demo data: a sales voice note becomes an order ready to review.',
+    badge: 'Prepared by AI',
+    statusDraft: 'Draft',
+    statusApproved: 'Approved',
+    title: 'Order for Ana Quispe',
+    source: 'From a voice note by Luis · 0:42',
+    fields: [
+      { label: 'Order', value: '12 boxes' },
+      { label: 'Delivery', value: 'This Friday' },
+      { label: 'To confirm', value: 'October price list' },
+    ],
+    approve: 'Approve',
+    approved: 'Approved by you',
+    undo: 'Undo',
+    approvedNote: 'Done. The order has been recorded.',
   },
-};
+} satisfies HeroData;

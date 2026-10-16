@@ -1,0 +1,26 @@
+---
+/** Secondary action: underlined text link with a nudging arrow. */
+import Icon from './Icon.astro';
+interface Props {
+  href: string;
+  label: string;
+  icon?: 'arrow-right' | 'arrow-down' | 'arrow-up-right';
+  external?: boolean;
+  hint?: string;
+  hreflang?: string;
+  lang?: string;
+  class?: string;
+}
+const { href, label, icon = 'arrow-right', external = false, hint, hreflang, lang, class: className = '' } = Astro.props;
+const nudge = { 'arrow-right': 'nudge-x', 'arrow-down': 'nudge-y', 'arrow-up-right': 'nudge-ne' }[icon];
+---
+<a
+  href={href}
+  class:list={['link-arrow', className]}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  hreflang={hreflang}
+  lang={lang}
+>
+  {label}<Icon name={icon} class={`size-4 shrink-0 ${nudge}`} />{external && hint && <span class="sr-only"> {hint}</span>}
+</a>
