@@ -42,7 +42,7 @@ export const products = [
     meta: ['MOBILE-FIRST', 'REVISIÓN HUMANA', 'FLUJO DENTAL'],
     color: 'diariomed' as const,
     cta: 'Explorar DentiMed',
-    ctaHref: '/es/dentimed/',
+    ctaHref: 'https://dentimed.app',
     image: '/images/landing/dentist-dictating.webp',
     imageAlt: 'Odontóloga dictando una nota de voz entre pacientes',
     secondaryImage: '/images/landing/dentimed-grabacion.png',

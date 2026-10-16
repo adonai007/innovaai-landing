@@ -56,7 +56,7 @@ const { lang, nav } = Astro.props;
     </button>
   </nav>
 
-  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true" inert>
     <div class="mobile-menu-inner">
       <div class="mobile-links">
         {nav.links.map((link, index) => (
@@ -84,13 +84,103 @@ const { lang, nav } = Astro.props;
 
   if (navbar && toggle && menu) {
     let isOpen = false;
+    let previousFocus: HTMLElement | null = null;
+    let bodyWasLocked = false;
+    let openingFocusFrame = 0;
+    const backgroundState = new Map<HTMLElement, boolean>();
+    const dialogAttributes = new Map<string, string | null>();
+    const desktopViewport = window.matchMedia('(min-width: 768px)');
+
+    const focusableElements = () =>
+      [...navbar.querySelectorAll<HTMLElement>('a[href], button, input, select, textarea, [tabindex]')]
+        .filter((element) =>
+          element.tabIndex >= 0 &&
+          !element.matches(':disabled') &&
+          !element.closest('[inert]') &&
+          element.getClientRects().length > 0 &&
+          getComputedStyle(element).visibility !== 'hidden',
+        );
+
+    const focusFirstLink = () => {
+      const firstLink = focusableElements().find((element) => menu.contains(element));
+      (firstLink ?? toggle).focus({ preventScroll: true });
+    };
+
+    const focusWhenVisible = () => {
+      const deadline = performance.now() + 500;
+      const attempt = () => {
+        openingFocusFrame = 0;
+        if (!isOpen) return;
+        if (getComputedStyle(menu).visibility === 'visible') focusFirstLink();
+        else if (performance.now() < deadline) openingFocusFrame = requestAnimationFrame(attempt);
+      };
+      // At transition time zero visibility can still be hidden; wait for its first painted frame.
+      openingFocusFrame = requestAnimationFrame(attempt);
+    };
+
+    const focusDestination = (element: HTMLElement) => {
+      // Sections need a temporary focus target so keyboard navigation follows the chosen anchor.
+      if (element.tabIndex < 0 && !element.hasAttribute('tabindex')) {
+        element.setAttribute('tabindex', '-1');
+        element.addEventListener('blur', () => element.removeAttribute('tabindex'), { once: true });
+      }
+      element.focus({ preventScroll: true });
+    };
 
     const syncScroll = () => {
       navbar.classList.toggle('is-scrolled', window.scrollY > 28);
     };
 
-    const setMenu = (open: boolean) => {
+    const setMenu = (open: boolean, destination?: HTMLElement) => {
+      if (open === isOpen || (open && desktopViewport.matches)) return;
       isOpen = open;
+
+      if (open) {
+        // The toggle is the opener even in browsers that do not focus buttons on pointer clicks.
+        previousFocus = toggle;
+        bodyWasLocked = document.body.classList.contains('menu-lock');
+        for (const name of ['role', 'aria-modal', 'aria-label']) {
+          dialogAttributes.set(name, navbar.getAttribute(name));
+        }
+        navbar.setAttribute('role', 'dialog');
+        navbar.setAttribute('aria-modal', 'true');
+        navbar.setAttribute('aria-label', toggle.dataset.closedLabel || '');
+        menu.inert = false;
+        // Exclude only branches outside this menu, preserving any existing inert state.
+        let branch: HTMLElement | null = navbar;
+        while (branch && branch !== document.body) {
+          const parent: HTMLElement | null = branch.parentElement;
+          if (!parent) break;
+          for (const sibling of parent.children) {
+            if (sibling instanceof HTMLElement && sibling !== branch) {
+              backgroundState.set(sibling, sibling.inert);
+              sibling.inert = true;
+            }
+          }
+          branch = parent;
+        }
+        document.body.classList.add('menu-lock');
+      } else {
+        cancelAnimationFrame(openingFocusFrame);
+        openingFocusFrame = 0;
+        for (const [element, wasInert] of backgroundState) element.inert = wasInert;
+        backgroundState.clear();
+        for (const [name, value] of dialogAttributes) {
+          if (value === null) navbar.removeAttribute(name);
+          else navbar.setAttribute(name, value);
+        }
+        dialogAttributes.clear();
+        document.body.classList.toggle('menu-lock', bodyWasLocked);
+
+        const returnTarget = previousFocus?.isConnected && previousFocus.getClientRects().length
+          ? previousFocus
+          : navbar.querySelector<HTMLElement>('.brand-link');
+        // Move focus before hiding its current menu ancestor from assistive technology.
+        if (destination) focusDestination(destination);
+        else returnTarget?.focus({ preventScroll: true });
+        menu.inert = true;
+      }
+
       navbar.classList.toggle('menu-open', open);
       menu.setAttribute('aria-hidden', String(!open));
       toggle.setAttribute('aria-expanded', String(open));
@@ -100,7 +190,7 @@ const { lang, nav } = Astro.props;
           ? toggle.dataset.openLabel || ''
           : toggle.dataset.closedLabel || '',
       );
-      document.body.classList.toggle('menu-lock', open);
+      if (open) focusWhenVisible();
     };
 
     syncScroll();
@@ -108,20 +198,47 @@ const { lang, nav } = Astro.props;
     window.addEventListener('pageshow', syncScroll);
     toggle.addEventListener('click', () => setMenu(!isOpen));
 
-    menu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => setMenu(false));
+    navbar.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (!isOpen) return;
+        const url = new URL(link.href, window.location.href);
+        let destination: HTMLElement | undefined;
+        if (url.origin === location.origin && url.pathname === location.pathname && url.search === location.search && url.hash) {
+          try {
+            destination = document.getElementById(decodeURIComponent(url.hash.slice(1))) ?? undefined;
+          } catch {
+            // A malformed fragment can still use the browser's normal link navigation.
+          }
+        }
+        setMenu(false, destination);
+      });
     });
 
     window.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && isOpen) {
+      if (!isOpen) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
         setMenu(false);
-        toggle.focus();
+      } else if (event.key === 'Tab') {
+        const elements = focusableElements();
+        const first = elements[0] ?? toggle;
+        const last = elements[elements.length - 1] ?? toggle;
+        const active = document.activeElement;
+        if (!elements.some((element) => element === active) || (event.shiftKey ? active === first : active === last)) {
+          event.preventDefault();
+          (event.shiftKey ? last : first).focus({ preventScroll: true });
+        }
       }
     });
 
-    window.addEventListener('resize', () => {
-      if (window.innerWidth >= 768 && isOpen) setMenu(false);
+    document.addEventListener('focusin', (event) => {
+      if (isOpen && event.target instanceof Node && !navbar.contains(event.target)) focusFirstLink();
     });
+
+    desktopViewport.addEventListener('change', () => {
+      if (desktopViewport.matches && isOpen) setMenu(false);
+    });
+    window.addEventListener('pagehide', () => setMenu(false));
   }
 </script>
 
@@ -371,6 +488,19 @@ const { lang, nav } = Astro.props;
     .mobile-actions :global(.language-switch),
     .mobile-actions :global(.mobile-cta) {
       width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-rail,
+    .mobile-menu,
+    .mobile-toggle span,
+    .brand-link img {
+      transition: none;
+    }
+
+    .brand-link:hover img {
+      transform: none;
     }
   }
 </style>

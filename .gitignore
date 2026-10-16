@@ -8,3 +8,4 @@ dist/
 .mcp.json
 .atl/
 .claude/
+.codex_tmp/

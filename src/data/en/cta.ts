@@ -35,7 +35,7 @@ export const footer = {
       title: 'Products',
       links: [
         { label: 'Dicta', href: 'https://dicta-web.onrender.com' },
-        { label: 'DentiMed', href: '/en/dentimed/' },
+        { label: 'DentiMed', href: 'https://dentimed.app' },
       ],
     },
     {

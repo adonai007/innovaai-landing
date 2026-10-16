@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
 import Hero from '../../components/Hero.astro';
+import CinematicStory from '../../components/CinematicStory.astro';
 import TrustBar from '../../components/TrustBar.astro';
 import Services from '../../components/Services.astro';
 import Products from '../../components/Products.astro';
@@ -14,6 +15,7 @@ import Footer from '../../components/Footer.astro';
 
 import { navigation } from '../../data/en/navigation';
 import { hero } from '../../data/en/hero';
+import { cinema } from '../../data/en/cinema';
 import { trustBar } from '../../data/en/trust';
 import { servicesSection, services } from '../../data/en/services';
 import { productsSection, products } from '../../data/en/products';
@@ -78,8 +80,9 @@ const structuredData = [
   mainEntityId={serviceId}
 >
   <Navbar lang="en" nav={navigation} />
-  <main>
+  <main id="contenido" tabindex="-1">
     <Hero hero={hero} />
+    <CinematicStory cinema={cinema} />
     <TrustBar trust={trustBar} />
     <Services section={servicesSection} services={services} />
     <Products section={productsSection} products={products} />

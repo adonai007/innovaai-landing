@@ -4,7 +4,7 @@
 
 Canonical domain: https://innovai.click/
 
-Last updated: 2026-07-16
+Last updated: 2026-10-15
 
 InnovaAI helps companies identify, prototype, implement, and adopt practical artificial intelligence solutions using their real processes and data. Spanish is the primary language; English pages are translations of the Spanish source.
 
@@ -12,8 +12,7 @@ InnovaAI helps companies identify, prototype, implement, and adopt practical art
 
 - [Spanish homepage](https://innovai.click/es/): Applied AI consulting and implementation for companies in Bolivia and Latin America.
 - [English homepage](https://innovai.click/en/): English version of the InnovaAI company landing page.
-- [DentiMed Spanish](https://innovai.click/es/dentimed/): AI dental software with voice dictation, FHIR R4 records, treatment plans, and an FDI odontogram.
-- [DentiMed English](https://innovai.click/en/dentimed/): English version of the DentiMed product page.
+- [Official DentiMed website](https://dentimed.app): Spanish-language website for the dental assistant, with its current capabilities and demo contact.
 
 ## What InnovaAI Does
 
@@ -27,13 +26,14 @@ InnovaAI helps companies identify, prototype, implement, and adopt practical art
 ## Products
 
 - Dicta: voice dictation and instant translation for daily work.
-- DentiMed: voice-powered dental software for clinics in Latin America, with reviewable FHIR R4 records, treatment plans, a digital odontogram, and patient follow-up.
+- DentiMed: a mobile-first assistant for dentists that prepares reviewable drafts from dictation, including clinical notes, procedures, payments, estimates, a proposed next appointment, and follow-up.
 
 ## Citation Notes
 
 - InnovaAI is based in Bolivia and serves Latin America.
-- DentiMed requires human review before a clinical record is saved.
-- Percentages described as "up to" on the DentiMed page are product design targets, not audited customer outcomes.
+- DentiMed requires professional review and confirmation before clinical or financial work is finalized.
+- WhatsApp follow-up is prepared for a person to review and send; it is not sent automatically.
+- The local /es/dentimed/, /en/dentimed/, /es/diariomed/, and /en/diariomed/ pages now direct visitors to the official DentiMed website. Their former pricing and capability claims are retired.
 - Do not describe DentiMed as autonomous medical diagnosis software.
 
 ## Contact

@@ -1,0 +1,77 @@
+{
+  "campaign": "InnovaAI · Menos Repetición. Más Criterio.",
+  "created": "2026-10-15",
+  "generationProvider": "Higgsfield",
+  "reference": "https://github.com/midudev/mcp-higgsfield-landing/tree/da1bbe693ef1939794662e96c0ba6571e9c3f418",
+  "referenceUsage": "General design and delivery patterns only. No source or assets copied.",
+  "images": {
+    "model": "gpt_image_2_5",
+    "quality": "high",
+    "resolution": "2k",
+    "aspectRatio": "16:9",
+    "openingOffice": "44143928-3a1d-42fb-a93a-f49d7762b585",
+    "voiceAndHero": "b08e2cae-0638-4a84-ad15-96e9d6033f86",
+    "organizedWork": "45ef3b0e-dad1-4f32-94aa-10d85de0c1c2"
+  },
+  "clips": [
+    {
+      "jobId": "925f701b-fbe5-4cd8-8473-5d387d2953e0",
+      "model": "minimax_h3",
+      "duration": 5,
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "medias": [
+        {
+          "role": "start_image",
+          "value": "44143928-3a1d-42fb-a93a-f49d7762b585"
+        }
+      ],
+      "prompt": "Single continuous photoreal cinematic shot beginning precisely at this frame. Office above a vibrant Latin American city at blue hour. Camera makes a smooth very slow lateral push toward desk, maintain rear view of same person and preserve exact furniture and city. Person methodically reviews a printed document, sets it down, types a few keys on laptop, then stops and looks thoughtfully toward screen. Hands anatomically natural. Capture real repetitive manual work elegantly. City traffic lights move far below, windows sparkle, subtle living background. The scene stays mostly calm, no time lapse. In final second a thin emerald light gently wakes along desk edge as a promise of change; no holographic effects yet. Luxury minimalist big-budget film lighting, vivid rich blue city and warm amber highlights, realistic reflections. No new people, no face closeup, no readable text, no letters or logos, no cuts, no morphing. No spoken words or music."
+    },
+    {
+      "jobId": "bbbe5792-c7a7-4f17-9cb9-413a5f7c4556",
+      "model": "minimax_h3",
+      "duration": 5,
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "medias": [
+        {
+          "role": "start_image",
+          "value": "c7688068-7445-4bfe-bf76-ab2d377eac94"
+        },
+        {
+          "role": "end_image",
+          "value": "b08e2cae-0638-4a84-ad15-96e9d6033f86"
+        }
+      ],
+      "prompt": "A spectacular but elegant SINGLE CONTINUOUS cinematic transformation between these exact office keyframes. Keep same person and city, desk, lamp and architecture absolutely consistent. Person stops typing, sits back slightly and speaks a short natural instruction toward laptop, viewed from behind, no lip close-up. As he speaks, delicate luminous musical waveform ribbons bloom from voice into the space above desk in vivid emerald green, mint and electric blue, flowing with a graceful rhythmic pulse. The ribbons branch with clear intentional movement to exactly three thin glass workflow panels that gradually assemble, representing context, automation and agent-prepared work. Panels use abstract shapes only, NEVER words or letters. Rich green-blue light reflects naturally on desk, sleeves and glass. Papers stay physical and still. Vibrant city traffic continues gently behind him. Smooth slow camera shift to settle precisely into last keyframe. Impact comes from meaningful coordination, refined realistic materials and magnificent light, NOT chaotic sparks or explosions. Minimal premium brand-film aesthetic. No cuts, no morphing furniture, no new people or logos, no spoken soundtrack or music."
+    },
+    {
+      "jobId": "cd726835-970f-47b0-ae4e-736f87e5d25a",
+      "model": "minimax_h3",
+      "duration": 5,
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "medias": [
+        {
+          "role": "start_image",
+          "value": "039e78a1-5a7d-4465-8bf8-90eb0f19457a"
+        },
+        {
+          "role": "end_image",
+          "value": "45ef3b0e-dad1-4f32-94aa-10d85de0c1c2"
+        }
+      ],
+      "prompt": "Final continuous shot of the same cinematic office transformation. Begin EXACTLY at first keyframe and conclude at final frame. Same man, clothing, desk, laptop, lamps, office and vibrant city. The emerald and electric-blue voice ribbons gracefully settle; three thin glass workflow panels align horizontally over the desk in a precise sequence. A small pulse travels along the connections from one panel to next, expressing automation and agent-prepared work. Their simple abstract rows organize into a calm final view; NO text, no fake letters. The laptop softly lights up with the same abstract interface in final frame. The person leans slightly forward, reviews the prepared information, then rests one hand naturally on trackpad: human judgment, no magical autonomous approval. Neat paper stack stays physical. Slow refined camera movement gently settles, no cuts. Intense but tasteful green-blue reflections, glowing city and warm interior, luxury minimalist technology film, realistic anatomy/materials. Final frame holds with calm confidence. Do not add people, spoken words, logos, watermarks, excessive particles or flashes. No music or spoken soundtrack."
+    }
+  ],
+  "delivery": {
+    "format": "H.264 MP4, no audio, yuv420p, BT709, 24fps, faststart",
+    "desktop": "1920x1080, CRF24, GOP6",
+    "mobile": "768x1024, CRF26, GOP4",
+    "posters": "WebP from first decoded encoded frame",
+    "hero": "Voice-stage master still, responsive WebP",
+    "behavior": "Scroll seeking, poster fallback, bounded sequential loading, reduced-motion and save-data exclusions"
+  },
+  "clinicalData": "No real patient data or clinical records used."
+}
