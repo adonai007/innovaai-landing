@@ -17,6 +17,8 @@ export function initMotion() {
   gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
   setLenis(lenis);
+  // scripts outside this chunk (cinema.ts) announce page height changes after load
+  addEventListener('layout:refresh', () => ScrollTrigger.refresh());
   initHeroMotion();
   initExample();
   initTagline();

@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Hero from '../../components/Hero.astro';
+import CinematicStory from '../../components/CinematicStory.astro';
 import Example from '../../components/Example.astro';
 import UseCases from '../../components/UseCases.astro';
 import Products from '../../components/Products.astro';
@@ -17,6 +18,7 @@ import { navigation } from '../../data/en/navigation';
 import { footer } from '../../data/en/footer';
 import { seo } from '../../data/en/seo';
 import { hero } from '../../data/en/hero';
+import { cinema } from '../../data/en/cinema';
 import { example } from '../../data/en/example';
 import { useCases } from '../../data/en/use-cases';
 import { products } from '../../data/en/products';
@@ -99,6 +101,7 @@ const structuredData = [
   <Header nav={navigation} site={site} />
   <main id="contenido">
     <Hero data={hero} site={site} />
+    <CinematicStory data={cinema} />
     <Example data={example} />
     <UseCases data={useCases} />
     <Products data={products} site={site} />

@@ -135,8 +135,11 @@ const schema = {
         d.classList.remove('no-js');
         d.classList.add('js');
         var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var sd = navigator.connection && navigator.connection.saveData;
+        var c = navigator.connection;
+        var sd = c && c.saveData;
         d.classList.add(rm || sd ? 'still' : 'motion');
+        // 2G: the cinematic chapter never builds its tall tracks (no layout shift when its script arrives late)
+        if (c && /(^|-)2g$/.test(c.effectiveType || '')) d.classList.add('slow-net');
       })();
     </script>
     <link rel="preload" href={outfitLatin} as="font" type="font/woff2" crossorigin />

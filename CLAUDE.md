@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Bilingual marketing landing for **InnovaAI**, an applied AI studio in Bolivia and the parent brand of DentiMed and Dicta. Calm, light design that reads as the family of dentimed.app: soft background with night sections, a floating dark glass pill header, real people and readable HTML mockups. Built as a static Astro site, deployed on Render. Hosts the company landing and a standalone pitch deck.
+Bilingual marketing landing for **InnovaAI**, an applied AI studio in Bolivia and the parent brand of DentiMed and Dicta. Calm, light design that reads as the family of dentimed.app: soft background with night sections, a floating dark glass pill header, real people and readable HTML mockups, plus one dark cinematic chapter (the owner's scroll-scrubbed voice-to-work story) right after the hero. Built as a static Astro site, deployed on Render. Hosts the company landing and a standalone pitch deck.
 
 **Live**: https://innovai.click
 
@@ -40,9 +40,21 @@ The deck is a static asset under `public/`, copied verbatim to `dist/deck/` on b
 - **Icons**: Phosphor via `src/components/ui/Icon.astro` (reads `@phosphor-icons/core` SVGs at build time; names typed as `IconName` in `src/data/types.ts`).
 - **Shared primitives** in `src/components/ui/`: `Icon`, `Logo` (dark surfaces only), `WhatsAppCta`, `LinkArrow`, `SectionHead`.
 - **Data**: per-section files in `src/data/{es,en}/*.ts`, each typed in `src/data/types.ts` and ending with `satisfies <Type>`. Tuples enforce ES/EN parity. Locale-neutral URLs live in `src/data/links.ts`.
-- **Scripts**: `src/scripts/main.ts` always loads (header CTA, dialog menu, hero card, reveals, product demos). GSAP, ScrollTrigger and Lenis are dynamically imported from `src/scripts/motion/index.ts` only under `html.motion`. **No particles.**
-- **Motion modes**: an inline script in `Layout.astro` swaps `no-js` for `js` and adds `motion` or `still` (reduced motion or Save-Data). The default markup is the final static state; hidden or initial states exist only under `html.motion`, `html.motion.reveal-ready` and `html.motion [data-story].is-ready`.
+- **Scripts**: `src/scripts/main.ts` always loads (header CTA, dialog menu, hero card, reveals, product demos). GSAP, ScrollTrigger and Lenis are dynamically imported from `src/scripts/motion/index.ts` only under `html.motion`. `src/scripts/cinema.ts` is the cinematic chapter's own module (imported by `CinematicStory.astro`, no GSAP). **No particles.**
+- **Motion modes**: an inline script in `Layout.astro` swaps `no-js` for `js` and adds `motion` or `still` (reduced motion or Save-Data), plus `slow-net` on 2G (the cinematic chapter then stays static). The default markup is the final static state; hidden or initial states exist only under `html.motion`, `html.motion.reveal-ready`, `html.motion [data-story].is-ready` and `html.motion:not(.slow-net) .cinema:not(.is-static)` (screens taller than 37.5625em). Controls that only work with the script (the chapter bar) ship with the `hidden` attribute and the script reveals them.
 - **i18n**: Astro native. `defaultLocale: 'es'`, `locales: ['es','en']`, `prefixDefaultLocale: true`, `redirectToDefaultLocale: false` (`src/pages/index.astro` does the instant redirect to `/es/`). See `astro.config.mjs`.
+- **Page order** (`src/pages/{es,en}/index.astro`): Hero (soft) → CinematicStory `#historia` (night, photographic) → Example `#ejemplo` (night) → UseCases → Products → HowWeWork → Principles → Tagline → Audience → FAQ → Closing, then the Footer. Keep two identical backgrounds from sitting next to each other; the only exception is cinema → Example, which is one dark act joined by the chapter's closing caption and a hairline.
+
+## Cinematic chapter (`#historia`)
+
+The owner's brand film brief is `docs/creative/innovai-brand-film.md` (with `media-files.json`, `media-production.json`, `review-findings.md`, `validation.md`); `docs/creative/**` and `public/cinema/**` are read-only.
+
+- **Assets**: `public/cinema/scene-{1,2,3}-{desktop,mobile}.{mp4,webp}`: three 5s silent H.264 clips with a WebP poster each, desktop 1920x1080 and a portrait crop 768x1024. `opening-{desktop,mobile}.webp` is the old cinematic hero cover and is not rendered (the light hero stays).
+- **Data**: `src/data/{es,en}/cinema.ts` (`CinemaData`, a tuple of exactly 3 scenes). Scene titles are two lines split on `\n`; the second line renders in teal. Keep the owner's wording; only case and punctuation follow the copy rules.
+- **Component**: `CinematicStory.astro`. A slim band (eyebrow plus the skip `LinkArrow` to `#productos`), three scenes (`<picture>` poster, `<video>`, a night scrim, the copy in `.wrap`), a chapter bar (three teal progress segments, the scroll hint and the pause pill in header glass) sticky to the viewport bottom, and the closing caption over a `white/10` hairline. The bar is visible only while a scene stage is pinned (`.is-active`, set by the script) or while the pause pill has keyboard focus, so it never sits on copy that is scrolling in or on an unscrimmed frame. The portrait crop (`(max-width: 767px), (max-aspect-ratio: 1/1)`) puts the copy at the bottom; that query is repeated in the component's CSS and passed to the script through `data-portrait`. In that crop phones see about 60% of the clip width, so each scene's `data-focus` (start and end horizontal focus, `PORTRAIT_FOCUS` in the component) lets the script pan `--focus-x` with progress; static and no-JS keep 25%.
+- **Layout is CSS-first**: under `html.motion:not(.slow-net)` on screens taller than 37.5625em (601px at the default font size; media query ems follow the visitor's default text size) each scene is a 165svh track with a sticky 100lvh stage; the copy column is 100svh and clears the header pill (`--pill-clear`) and the bar. Without JS, under `html.still` or `html.slow-net`, on short screens or when the script adds `.is-static` (a preference or network change after load, or copy enlarged beyond its pinned frame), the posters and copy sit in normal flow.
+- **Script** (`src/scripts/cinema.ts`): once the visitor scrolls after `load` + 600ms it fetches the nearest clip within 400px as a Blob (a visitor who never scrolls downloads none, and a download is cancelled when its scene ends up more than a viewport away), primes it with a muted play/pause, and seeks `currentTime` from scroll (it never plays). Plain `scroll` events work with Lenis, which scrolls the window natively. The pause pill stops seeking and loading; progress keeps updating. A ResizeObserver on each scene's copy checks that it fits its pinned frame and falls back to `.is-static` when it does not. When the static state changes after load it dispatches `layout:refresh` on `window`, which the motion chunk answers with `ScrollTrigger.refresh()` so the Ejemplo below re-measures.
+- **Verification note**: Playwright's bundled Chromium cannot decode H.264. To screenshot scrubbed frames, copy VP9-in-MP4 stand-ins over the clips inside a private build output only, never in `public/cinema/`.
 
 ## Key directories
 
@@ -58,14 +70,16 @@ src/
 │   └── en/                     # English copy: every es/*.ts MUST have an en/*.ts twin
 ├── layouts/Layout.astro        # base HTML: meta, Open Graph, hreflang, canonical, JSON-LD graph, mode script
 ├── pages/                      # /es/, /en/, redirect stubs, robots.txt
-├── scripts/                    # main.ts entry, header, reveals, hero card, product demos
+├── scripts/                    # main.ts entry, header, reveals, hero card, product demos, cinema.ts, state.ts
 │   └── motion/                 # dynamic chunk: GSAP, ScrollTrigger, Lenis, hero, example, tagline
 └── styles/global.css           # @theme tokens + Tailwind entry + components layer
 public/
+├── cinema/                     # cinematic chapter clips and posters (read-only media)
 ├── deck/                       # standalone pitch deck (HTML + JS + CSS)
 ├── downloads/                  # product binaries (unlinked)
 ├── images/                     # OG image, logo files, favicons
 └── llms.txt, llms-full.txt     # summaries for LLMs (keep in sync with the copy)
+docs/creative/                  # owner's brand film brief and media records (read-only)
 ```
 
 ## i18n contract
@@ -95,7 +109,7 @@ All tokens are in `src/styles/global.css` `@theme {}`:
 **Rules:**
 - One button style: `.btn.btn-primary` (blue), always the WhatsApp CTA with one label ("Conversemos por WhatsApp" / "Let's talk on WhatsApp"). Every secondary action is a `.link-arrow`.
 - Teal appears only on dark surfaces. Text on dark uses white with opacity steps, never below `white/60`.
-- Gradients exist in only three places: the wordmark "AI" (`.wm-ai`), the Ejemplo progress rail and the "Preparando borrador" bar.
+- Gradients exist in only three places: the wordmark "AI" (`.wm-ai`), the Ejemplo progress rail and the "Preparando borrador" bar. The night scrims over the cinematic photos are image scrims for legibility and seams, not decorative gradients; the chapter's progress segments are solid teal.
 - Flat and calm: no glows, particles, grids, neon or text gradients. Shadows (`shadow-pill`, `shadow-window`, `shadow-float`) only on the header and floating mock UI; section cards never get a shadow.
 - Glass uses the Tailwind utilities `backdrop-blur-lg backdrop-saturate-150`; never hand-write `backdrop-filter`.
 - Radii: `rounded-full` buttons and chips, `rounded-island` (40px) hero photo on lg, `rounded-[2rem]` product cards, `rounded-3xl` cards, `rounded-2xl` tiles and mock cards, `rounded-[28%]` logo tile.
@@ -107,7 +121,7 @@ All tokens are in `src/styles/global.css` `@theme {}`:
 1. Add the type to `src/data/types.ts`, then `src/data/es/<section>.ts` and `src/data/en/<section>.ts` ending with `satisfies <Type>`.
 2. Create `src/components/<Section>.astro` with `interface Props` that imports the type only. Take all copy as props.
 3. Use `SectionHead` for the eyebrow, h2 and intro, and give the `<section>` an `id` plus `aria-labelledby="{id}-title"`. Dark sections add `.on-dark`.
-4. Add `data-reveal` to the heading block and cards (stagger with `style="--reveal-delay:…"`). Never on the hero or inside the sticky Ejemplo stage.
+4. Add `data-reveal` to the heading block and cards (stagger with `style="--reveal-delay:…"`). Never on the hero, inside the sticky Ejemplo stage or anywhere in the cinematic chapter.
 5. Import and render it in both `src/pages/es/index.astro` and `src/pages/en/index.astro`. Keep two identical backgrounds from sitting next to each other.
 
 ## Brand voice rules
@@ -123,9 +137,9 @@ All tokens are in `src/styles/global.css` `@theme {}`:
 ## Animation hooks
 
 - `data-reveal` fades and rises elements in once (IntersectionObserver in `src/scripts/reveals.ts`, gated by `html.motion.reveal-ready`).
-- Scroll-scrubbed motion lives in `src/scripts/motion/` (hero parallax, the Ejemplo sticky timeline, the tagline words). Each module imports `gsap` and `ScrollTrigger` itself. Scrubbed tweens use `ease: 'none'`.
+- Scroll-scrubbed motion lives in `src/scripts/motion/` (hero parallax, the Ejemplo sticky timeline, the tagline words). Each module imports `gsap` and `ScrollTrigger` itself. Scrubbed tweens use `ease: 'none'`. The cinematic clips are scrubbed by `src/scripts/cinema.ts` without GSAP (see the cinematic chapter above); any script outside the motion chunk that changes page height after load dispatches `layout:refresh` on `window`.
 - One easing curve everywhere (`--ease-brand`, `ease-brand`) and three durations: 300ms (hover, chips, header CTA), 400 to 500ms (menu, burger, FAQ plus), 900ms (reveals).
-- Reduced motion and Save-Data get `html.still`: no GSAP or Lenis chunk loads and everything renders in its final state. Don't author animations that bypass the mode classes.
+- Reduced motion and Save-Data get `html.still`: no GSAP or Lenis chunk loads, no cinematic clip is requested, and everything renders in its final state (2G gets `html.slow-net`: the cinematic chapter stays static and requests no clip). Don't author animations that bypass the mode classes.
 
 ## Deploy pipeline
 

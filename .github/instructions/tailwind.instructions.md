@@ -25,7 +25,7 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all styl
 - Prefer utility-first Tailwind classes in the template
 - The components layer in `global.css` defines `.wrap`, `.section`, `.section-lg`, `.eyebrow`, `.section-intro`, `.on-dark`, `.btn`, `.btn-primary`, `.btn-sm`, `.btn-lg`, `.link-arrow`, `.text-link`, `.chip-*` and `.wm-ai`; reuse them verbatim
 - One button style (`btn-primary`); every secondary action is a `.link-arrow`
-- Gradients only for the wordmark "AI", the Ejemplo progress rail and the "Preparando borrador" bar. No glows, particles, text gradients or neon. Shadows only on the header and floating mock UI
+- Gradients only for the wordmark "AI", the Ejemplo progress rail and the "Preparando borrador" bar. The night scrims over the cinematic photos are image scrims for legibility, not decorative gradients. No glows, particles, text gradients or neon. Shadows only on the header and floating mock UI
 - Glass: use `backdrop-blur-lg backdrop-saturate-150`; never hand-write `backdrop-filter`
 - Do not use `@apply` in component scoped styles; motion selectors are written `:global(html.motion) .x`
 
@@ -40,5 +40,5 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all styl
 ## Animations
 
 - One curve (`ease-brand`) and three durations: 300ms (hover, chips), 400 to 500ms (menu, burger, FAQ), 900ms (reveals)
-- Hidden or initial states exist only under `html.motion` (and `html.motion.reveal-ready` for `data-reveal`), so no-JS and reduced motion always show the final state
-- Static CSS transitions handle hovers and focus states; GSAP is reserved for the scroll-scrubbed modules in `src/scripts/motion/`
+- Hidden or initial states exist only under `html.motion` (and `html.motion.reveal-ready` for `data-reveal`, `html.motion:not(.slow-net) .cinema:not(.is-static)` for the cinematic tracks), so no-JS and reduced motion always show the final state. Script-only controls (the cinematic chapter bar) ship with the `hidden` attribute and the script reveals them
+- Static CSS transitions handle hovers and focus states; GSAP is reserved for the scroll-scrubbed modules in `src/scripts/motion/` (the cinematic clips are scrubbed by `src/scripts/cinema.ts` without GSAP)

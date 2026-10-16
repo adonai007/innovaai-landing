@@ -4,7 +4,7 @@ export type IconName =
   | 'whatsapp-logo' | 'arrow-down' | 'arrow-right' | 'arrow-up-right' | 'check' | 'check-circle' | 'checks'
   | 'plus' | 'x' | 'list' | 'microphone' | 'file-pdf' | 'file-text' | 'list-checks' | 'magnifying-glass'
   | 'tray-arrow-down' | 'chat-circle-text' | 'chalkboard-teacher' | 'flow-arrow' | 'user-check' | 'lock-key'
-  | 'map-pin' | 'linkedin-logo' | 'sparkle' | 'envelope-simple' | 'cursor';
+  | 'map-pin' | 'linkedin-logo' | 'sparkle' | 'envelope-simple' | 'cursor' | 'pause' | 'play';
 
 export interface Link { label: string; href: string; external?: boolean; hreflang?: Locale }
 export interface SectionHead { eyebrow: string; title: string; intro?: string }
@@ -38,6 +38,17 @@ export interface HeroData {
     ariaLabel: string; badge: string; statusDraft: string; statusApproved: string; title: string; source: string;
     fields: [LabelValue, LabelValue, LabelValue]; approve: string; approved: string; undo: string; approvedNote: string;
   };
+}
+
+/** Cinematic chapter: one scroll-scrubbed clip per scene (public/cinema/scene-{n}-{desktop,mobile}.{mp4,webp}). */
+export interface CinemaScene {
+  id: 'rutina' | 'voz' | 'criterio'; number: string; eyebrow: string;
+  /** two lines separated by "\n"; the second one is the accent line */
+  title: string; description: string; alt: string; note: string;
+}
+export interface CinemaData {
+  label: string; intro: string; skip: Link; motionOff: string; motionOn: string; scroll: string; concept: string;
+  scenes: [CinemaScene, CinemaScene, CinemaScene];
 }
 
 export type InboxChip = 'new' | 'draft' | 'approved' | 'sent';

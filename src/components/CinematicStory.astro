@@ -1,53 +1,130 @@
 ---
+/**
+ * Historia: the cinematic chapter between the hero and the Ejemplo (owner's brief: docs/creative/innovai-brand-film.md).
+ * Three scenes, each a poster (<picture>) under a 5s clip that scripts/cinema.ts scrubs from scroll.
+ *
+ * Default markup = final static state: posters and copy in normal flow (no JS, html.still, short screens).
+ * The tall sticky tracks are CSS-first: they exist only under html.motion (not html.slow-net, set on 2G) on
+ * screens taller than 37.5625em (601px at the default font size; ems follow the visitor's text size), and
+ * cinema.ts adds .is-static when a constraint only JS can see applies (a preference or network change, copy
+ * enlarged beyond its pinned frame).
+ * The chapter bar (progress and pause) needs the script, so it ships hidden; cinema.ts reveals it and shows it
+ * only while a stage is pinned (.is-active) or the pause pill has keyboard focus.
+ * Nothing in here uses data-reveal, and no ancestor of a stage may clip overflow (sticky).
+ */
+import Icon from './ui/Icon.astro';
+import LinkArrow from './ui/LinkArrow.astro';
+import type { CinemaData } from '../data/types';
+
 interface Props {
-  cinema: {
-    label: string;
-    intro: string;
-    skip: string;
-    motionOff: string;
-    motionOn: string;
-    scroll: string;
-    concept: string;
-    scenes: { id: string; number: string; eyebrow: string; title: string; description: string; alt: string; note: string }[];
-  };
+  data: CinemaData;
 }
-const { cinema } = Astro.props;
+const { data } = Astro.props;
+/* Portrait crop (768x1024 poster and clip, copy at the bottom). Repeated literally in the media queries below. */
+const PORTRAIT = '(max-width: 767px), (max-aspect-ratio: 1/1)';
+/* Portrait crop pan per scene, horizontal focus in % at progress 0 and 1 (cinema.ts eases between them).
+   Phones only see about 60% of the 768px clip width: scene 2 follows the voice wave to the three panels,
+   scene 3 starts on that same frame and settles on the person reviewing at the laptop beside the organized panels. */
+const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
 ---
 
-<section id="historia" class="cinema" aria-label={cinema.label}>
-  <div class="cinema-heading">
-    <span>{cinema.intro}</span>
-    <a href="#productos">{cinema.skip}<span aria-hidden="true"> ↗</span></a>
+<section id="historia" class="cinema on-dark bg-night" aria-label={data.label} data-cinema data-portrait={PORTRAIT}>
+  <div class="cinema-head wrap">
+    <p class="eyebrow">{data.intro}</p>
+    <LinkArrow href={data.skip.href} label={data.skip.label} icon="arrow-down" />
   </div>
-  <div class="cinema-controls" hidden>
-    <button type="button" data-motion-toggle data-on={cinema.motionOn} data-off={cinema.motionOff} aria-pressed="false">
-      <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1v10M9 1v10" stroke="currentColor" stroke-width="2" /></svg>
-      <span>{cinema.motionOff}</span>
-    </button>
-  </div>
-  {cinema.scenes.map((scene, index) => (
-    <article id={scene.id} class="cinema-scene" data-scene={index}>
-      <div class="scene-stage">
-        <picture class="scene-picture">
-          <source media="(max-width: 767px)" srcset={`/cinema/scene-${index + 1}-mobile.webp`} width="768" height="1024" />
-          <img src={`/cinema/scene-${index + 1}-desktop.webp`} width="1920" height="1080" alt={scene.alt} loading="lazy" decoding="async" />
-        </picture>
-        <video class="scene-video" muted playsinline preload="none" tabindex="-1" aria-hidden="true"
-          data-desktop={`/cinema/scene-${index + 1}-desktop.mp4`}
-          data-mobile={`/cinema/scene-${index + 1}-mobile.mp4`} />
-        <div class="scene-shade" aria-hidden="true"></div>
-        <div class="scene-copy">
-          <p class="scene-eyebrow"><span>{scene.number}</span> {scene.eyebrow}</p>
-          <h2>{scene.title.split('\n').map((line) => <span>{line}</span>)}</h2>
-          <p class="scene-description">{scene.description}</p>
-          <p class="scene-note"><span aria-hidden="true"></span>{scene.note}</p>
+
+  <div class="cinema-track">
+    {
+      data.scenes.map((scene, index) => (
+        <article
+          id={scene.id}
+          class="cinema-scene"
+          data-scene={index}
+          data-focus={PORTRAIT_FOCUS[index]}
+          aria-labelledby={`${scene.id}-title`}
+        >
+          <div class="scene-stage" data-scene-stage>
+            <picture class="scene-media">
+              <source media={PORTRAIT} srcset={`/cinema/scene-${index + 1}-mobile.webp`} width="768" height="1024" />
+              <img
+                src={`/cinema/scene-${index + 1}-desktop.webp`}
+                width="1920"
+                height="1080"
+                alt={scene.alt}
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+            <video
+              class="scene-video"
+              muted
+              playsinline
+              disablepictureinpicture
+              preload="none"
+              tabindex="-1"
+              aria-hidden="true"
+              data-desktop={`/cinema/scene-${index + 1}-desktop.mp4`}
+              data-mobile={`/cinema/scene-${index + 1}-mobile.mp4`}
+            />
+            <div class="scene-shade" aria-hidden="true" />
+            <div class="scene-frame wrap" data-scene-frame>
+              <div class="scene-copy" data-scene-copy>
+                <p class="flex items-center gap-3">
+                  <span class="font-display text-sm font-semibold text-teal tabular-nums">{scene.number}</span>
+                  <span class="h-px w-6 bg-white/25" aria-hidden="true" />
+                  <span class="eyebrow">{scene.eyebrow}</span>
+                </p>
+                <h2 id={`${scene.id}-title`} class="mt-4 text-h2 font-semibold">
+                  {scene.title.split('\n').map((line, i) => (
+                    <span class:list={['block', { 'text-teal': i > 0 }]}>{line}</span>
+                  ))}
+                </h2>
+                <p class="mt-5 max-w-[30rem] text-lead text-white/75">{scene.description}</p>
+                <p class="mt-8 flex items-center gap-2.5 text-sm font-medium text-white/85">
+                  <span class="size-1.5 shrink-0 rounded-full bg-teal" aria-hidden="true" />
+                  {scene.note}
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+
+    <div class="cinema-bar" data-cinema-controls hidden>
+      {/* desktop: one cluster at the right, clear of the copy column */}
+      <div class="wrap flex items-center justify-between gap-6 sm:justify-end">
+        <div class="flex min-w-0 items-center gap-5" aria-hidden="true">
+          <span class="hidden truncate text-sm text-white/60 sm:block">{data.scroll}</span>
+          <span class="flex shrink-0 gap-1.5">
+            {
+              data.scenes.map((_, i) => (
+                <span class="cinema-seg" style={`--seg: var(--cinema-p${i}, 0)`}>
+                  <span />
+                </span>
+              ))
+            }
+          </span>
         </div>
-        <div class="scene-foot" aria-hidden="true"><span>{cinema.scroll}</span><span>{scene.number} / 03</span></div>
-        <div class="scene-progress" aria-hidden="true"></div>
+        <button
+          type="button"
+          class="cinema-toggle inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-night/75 px-4 font-display text-sm font-medium text-white/85 ring-1 ring-white/15 backdrop-blur-lg backdrop-saturate-150 transition-[color,box-shadow] duration-300 ease-brand ring-inset hover:text-white hover:ring-white/35"
+          data-motion-toggle
+          data-on={data.motionOn}
+          data-off={data.motionOff}
+        >
+          <Icon name="pause" weight="fill" class="icon-pause size-3.5" />
+          <Icon name="play" weight="fill" class="icon-play size-3.5" />
+          <span data-motion-label>{data.motionOff}</span>
+        </button>
       </div>
-    </article>
-  ))}
-  <p class="cinema-caption">{cinema.concept}</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <p class="border-b border-white/10 py-8 text-sm text-white/60">{data.concept}</p>
+  </div>
 </section>
 
 <script>
@@ -55,53 +132,183 @@ const { cinema } = Astro.props;
 </script>
 
 <style>
-  .cinema { position: relative; background: #03080d; }
-  .cinema-heading { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.2rem; padding: 1.6rem max(1.25rem, calc((100vw - 1380px)/2)); border-block: 1px solid #ffffff15; }
-  .cinema-heading span, .cinema-heading a, .scene-eyebrow, .scene-foot, .scene-note { font-family: var(--font-mono); font-size: .67rem; letter-spacing: .13em; }
-  .cinema-heading > span { color: #85a49b; }
-  .cinema-heading a { color: #dcece7; letter-spacing: 0; }
-  .cinema-controls { position: sticky; top: 5.7rem; z-index: 8; height: 0; display: flex; justify-content: flex-end; padding-right: max(1.25rem, calc((100vw - 1380px)/2)); }
-  .cinema-controls[hidden] { display: none; }
-  .cinema-controls button { display: flex; align-items: center; gap: .55rem; min-height: 44px; border: 1px solid #ffffff35; border-radius: 99px; padding: .6rem .85rem; background: #04100ee6; color: #d2e2dd; font-size: .7rem; cursor: pointer; }
-  .cinema-scene { position: relative; min-height: 100svh; }
-  .scene-stage { min-height: 100svh; position: relative; overflow: clip; isolation: isolate; display: flex; align-items: center; }
-  .scene-picture, .scene-picture img, .scene-video, .scene-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .scene-picture img, .scene-video { object-fit: cover; object-position: 62% center; }
-  .scene-video { opacity: 0; transition: opacity .3s; }
-  .scene-video.is-ready { opacity: 1; }
-  .scene-shade { background: linear-gradient(90deg,#02070be8 0%,#02070bd1 28%,#02070b45 60%,transparent 100%),linear-gradient(0deg,#03080dd9,transparent 30%); }
-  .scene-copy { position: relative; z-index: 2; width: min(100% - 3rem, 1380px); margin: 0 auto; padding: 7rem 0; }
-  .scene-eyebrow { display: flex; gap: 1rem; align-items: center; color: #96d7bd; margin: 0 0 2rem; }
-  .scene-eyebrow span { color: #fff; display: inline-grid; place-items: center; width: 2rem; height: 2rem; border: 1px solid #85c6a84d; border-radius: 50%; letter-spacing: 0; }
-  h2 { font-size: clamp(2.6rem,4.8vw,5.2rem); letter-spacing: -.055em; line-height: 1.04; max-width: 12ch; margin: 0; text-wrap: balance; }
-  h2 span { display: block; }
-  h2 span:last-child { color: #a0eec6; }
-  .scene-description { max-width: 35ch; margin: 1.8rem 0 0; color: #d2dce0; line-height: 1.75; font-size: clamp(.93rem,1.1vw,1.1rem); }
-  .scene-note { display: flex; align-items: center; gap: .6rem; margin-top: 2.1rem; color: #b6cac2; letter-spacing: 0; max-width: 35rem; }
-  .scene-note > span { width: 5px; height: 5px; border-radius: 50%; background: #4ade80; flex-shrink: 0; }
-  .scene-foot { position: absolute; bottom: 2rem; left: max(1.5rem, calc((100vw - 1380px)/2)); right: max(1.5rem, calc((100vw - 1380px)/2)); display: none; justify-content: space-between; color: #adbbb9; font-size: .6rem; text-transform: uppercase; }
-  .scene-progress { position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; transform: scaleX(var(--scene-progress,0)); transform-origin: left; background: linear-gradient(90deg,#22c55e,#3b82f6); }
-  .cinema-caption { text-align: center; color: #a5b6b0; font-size: .75rem; padding: 1.5rem; margin: 0; border-block: 1px solid #ffffff10; }
-  .cinema:global(.has-motion) .cinema-scene { height: 165svh; }
-  .cinema:global(.has-motion) .scene-stage { position: sticky; top: 0; height: 100svh; }
-  .cinema:global(.has-motion) .scene-foot { display: flex; }
-  @media (max-width: 767px) {
-    .cinema-heading { padding: 1.2rem; }
-    .cinema-heading span, .cinema-heading a { font-size: .6rem; }
-    .cinema-controls { top: 5.3rem; padding-right: 1rem; }
-    .scene-stage { align-items: flex-end; min-height: 780px; min-height: max(780px,100svh); }
-    .scene-copy { width: calc(100% - 2.5rem); padding: 24rem 0 5rem; }
-    .scene-shade { background: linear-gradient(0deg,#02070b 0%,#02070bea 26%,#02070b70 51%,#02070b00 75%); }
-    h2 { max-width: 15ch; font-size: clamp(2.35rem,9vw,3.9rem); }
-    .scene-eyebrow { margin-bottom: 1.3rem; font-size: .58rem; gap: .7rem; }
-    .scene-description { font-size: .89rem; max-width: 39ch; margin-top: 1.3rem; }
-    .scene-note { font-size: .6rem; margin-top: 1.4rem; }
-    .scene-picture img,.scene-video { object-position: center; }
-    .cinema:global(.has-motion) .cinema-scene { height: max(1150px,155svh); }
-    .cinema:global(.has-motion) .scene-stage { height: max(780px,100svh); }
+  /* ---------- static: each scene is a full-screen poster with its copy, in normal flow ---------- */
+  .cinema-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 1.5rem;
+    padding-block: 1.25rem;
+  }
+  .scene-stage {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    display: flex;
+    min-height: 100svh;
+  }
+  .scene-media,
+  .scene-media img,
+  .scene-video,
+  .scene-shade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .scene-media img,
+  .scene-video {
+    object-fit: cover;
+    object-position: 62% 50%;
+  }
+  .scene-video {
+    opacity: 0;
+    transition: opacity 300ms var(--ease-brand);
+  }
+  .scene-video.is-ready {
+    opacity: 1;
+  }
+  /* Image scrims in night (not decorative gradients): a reading column on the left, and night at the top
+     and bottom edges so the band above, the next scene and the closing band meet the photo without a seam. */
+  .scene-shade {
+    background:
+      linear-gradient(90deg, rgb(7 22 40 / 0.94) 0%, rgb(7 22 40 / 0.82) 26%, rgb(7 22 40 / 0.35) 52%, rgb(7 22 40 / 0) 72%),
+      linear-gradient(
+        180deg,
+        rgb(7 22 40) 0%,
+        rgb(7 22 40 / 0.7) 6%,
+        rgb(7 22 40 / 0.3) 12%,
+        rgb(7 22 40 / 0) 20%,
+        rgb(7 22 40 / 0) 64%,
+        rgb(7 22 40 / 0.35) 80%,
+        rgb(7 22 40 / 0.75) 91%,
+        rgb(7 22 40) 100%
+      );
+  }
+  /* The copy column clears the floating header pill at the top and the chapter bar at the bottom. */
+  .scene-frame {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+    padding-top: calc(var(--pill-clear) + 1.5rem);
+    padding-bottom: var(--frame-pb, 4rem);
+  }
+  .scene-copy {
+    max-width: 34rem;
+  }
+
+  /* ---------- chapter bar: progress per scene and the pause control (sticky to the viewport bottom) ---------- */
+  .cinema-track {
+    position: relative;
+  }
+  .cinema-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    height: 5rem;
+    margin-top: -5rem;
+    padding-bottom: env(safe-area-inset-bottom);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 300ms var(--ease-brand);
+  }
+  /* shown while a stage is pinned over its bottom scrim (cinema.ts), or while the pause pill has keyboard focus
+     (separate rules, so a browser without :has still gets the first one) */
+  .cinema-bar.is-active {
+    opacity: 1;
+  }
+  .cinema-bar:has(:focus-visible) {
+    opacity: 1;
+  }
+  .cinema-bar.is-active .cinema-toggle {
+    pointer-events: auto;
+  }
+  .cinema-seg {
+    position: relative;
+    overflow: hidden;
+    width: 2rem;
+    height: 2px;
+    border-radius: 2px;
+    background: rgb(255 255 255 / 0.2);
+  }
+  .cinema-seg > span {
+    position: absolute;
+    inset: 0;
+    background: var(--color-teal);
+    transform-origin: left;
+    transform: scaleX(var(--seg, 0));
+  }
+  .cinema-toggle:not([data-paused]) :global(.icon-play),
+  .cinema-toggle[data-paused] :global(.icon-pause) {
+    display: none;
+  }
+
+  /* ---------- motion: tall track per scene, sticky stage scrubbed by scripts/cinema.ts ---------- */
+  /* 37.5625em = 601px at the default font size; keep in sync with tallViewport in cinema.ts */
+  @media screen and (min-height: 37.5625em) {
+    :global(html.motion:not(.slow-net)) .cinema:not(.is-static) {
+      --frame-pb: 7rem;
+    }
+    :global(html.motion:not(.slow-net)) .cinema:not(.is-static) .cinema-scene {
+      height: 165svh;
+    }
+    /* the photo covers the large viewport; the copy column lives in the small one, so a browser toolbar never hides it */
+    :global(html.motion:not(.slow-net)) .cinema:not(.is-static) .scene-stage {
+      position: sticky;
+      top: 0;
+      height: 100lvh;
+      min-height: 0;
+    }
+    :global(html.motion:not(.slow-net)) .cinema:not(.is-static) .scene-frame {
+      height: 100svh;
+      min-height: 0;
+    }
+  }
+
+  /* ---------- portrait crop: copy at the bottom over a scrim that rises from it ---------- */
+  @media (max-width: 767px), (max-aspect-ratio: 1/1) {
+    /* the person sits in the left third of the portrait clips: keep the head in frame on narrow phones;
+       in motion cinema.ts pans --focus-x toward each scene's payoff */
+    .scene-media img,
+    .scene-video {
+      object-position: var(--focus-x, 25%) 50%;
+    }
+    .scene-shade {
+      background:
+        linear-gradient(180deg, rgb(7 22 40) 0%, rgb(7 22 40 / 0.6) 6%, rgb(7 22 40 / 0) 16%),
+        linear-gradient(0deg, rgb(7 22 40) 0%, rgb(7 22 40 / 0.92) 32%, rgb(7 22 40 / 0.5) 54%, rgb(7 22 40 / 0) 72%);
+    }
+    .scene-frame {
+      align-items: flex-end;
+    }
+    .scene-copy {
+      max-width: 36rem;
+    }
+  }
+
+  /* reduced motion or Save-Data: posters only, even if a clip was decoded before the preference changed */
+  :global(html.still) .scene-video {
+    display: none;
   }
   @media (prefers-reduced-motion: reduce) {
-    .scene-video { display: none; }
-    .scene-foot { display: none !important; }
+    .scene-video {
+      display: none;
+    }
+  }
+
+  @media print {
+    .scene-stage,
+    .scene-frame {
+      min-height: 0;
+    }
+    .scene-video,
+    .cinema-bar {
+      display: none;
+    }
   }
 </style>

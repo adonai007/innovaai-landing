@@ -25,7 +25,7 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all comp
 
 - Reach for `client:*` directives only when interactivity cannot be done with plain CSS or a tiny inline script
 - Prefer `client:visible` for below-the-fold widgets, `client:idle` for non-critical interactivity, `client:load` only when the component must be ready on first paint
-- The site uses no framework islands. Client behaviour lives in plain TypeScript under `src/scripts/` (imported once from `Layout.astro`); motion code is dynamically imported only under `html.motion`
+- The site uses no framework islands. Client behaviour lives in plain TypeScript under `src/scripts/` (`main.ts` imported once from `Layout.astro`; the cinematic chapter's `cinema.ts` imported by `CinematicStory.astro`); motion code is dynamically imported only under `html.motion`
 
 ## Data flow
 
@@ -35,8 +35,9 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all comp
 
 ## Animations and assets
 
-- Entrance reveals use the `data-reveal` attribute. Scroll-scrubbed motion lives in `src/scripts/motion/`; do not inline GSAP calls inside components
-- The default markup must be the final static state; hidden or initial states exist only under `html.motion`
+- Entrance reveals use the `data-reveal` attribute (never in the cinematic chapter). Scroll-scrubbed motion lives in `src/scripts/motion/`, except the cinematic clips, which `src/scripts/cinema.ts` scrubs without GSAP; do not inline GSAP calls inside components
+- The default markup must be the final static state; hidden or initial states exist only under `html.motion` (the cinematic tracks under `html.motion:not(.slow-net) .cinema:not(.is-static)`). Script-only controls, like the cinematic chapter bar, ship with the `hidden` attribute and the script reveals them
+- A script that changes the page height after load dispatches `layout:refresh` on `window`, so the motion chunk can call `ScrollTrigger.refresh()`
 - Use Astro's `<Image />` or `<Picture />` with images in `src/assets/`; keep only the OG image, favicons and the deck in `public/`
 
 ## SEO and metadata

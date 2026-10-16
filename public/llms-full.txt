@@ -30,6 +30,14 @@ Spanish is the primary language; English pages are translations of the Spanish s
 - **Your data, with clear rules.** From the design stage we decide who has access, what is stored, for how long and with which providers. Not everything needs to be stored.
 - **Built for how work happens here.** In Spanish, on the channels your team already uses, like WhatsApp, and with a scope that makes sense for your budget.
 
+## Brand story
+
+A silent, conceptual scroll sequence on the homepage, right after the introduction: a vision of what InnovaAI can design with a client, not a recording of a client implementation.
+
+01. **The city moves forward. Your work can, too.** Search, copy, type it again: small repetitive tasks take up the space that big ideas deserve.
+02. **One instruction. Everything starts to connect.** Voice provides the context, automations connect the tasks and agents prepare the next step.
+03. **Fewer steps. More room to decide.** The workflow is designed around the team: organized information, work prepared and decisions that remain the team's. AI prepares; a person reviews and confirms.
+
 ## Example workflow
 
 An illustrative example with demo data: an operations inbox where AI prepares and a person decides.
