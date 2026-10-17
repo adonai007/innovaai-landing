@@ -1,54 +1,54 @@
-export const productsSection = {
-  badge: 'IN-HOUSE PRODUCTS',
-  titleBefore: 'Proof that We',
-  titleAccent: 'Execute',
-  subtitle:
-    'We do more than recommend AI. We build complete products, test them with users, and learn from every real workflow.',
-};
+import type { ProductsData } from '../types';
+import { DENTIMED_URL, DICTA_URL } from '../links';
 
-export const products = [
-  {
-    name: 'Dicta',
-    eyebrow: 'PERSONAL PRODUCTIVITY',
-    tagline: 'You speak. Text appears wherever your cursor is.',
-    description:
-      'Voice dictation for Windows that works inside your applications. Press F9, choose the processing level, and keep working without switching windows.',
-    bullets: [
-      'Push-to-talk and hands-free modes',
-      'Raw, Clean, Polish, and Smart modes',
-      'Spanish and English with translation',
-      'Lightweight native Windows client',
-    ],
-    meta: ['WINDOWS', 'ES + EN', '4 MODES'],
-    color: 'dicta' as const,
-    cta: 'Discover Dicta',
-    ctaHref: 'https://dicta-web.onrender.com',
-    image: '/images/landing/dicta-product.png',
-    imageAlt: 'Real landing page and product demonstration for Dicta',
-    visualLabel: 'DICTATION IN ANY APP',
+export const products = {
+  head: {
+    eyebrow: 'Our products',
+    title: 'We build what we recommend.',
+    intro: 'Dicta and DentiMed are ours. Building them teaches us what it really takes to bring AI into daily work: errors, privacy and getting people to want to use it.',
   },
-  {
+  dentimed: {
     name: 'DentiMed',
-    eyebrow: 'HEALTHCARE · DENTISTRY',
-    tagline: 'From one voice note to a visit ready to close.',
-    description:
-      'A mobile-first assistant for dentists. The doctor dictates what happened and reviews a draft with procedures, payment, estimate, next appointment, and follow-up.',
+    eyebrow: 'For dentists',
+    tagline: 'Your assistant prepares the chart. You confirm.',
+    body: 'You dictate when the visit ends and DentiMed prepares a draft of the clinical note, procedures by tooth, payment, treatment estimate and next appointment. Nothing is saved without your approval.',
     bullets: [
-      'Dictation between patients',
-      'Reviewable clinical draft',
-      'Structured payments and estimates',
-      'Follow-up prepared for WhatsApp',
+      "Dictation from the patient's chart",
+      'Procedures by tooth and surface, priced from your fee schedule',
+      'Next appointment in a free slot, booked with one tap',
+      'WhatsApp message ready, sent by you',
     ],
-    meta: ['MOBILE-FIRST', 'HUMAN REVIEW', 'DENTAL WORKFLOW'],
-    color: 'diariomed' as const,
-    cta: 'Explore DentiMed',
-    ctaHref: 'https://dentimed.app',
-    image: '/images/landing/dentist-dictating.webp',
-    imageAlt: 'Dentist dictating a voice note between patients',
-    secondaryImage: '/images/landing/dentimed-grabacion.png',
-    secondaryImageAlt: 'Real DentiMed recording screen',
-    tertiaryImage: '/images/landing/dentimed-borrador.png',
-    tertiaryImageAlt: 'Real DentiMed draft with procedures and payment',
-    visualLabel: 'ASSISTED CLINICAL CLOSE',
+    meta: "From your phone's browser · Founders pilot · Available in Spanish",
+    cta: { label: 'Discover DentiMed', href: DENTIMED_URL, external: true, srHint: '(opens dentimed.app, a Spanish-language site, in a new tab)' },
+    imageAlt: 'A dentist greets a patient at reception while another patient smiles at his phone.',
+    chip: { title: 'Visit draft', detail: 'José Pérez · tooth 36', draft: 'Draft', approved: 'Approved' },
   },
-];
+  dicta: {
+    name: 'Dicta',
+    eyebrow: 'Voice dictation',
+    tagline: 'You speak and the text appears where your cursor is.',
+    body: 'A lightweight app for your computer. Hold F9, speak, and the text is typed into whatever app you have open.',
+    bullets: [
+      'Hold F9 to talk or tap it twice for hands-free',
+      'Works anywhere you can type',
+      'Removes filler words as it transcribes',
+      'Spanish and English',
+    ],
+    meta: 'For Windows and Linux · Free to start',
+    cta: { label: 'Discover Dicta', href: DICTA_URL, external: true, srHint: '(opens the Dicta site in a new tab)' },
+    mock: {
+      windowTitle: 'New message',
+      to: 'To: Sales team',
+      subject: "Subject: Friday's order",
+      text: "Hi team, Friday's order ships at 10:00. Please confirm stock before Thursday.",
+      pillIdle: 'Press F9 and speak',
+      pillListening: 'Listening... (F9)',
+    },
+  },
+  caption: 'Demo data.',
+  next: {
+    title: 'The next one could be for your team.',
+    body: "If a task repeats every day in your company, let's talk.",
+    cta: 'Tell us about your case',
+  },
+} satisfies ProductsData;

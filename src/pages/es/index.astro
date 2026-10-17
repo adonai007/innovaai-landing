@@ -1,32 +1,38 @@
-﻿---
+---
 import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/Navbar.astro';
+import Header from '../../components/Header.astro';
 import Hero from '../../components/Hero.astro';
 import CinematicStory from '../../components/CinematicStory.astro';
-import TrustBar from '../../components/TrustBar.astro';
-import Services from '../../components/Services.astro';
+import Example from '../../components/Example.astro';
+import UseCases from '../../components/UseCases.astro';
 import Products from '../../components/Products.astro';
-import Process from '../../components/Process.astro';
-import Stats from '../../components/Stats.astro';
+import HowWeWork from '../../components/HowWeWork.astro';
+import Principles from '../../components/Principles.astro';
+import Tagline from '../../components/Tagline.astro';
+import Audience from '../../components/Audience.astro';
 import FAQ from '../../components/FAQ.astro';
-import CTASection from '../../components/CTASection.astro';
-import WhatsAppButton from '../../components/WhatsAppButton.astro';
+import Closing from '../../components/Closing.astro';
 import Footer from '../../components/Footer.astro';
-
+import { site } from '../../data/es/site';
 import { navigation } from '../../data/es/navigation';
+import { footer } from '../../data/es/footer';
+import { seo } from '../../data/es/seo';
 import { hero } from '../../data/es/hero';
 import { cinema } from '../../data/es/cinema';
-import { trustBar } from '../../data/es/trust';
-import { servicesSection, services } from '../../data/es/services';
-import { productsSection, products } from '../../data/es/products';
-import { processSection, steps } from '../../data/es/process-steps';
-import { whySection, differentiators } from '../../data/es/stats';
-import { faqSection, faqItems } from '../../data/es/faq';
-import { cta, footer } from '../../data/es/cta';
-import { seo } from '../../data/es/seo';
+import { example } from '../../data/es/example';
+import { useCases } from '../../data/es/use-cases';
+import { products } from '../../data/es/products';
+import { howWeWork } from '../../data/es/how-we-work';
+import { principles } from '../../data/es/principles';
+import { tagline } from '../../data/es/tagline';
+import { audience } from '../../data/es/audience';
+import { faq } from '../../data/es/faq';
+import { closing } from '../../data/es/closing';
+import { DENTIMED_URL, DICTA_URL } from '../../data/links';
 
 const siteURL = new URL('/', Astro.site ?? 'https://innovai.click');
 const pageURL = new URL('/es/', siteURL);
+const orgId = `${siteURL.href}#organization`;
 const serviceId = `${pageURL.href}#applied-ai-consulting`;
 const structuredData = [
   {
@@ -36,35 +42,46 @@ const structuredData = [
     serviceType: seo.home.serviceType,
     description: seo.home.serviceDescription,
     url: pageURL.href,
-    provider: { '@id': `${siteURL.href}#organization` },
+    provider: { '@id': orgId },
     areaServed: ['Bolivia', 'Latin America'],
-    audience: {
-      '@type': 'BusinessAudience',
-      audienceType: seo.home.audience,
-    },
+    audience: { '@type': 'BusinessAudience', audienceType: seo.home.audience },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: seo.home.serviceName,
-      itemListElement: services.map((service) => ({
+      itemListElement: howWeWork.steps.map((s) => ({
         '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: service.title,
-          description: service.description,
-        },
+        itemOffered: { '@type': 'Service', name: s.offerName, description: s.body },
       })),
     },
   },
   {
+    '@type': 'SoftwareApplication',
+    '@id': `${siteURL.href}#dentimed`,
+    name: 'DentiMed',
+    url: DENTIMED_URL,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    inLanguage: 'es',
+    description: products.dentimed.tagline,
+    publisher: { '@id': orgId },
+  },
+  {
+    '@type': 'SoftwareApplication',
+    '@id': `${siteURL.href}#dicta`,
+    name: 'Dicta',
+    url: DICTA_URL,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Windows, Linux',
+    description: products.dicta.tagline,
+    publisher: { '@id': orgId },
+  },
+  {
     '@type': 'FAQPage',
     '@id': `${pageURL.href}#faq`,
-    mainEntity: faqItems.map((item) => ({
+    mainEntity: faq.items.map((i) => ({
       '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
+      name: i.question,
+      acceptedAnswer: { '@type': 'Answer', text: i.answer },
     })),
   },
 ] satisfies Record<string, unknown>[];
@@ -74,31 +91,26 @@ const structuredData = [
   title={seo.home.title}
   description={seo.home.description}
   lang="es"
+  skipLink={site.skipLink}
   organizationDescription={seo.organizationDescription}
+  ogImage={seo.ogImage}
   ogImageAlt={seo.ogImageAlt}
   structuredData={structuredData}
   mainEntityId={serviceId}
 >
-  <Navbar lang="es" nav={navigation} />
-  <main id="contenido" tabindex="-1">
-    <Hero hero={hero} />
-    <CinematicStory cinema={cinema} />
-    <TrustBar trust={trustBar} />
-    <Services section={servicesSection} services={services} />
-    <Products section={productsSection} products={products} />
-    <Process section={processSection} steps={steps} />
-    <Stats section={whySection} differentiators={differentiators} />
-    <FAQ section={faqSection} items={faqItems} />
-    <CTASection cta={cta} />
+  <Header nav={navigation} site={site} />
+  <main id="contenido">
+    <Hero data={hero} site={site} />
+    <CinematicStory data={cinema} />
+    <Example data={example} />
+    <UseCases data={useCases} />
+    <Products data={products} site={site} />
+    <HowWeWork data={howWeWork} />
+    <Principles data={principles} />
+    <Tagline data={tagline} />
+    <Audience data={audience} />
+    <FAQ data={faq} site={site} />
+    <Closing data={closing} site={site} />
   </main>
-  <Footer footer={footer} lang="es" />
-  <WhatsAppButton
-    number={cta.whatsappNumber}
-    message={cta.whatsappMessage}
-    label={cta.ctaPrimary}
-  />
-
-  <script>
-    import '../../scripts/animations';
-  </script>
+  <Footer data={footer} site={site} />
 </Layout>

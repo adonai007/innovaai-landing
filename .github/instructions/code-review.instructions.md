@@ -11,28 +11,29 @@ Apply the repository-wide guidance from `../copilot-instructions.md`.
 ## Review priority
 
 - **Critical** — build breaks, deploy-blocking regressions, committed secrets, broken locale routing, accessibility regressions (missing alt text, broken keyboard paths)
-- **Important** — hardcoded strings or hex colors, missing i18n parity, silent removal of `data-animate` hooks, new client-side islands without justification
+- **Important** — hardcoded strings or hex colors, missing i18n parity, silent removal of `data-reveal` or `data-primary-cta` hooks, new client-side islands without justification
 - **Suggestion** — copy polish, naming, refactors that do not change behavior
 
 ## Core checks
 
 ### Design system
 
-- No hardcoded hex colors in components; all colors flow through `@theme` tokens or shared utility classes (`.glass`, `.gradient-text`, `.glow-green`)
-- Utility helpers (`.glass`, `.section-padding`, etc.) are reused rather than re-implemented
+- No hardcoded hex colors in components; all colors flow through `@theme` tokens or the components-layer classes (`.btn-primary`, `.link-arrow`, `.chip-*`, `.eyebrow`)
+- Helpers (`.wrap`, `.section`, `.on-dark`, etc.) are reused rather than re-implemented
+- One blue CTA style, teal only on dark surfaces, gradients only in the three allowed places, sentence case, no dashes inside sentences. The night image scrims in `CinematicStory.astro` (`rgb(7 22 40 / alpha)`, the night token with alpha) are an accepted exception, not a decorative gradient or a stray hex color
 - No emoji in source, comments, copy, or commit messages
-- Icons are inline Lucide SVGs — no sprite sheet, icon font, or emoji stand-ins
+- Icons are Phosphor SVGs through `src/components/ui/Icon.astro`: no sprite sheet, icon font, or emoji stand-ins
 
 ### Content and i18n
 
-- Every new Spanish string has an English counterpart with the same key (except the ES-only DiarioMed sub-landing)
+- Every new Spanish string has an English counterpart with the same key, and both data files `satisfies` the same type
 - Components receive copy as props; no imports from `src/data/**` inside components
 - `interface Props` present and accurate on every new or modified component
 
 ### Astro and performance
 
 - No new `client:*` directive without a clear interactivity reason
-- Scroll-triggered animations go through `data-animate` hooks and `src/scripts/animations.ts`; no inline GSAP calls in components
+- Entrance motion goes through `data-reveal` (never in the cinematic chapter); scroll-scrubbed motion lives in `src/scripts/motion/` (loaded only under `html.motion`), except the cinematic clips in `src/scripts/cinema.ts` (component script, no GSAP); no inline GSAP calls in components
 - `dist/` bundle size did not regress unexpectedly for changed pages
 
 ### TypeScript

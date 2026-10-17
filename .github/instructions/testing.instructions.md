@@ -20,7 +20,7 @@ For each change, verify locally before opening a PR:
 - `npm run dev` boots cleanly and the targeted page renders without console errors
 - Both `/es/...` and `/en/...` variants render (except when the change is explicitly ES-only)
 - `npm run build` completes; inspect the `dist/` output for unexpected size regressions on critical pages
-- Scroll-triggered animations still fire where `data-animate` hooks exist
+- Reveals still fire where `data-reveal` hooks exist, and with reduced motion or no JS every element is visible in its final state
 - Responsive checks at mobile (<640px), tablet (~768px), and desktop (>=1024px) widths
 
 ## When to invest in test infrastructure

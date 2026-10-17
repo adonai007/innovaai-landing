@@ -1,19 +1,15 @@
 ---
-import '@fontsource/bricolage-grotesque/500.css';
-import '@fontsource/bricolage-grotesque/600.css';
-import '@fontsource/bricolage-grotesque/700.css';
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/600.css';
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/500.css';
 import '../styles/global.css';
+import outfitLatin from '@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2?url';
 
 interface Props {
   title: string;
   description: string;
   lang?: 'es' | 'en';
+  skipLink: string;
   organizationDescription: string;
+  /** site-relative path of this locale's share card (the Organization keeps the Spanish card) */
+  ogImage?: string;
   ogImageAlt: string;
   structuredData?: Record<string, unknown>[];
   mainEntityId?: string;
@@ -23,7 +19,9 @@ const {
   title,
   description,
   lang = 'es',
+  skipLink,
   organizationDescription,
+  ogImage = '/images/innovaai-og.jpg',
   ogImageAlt,
   structuredData = [],
   mainEntityId,
@@ -36,7 +34,8 @@ const altURL = new URL(altPath, Astro.site ?? 'https://innovai.click');
 const defaultURL = new URL(currentPath.replace(`/${lang}`, '/es'), Astro.site ?? 'https://innovai.click');
 const siteURL = new URL('/', Astro.site ?? 'https://innovai.click');
 const logoURL = new URL('/images/innovaai-logo-full.png', siteURL);
-const ogImageURL = new URL('/images/innovaai-og.jpg', siteURL);
+const orgImageURL = new URL('/images/innovaai-og.jpg', siteURL);
+const ogImageURL = new URL(ogImage, siteURL);
 const organizationId = `${siteURL.href}#organization`;
 const websiteId = `${siteURL.href}#website`;
 const webpageId = `${canonicalURL.href}#webpage`;
@@ -60,8 +59,8 @@ const schema = {
       },
       image: {
         '@type': 'ImageObject',
-        url: ogImageURL.href,
-        contentUrl: ogImageURL.href,
+        url: orgImageURL.href,
+        contentUrl: orgImageURL.href,
         width: 1200,
         height: 630,
       },
@@ -69,6 +68,7 @@ const schema = {
       sameAs: ['https://www.linkedin.com/company/innovai-click/'],
       address: {
         '@type': 'PostalAddress',
+        addressLocality: 'La Paz',
         addressCountry: 'BO',
       },
       areaServed: ['Bolivia', 'Latin America'],
@@ -125,10 +125,24 @@ const schema = {
 ---
 
 <!doctype html>
-<html lang={lang} class="dark">
+<html lang={lang} class="no-js">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.remove('no-js');
+        d.classList.add('js');
+        var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var c = navigator.connection;
+        var sd = c && c.saveData;
+        d.classList.add(rm || sd ? 'still' : 'motion');
+        // 2G: the cinematic chapter never builds its tall tracks (no layout shift when its script arrives late)
+        if (c && /(^|-)2g$/.test(c.effectiveType || '')) d.classList.add('slow-net');
+      })();
+    </script>
+    <link rel="preload" href={outfitLatin} as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />
     <meta
       name="robots"
@@ -136,8 +150,8 @@ const schema = {
     />
     <meta name="author" content="InnovaAI" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#060D18" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#fafbf9" />
+    <meta name="color-scheme" content="light" />
 
     <link rel="icon" type="image/png" sizes="32x32" href="/images/innovaai-logo-mark-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/images/innovaai-logo-mark-192.png" />
@@ -177,8 +191,15 @@ const schema = {
 
     <title>{title}</title>
   </head>
-  <body class="bg-bg-primary text-text-primary antialiased">
-    <a class="skip-link" href="#contenido">{lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
+  <body>
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-ink focus:shadow-float"
+      >{skipLink}</a
+    >
     <slot />
+    <script>
+      import '../scripts/main.ts';
+    </script>
   </body>
 </html>

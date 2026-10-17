@@ -1,0 +1,51 @@
+---
+/** 4.10 Closing: the single closing pitch on night. One CTA, the founder line, and what happens in the 30 minutes. */
+import WhatsAppCta from './ui/WhatsAppCta.astro';
+import LinkArrow from './ui/LinkArrow.astro';
+import type { ClosingData, SiteData } from '../data/types';
+interface Props { data: ClosingData; site: SiteData }
+const { data, site } = Astro.props;
+---
+
+<section id="contacto" class="section-lg on-dark bg-night" aria-labelledby="contacto-title">
+  <div class="wrap grid grid-cols-[minmax(0,1fr)] gap-16 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-start lg:gap-24">
+    <div data-reveal>
+      <p class="eyebrow">{data.eyebrow}</p>
+      <h2 id="contacto-title" class="mt-3 text-h2 font-semibold">{data.title}</h2>
+      <p class="mt-4 max-w-[34rem] text-lead text-white/75">{data.body}</p>
+      <WhatsAppCta
+        href={site.whatsappHref}
+        label={site.cta}
+        hint={site.externalHint}
+        size="lg"
+        primary
+        class="mt-8 w-full sm:w-auto"
+      />
+      <p class="mt-5 text-sm text-white/60">{data.reassurance}</p>
+      <p class="mt-10 text-sm text-white/75">{data.founder.text}</p>
+      <LinkArrow
+        class="mt-2"
+        href={data.linkedin.href}
+        label={data.linkedin.label}
+        external
+        icon="arrow-up-right"
+        hint={site.externalHint}
+      />
+    </div>
+    <div data-reveal style="--reveal-delay:120ms">
+      <h3 class="font-sans text-sm font-medium text-white/70">{data.stepsTitle}</h3>
+      <ol class="mt-4 grid gap-3">
+        {
+          data.steps.map((step, i) => (
+            <li class="flex gap-4 rounded-3xl bg-white/5 p-5">
+              <span class="font-display font-semibold text-teal tabular-nums" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="text-white/85">{step}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>

@@ -1,21 +1,16 @@
 ---
-const target = 'https://dentimed.app';
+const target = 'https://dentimed.app/';
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, follow" />
     <meta http-equiv="refresh" content={`0; url=${target}`} />
     <link rel="canonical" href={target} />
-    <title>DentiMed · Sitio Oficial</title>
+    <title>DentiMed</title>
+    <script is:inline>window.location.replace('https://dentimed.app/');</script>
   </head>
-  <body>
-    <main>
-      <p>DentiMed tiene su propio sitio.</p>
-      <a href={target}>Ir al sitio oficial de DentiMed</a>
-    </main>
-  </body>
+  <body><a href={target}>Ir a DentiMed</a></body>
 </html>

@@ -1,326 +1,119 @@
 ---
-interface Props {
-  hero: {
-    eyebrow: string;
-    headlineBefore: string;
-    headlineAccent: string;
-    subheadline: string;
-    ctaPrimary: string;
-    ctaPrimaryHref: string;
-    ctaSecondary: string;
-    ctaSecondaryHref: string;
-    note: string;
-    chapter: string;
-    scrollLabel: string;
-  };
-}
+/**
+ * Hero: the idea, both CTAs above the fold, and a real team photo with an interactive draft card
+ * hanging off its edge. The default markup is the final state; motion only exists under html.motion.
+ * Never add data-reveal here (SPEC 6.3).
+ */
+import { Picture } from 'astro:assets';
+import WhatsAppCta from './ui/WhatsAppCta.astro';
+import LinkArrow from './ui/LinkArrow.astro';
+import HeroDraftCard from './HeroDraftCard.astro';
+import photo from '../assets/photos/equipo-proceso.webp';
+import type { HeroData, SiteData } from '../data/types';
 
-const { hero } = Astro.props;
+interface Props {
+  data: HeroData;
+  site: SiteData;
+}
+const { data, site } = Astro.props;
+// One line per sentence ("La IA prepara el trabajo." / "Tu equipo decide."), so the h1 never breaks mid-thought.
+const titleLines = data.title.split(/(?<=\.)\s+/);
 ---
 
-<section id="hero" class="hero-section" aria-labelledby="hero-title">
-  <picture class="hero-image" aria-hidden="true">
-    <source
-      media="(max-width: 767px)"
-      srcset="/cinema/opening-mobile.webp"
-      width="768"
-      height="1024"
-    />
-    <img
-      src="/cinema/opening-desktop.webp"
-      alt=""
-      width="1920"
-      height="1080"
-      loading="eager"
-      fetchpriority="high"
-    />
-  </picture>
-  <div class="hero-shade" aria-hidden="true"></div>
-
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <p class="hero-eyebrow">{hero.eyebrow}</p>
-      <h1 id="hero-title">
-        <span>{hero.headlineBefore}</span>
-        <span class="hero-accent">{hero.headlineAccent}</span>
+<section id="inicio" aria-labelledby="inicio-title" class="relative bg-soft pt-24 pb-16 sm:pt-28 lg:pt-36 lg:pb-24">
+  <div class="wrap grid grid-cols-[minmax(0,1fr)] items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16">
+    <div class="hero-copy max-w-[560px]">
+      <p class="eyebrow" style="--i:0">{data.eyebrow}</p>
+      <h1 id="inicio-title" class="mt-4 text-display font-semibold text-ink" style="--i:1">
+        {titleLines.map((line, i) => <span class="block">{i > 0 ? ' ' : ''}{line}</span>)}
       </h1>
-      <p class="hero-subheadline">{hero.subheadline}</p>
-    </div>
-
-    <div class="hero-conversion">
-      <div class="hero-actions">
-        <a
-          class="hero-primary"
-          href={hero.ctaPrimaryHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-cta="hero-whatsapp"
-        >{hero.ctaPrimary}</a>
-        <a class="hero-secondary" href={hero.ctaSecondaryHref} data-cta="hero-story">
-          {hero.ctaSecondary}
-        </a>
+      <p class="mt-6 text-lead text-muted" style="--i:2">{data.lead}</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6" style="--i:3">
+        <WhatsAppCta size="lg" primary href={site.whatsappHref} label={site.cta} hint={site.externalHint} class="w-full sm:w-auto" />
+        <LinkArrow href={data.ctaSecondary.href} label={data.ctaSecondary.label} icon="arrow-down" class="self-start whitespace-nowrap sm:self-auto" />
       </div>
-      <p class="hero-note">{hero.note}</p>
+      <p class="mt-6 text-sm text-muted" style="--i:4">{data.reassurance}</p>
     </div>
 
-    <div class="hero-caption">
-      <span>{hero.chapter}</span>
-      <a href={hero.ctaSecondaryHref}>{hero.scrollLabel}<i aria-hidden="true"></i></a>
-    </div>
+    <figure class="relative">
+      {/*
+        sizes = the width the 3:2 photo is drawn at under object-cover, not the frame width:
+        lg frame height (max 640) x 1.5 x 1.08 parallax scale; sm 5:4 frame; base 4:5 frame.
+      */}
+      <div
+        class="hero-photo relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-night sm:aspect-[5/4] lg:aspect-auto lg:h-[min(72svh,640px)] lg:min-h-[480px] lg:rounded-island"
+      >
+        <Picture
+          src={photo}
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
+          widths={[480, 720, 960, 1200, 1536]}
+          sizes="(min-width: 1024px) 1040px, (min-width: 640px) calc(120vw - 58px), calc(187.5vw - 60px)"
+          loading="eager"
+          fetchpriority="high"
+          alt={data.photoAlt}
+          class="size-full object-cover object-[40%_50%] lg:object-[20%_50%] xl:object-[28%_50%]"
+          pictureAttributes={{ class: 'block size-full' }}
+        />
+      </div>
+      <div class="hero-card absolute inset-x-3 bottom-12 sm:inset-x-auto sm:bottom-14 sm:left-6 sm:w-[320px] lg:bottom-16 lg:-left-10 lg:w-[340px]">
+        <HeroDraftCard draft={data.draft} />
+      </div>
+      <figcaption class="mt-3 text-xs text-muted">{site.demoNote}</figcaption>
+    </figure>
   </div>
 </section>
 
 <style>
-  .hero-section {
-    position: relative;
-    isolation: isolate;
-    min-height: 100svh;
-    overflow: clip;
-    color: #f4f5ef;
-    background: #071015;
-  }
-
-  .hero-image,
-  .hero-shade {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  .hero-image img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 58% center;
-  }
-
-  .hero-shade {
-    background:
-      linear-gradient(90deg, rgb(3 10 14 / 91%) 0%, rgb(3 10 14 / 70%) 28%, rgb(3 10 14 / 19%) 62%, transparent 83%),
-      linear-gradient(180deg, rgb(3 10 14 / 42%) 0%, transparent 25%, transparent 64%, rgb(3 10 14 / 88%) 100%);
-  }
-
-  .hero-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 1fr auto auto;
-    align-content: end;
-    min-height: max(760px, 100svh);
-    width: min(100% - clamp(2.5rem, 9vw, 10rem), 1600px);
-    margin: 0 auto;
-    padding-top: clamp(9rem, 18svh, 13rem);
-    padding-bottom: max(1.8rem, env(safe-area-inset-bottom));
-  }
-
-  .hero-copy {
-    align-self: end;
-    max-width: 51rem;
-  }
-
-  .hero-eyebrow {
-    margin: 0 0 1.6rem;
-    color: #b2d8ce;
-    font-family: var(--font-mono);
-    font-size: 0.67rem;
-    font-weight: 400;
-    letter-spacing: 0.19em;
-    line-height: 1.6;
-  }
-
-  h1 {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: clamp(4.4rem, 6.5vw, 7.5rem);
-    font-weight: 500;
-    line-height: 1.01;
-    letter-spacing: -0.068em;
-  }
-
-  h1 > span {
-    display: block;
-  }
-
-  .hero-accent {
-    color: #a6ead1;
-  }
-
-  .hero-subheadline {
-    max-width: 32rem;
-    margin: 1.8rem 0 0;
-    color: #d4dedd;
-    font-size: clamp(1rem, 1.2vw, 1.13rem);
-    line-height: 1.75;
-    text-wrap: pretty;
-  }
-
-  .hero-conversion {
-    margin-top: 2.3rem;
-    padding-bottom: clamp(3.5rem, 9svh, 6.5rem);
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem 2rem;
-  }
-
-  .hero-actions a {
-    display: inline-flex;
-    min-height: 50px;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.88rem;
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .hero-primary {
-    padding: 0.9rem 1.4rem;
-    border: 1px solid #c3f6d9;
-    border-radius: 0.25rem;
-    color: #06150f;
-    background: #c3f6d9;
-    transition: background 180ms ease, border-color 180ms ease;
-  }
-
-  .hero-primary:hover {
-    border-color: #e2ffed;
-    background: #e2ffed;
-  }
-
-  .hero-actions .hero-secondary {
-    padding: 0.65rem 0;
-    color: #edf5f0;
-    text-decoration: underline;
-    text-decoration-color: rgb(237 245 240 / 35%);
-    text-underline-offset: 0.45rem;
-    text-decoration-thickness: 1px;
-  }
-
-  .hero-actions .hero-secondary:hover {
-    text-decoration-color: currentColor;
-  }
-
-  .hero-note {
-    margin: 0.95rem 0 0;
-    color: #aebdb8;
-    font-size: 0.72rem;
-    line-height: 1.6;
-  }
-
-  .hero-caption {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding-top: 1.1rem;
-    border-top: 1px solid rgb(213 235 225 / 23%);
-    color: #b6c7bf;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.13em;
-    line-height: 1.5;
-  }
-
-  .hero-caption a {
-    display: inline-flex;
-    min-height: 44px;
-    align-items: center;
-    gap: 1.1rem;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .hero-caption i {
-    display: block;
-    width: 1px;
-    height: 1.5rem;
-    background: #a6ead1;
-  }
-
-  @media (max-width: 767px) {
-    .hero-inner {
-      grid-template-rows: auto minmax(12rem, 1fr) auto;
-      min-height: max(820px, 100svh);
-      width: calc(100% - 2.5rem);
-      padding-top: max(7.5rem, calc(env(safe-area-inset-top) + 6rem));
-      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  /* Load motion (html.motion only). Text moves by transform only, never opacity, so the LCP is not delayed. */
+  @keyframes hero-rise {
+    from {
+      transform: translateY(1.5rem);
     }
-
-    .hero-copy {
-      align-self: start;
+  }
+  @keyframes hero-unclip {
+    from {
+      clip-path: inset(4% round var(--hero-r));
+      transform: scale(1.03);
     }
-
-    .hero-eyebrow {
-      margin-bottom: 1.2rem;
-      font-size: 0.56rem;
-      letter-spacing: 0.14em;
+    to {
+      clip-path: inset(0 round var(--hero-r));
+      transform: none;
     }
-
-    h1 {
-      font-size: clamp(2.4rem, 10.5vw, 4.7rem);
-      line-height: 1.04;
-      letter-spacing: -0.065em;
-    }
-
-    .hero-subheadline {
-      max-width: 30rem;
-      margin-top: 1.2rem;
-      font-size: 0.87rem;
-      line-height: 1.65;
-    }
-
-    .hero-image img {
-      object-position: center;
-    }
-
-    .hero-shade {
-      background: linear-gradient(180deg, rgb(3 10 14 / 87%) 0%, rgb(3 10 14 / 75%) 28%, rgb(3 10 14 / 8%) 49%, rgb(3 10 14 / 15%) 64%, rgb(3 10 14 / 94%) 88%, #030a0e 100%);
-    }
-
-    .hero-conversion {
-      align-self: end;
-      margin-top: 0;
-      padding-bottom: 1.5rem;
-    }
-
-    .hero-actions {
-      gap: 0.25rem 1.4rem;
-    }
-
-    .hero-actions a {
-      min-height: 48px;
-      font-size: 0.81rem;
-    }
-
-    .hero-primary {
-      width: 100%;
-    }
-
-    .hero-note {
-      margin-top: 0.35rem;
-      font-size: 0.66rem;
-    }
-
-    .hero-caption {
-      gap: 0.7rem;
-      padding-top: 0.6rem;
-      font-size: 0.49rem;
-      letter-spacing: 0.07em;
-    }
-
-    .hero-caption a {
-      gap: 0.5rem;
-      text-align: right;
+  }
+  @keyframes hero-float-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .hero-primary {
-      transition: none;
+  .hero-photo {
+    --hero-r: 2rem;
+  }
+  @media (min-width: 64rem) {
+    .hero-photo {
+      --hero-r: 2.5rem;
+    }
+  }
+
+  :global(html.motion) .hero-copy > * {
+    animation: hero-rise 900ms var(--ease-brand) both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+  :global(html.motion) .hero-photo {
+    animation: hero-unclip 1200ms var(--ease-brand) both;
+  }
+  :global(html.motion) .hero-card {
+    animation: hero-float-in 700ms var(--ease-brand) 500ms both;
+  }
+
+  /* Parallax start state, painted from the first frame so the image does not pop when the
+     motion chunk (scripts/motion/hero.ts) arrives and sets the same values. */
+  @media (min-width: 64rem) {
+    :global(html.motion) .hero-photo :global(img) {
+      transform: scale(1.08);
+      transform-origin: 50% 25%;
     }
   }
 </style>

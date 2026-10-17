@@ -28,7 +28,7 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all Type
 ## Client scripts
 
 - Scripts in `src/scripts/` run in the browser. Guard DOM access (`document`, `window`) at the entry point, not inside every helper
-- Type third-party APIs (GSAP, tsParticles) from their own typings; do not re-declare them locally
+- Type third-party APIs (GSAP, Lenis) from their own typings; do not re-declare them locally
 - Prefer `const` over `let`; use `readonly` on module-level arrays that are not mutated
 
 ## Naming

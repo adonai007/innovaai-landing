@@ -12,7 +12,7 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all comp
 
 - This is a content-driven marketing site built on the Islands Architecture. Default to zero JavaScript; server-render everything that does not require interactivity
 - Prefer static generation (SSG). Do not introduce SSR, adapters, or server endpoints unless a new requirement explicitly needs them
-- One landing section per `.astro` component; compose the page in `src/pages/{locale}/index.astro` or the DiarioMed sub-landing page
+- One landing section per `.astro` component; compose the page in `src/pages/{locale}/index.astro`. The `dentimed` and `diariomed` pages are redirect stubs to https://dentimed.app/
 
 ## Component authoring
 
@@ -25,18 +25,20 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all comp
 
 - Reach for `client:*` directives only when interactivity cannot be done with plain CSS or a tiny inline script
 - Prefer `client:visible` for below-the-fold widgets, `client:idle` for non-critical interactivity, `client:load` only when the component must be ready on first paint
-- The particle background is the canonical example: it lives in an island because tsParticles must run on the client
+- The site uses no framework islands. Client behaviour lives in plain TypeScript under `src/scripts/` (`main.ts` imported once from `Layout.astro`; the cinematic chapter's `cinema.ts` imported by `CinematicStory.astro`); motion code is dynamically imported only under `html.motion`
 
 ## Data flow
 
 - Pages load localized data from `src/data/{locale}/*.ts` and pass it down as props; components never reach back up for it
 - Use `Astro.currentLocale` or the page path to pick the data bundle; do not duplicate lookup logic across components
-- For repeated data shapes, define a shared type in `src/data/types.ts` (create it if missing) and import it from both locales
+- Every data bundle has a type in `src/data/types.ts`; both locale files end with `satisfies <Type>`
 
 ## Animations and assets
 
-- Scroll-triggered animations are wired in `src/scripts/animations.ts`. Surface hooks via `data-animate` attributes; do not inline GSAP calls inside components
-- Use Astro's `<Image />` where possible for optimized output; otherwise keep images in `public/` and reference them with absolute paths
+- Entrance reveals use the `data-reveal` attribute (never in the cinematic chapter). Scroll-scrubbed motion lives in `src/scripts/motion/`, except the cinematic clips, which `src/scripts/cinema.ts` scrubs without GSAP; do not inline GSAP calls inside components
+- The default markup must be the final static state; hidden or initial states exist only under `html.motion` (the cinematic tracks under `html.motion:not(.slow-net) .cinema:not(.is-static)`). Script-only controls, like the cinematic chapter bar, ship with the `hidden` attribute and the script reveals them
+- A script that changes the page height after load dispatches `layout:refresh` on `window`, so the motion chunk can call `ScrollTrigger.refresh()`
+- Use Astro's `<Image />` or `<Picture />` with images in `src/assets/`; keep only the OG image, favicons and the deck in `public/`
 
 ## SEO and metadata
 

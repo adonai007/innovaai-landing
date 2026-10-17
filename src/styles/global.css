@@ -1,206 +1,165 @@
-@import "tailwindcss";
-@import "./animations.css";
+@import 'tailwindcss';
+@import '@fontsource-variable/outfit/wght.css';
+@import '@fontsource-variable/inter/wght.css';
 
 @theme {
-  --color-bg-primary: #060d18;
-  --color-bg-secondary: #0b1423;
-  --color-bg-tertiary: #111d30;
-  --color-bg-glass: rgba(10, 20, 35, 0.72);
-  --color-bg-glass-border: rgba(148, 163, 184, 0.14);
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Outfit Variable', 'Outfit', ui-sans-serif, system-ui, sans-serif;
 
-  --color-primary: #22c55e;
-  --color-primary-light: #4ade80;
-  --color-primary-dark: #16a34a;
-  --color-primary-glow: rgba(34, 197, 94, 0.24);
+  --color-night: #071628;
+  --color-ink: #13283d;
+  --color-action: #0a62d0;
+  --color-action-hover: #0851ad;
+  --color-electric: #0976f7;
+  --color-teal: #2de6d4;
+  --color-sky: #eaf2fd;
+  --color-soft: #fafbf9;
+  --color-line: #d8e1ea;
+  --color-muted: #4f6476;
+  --color-logo-bg: #020c19;
+  --color-draft: #92400e;
+  --color-draft-bg: #fef3c7;
+  --color-ok: #0f7a4f;
+  --color-ok-bg: #dcfce7;
+  --color-whatsapp: #25d366;
+  --color-dm-mint: #e7f6f0;
+  --color-dm-ink: #172f3c;
+  --color-dm-action: #00766f;
+  --color-dm-muted: #526875;
+  --color-dm-med: #04a4a5;
+  --color-dicta-bg: #0a0a0a;
+  --color-dicta-surface: #161616;
+  --color-dicta-green: #10b981;
 
-  --color-secondary: #2563eb;
-  --color-secondary-light: #60a5fa;
-  --color-secondary-dark: #1d4ed8;
-  --color-secondary-glow: rgba(59, 130, 246, 0.2);
+  --text-display: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.025em;
+  --text-h2: clamp(1.875rem, 1.45rem + 1.75vw, 3rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3-lg: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem);
+  --text-h3-lg--line-height: 1.2;
+  --text-h3-lg--letter-spacing: -0.02em;
+  --text-lead: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --text-lead--line-height: 1.55;
+  --text-ui: 0.8125rem;
+  --text-ui--line-height: 1.45;
 
-  --color-dicta: #34d399;
-  --color-diariomed: #10b981;
+  --radius-island: 2.5rem;
 
-  --color-text-primary: #edf4f8;
-  --color-text-secondary: #a6b4c6;
-  --color-text-tertiary: #718096;
+  --shadow-pill: inset 0 0 0 1px rgb(255 255 255 / 0.1), 0 8px 32px rgb(7 22 40 / 0.18);
+  --shadow-window: 0 0 0 1px rgb(7 22 40 / 0.06), 0 30px 80px -24px rgb(7 22 40 / 0.45);
+  /* the same window on night or the Dicta panel: a night-coloured shadow only bands, so go darker and draw the edge */
+  --shadow-window-dark: 0 0 0 1px rgb(255 255 255 / 0.1), 0 30px 80px -24px rgb(0 0 0 / 0.6);
+  --shadow-float: 0 0 0 1px rgb(7 22 40 / 0.06), 0 16px 40px -12px rgb(7 22 40 / 0.35);
 
-  --gradient-hero: linear-gradient(135deg, #4ade80 0%, #22c55e 38%, #60a5fa 100%);
-  --gradient-text: linear-gradient(92deg, #4ade80 0%, #22c55e 42%, #60a5fa 100%);
-  --gradient-card: linear-gradient(135deg, rgba(34, 197, 94, 0.11), rgba(59, 130, 246, 0.045));
-  --gradient-cta: linear-gradient(135deg, rgba(34, 197, 94, 0.14), rgba(59, 130, 246, 0.11));
+  --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
+}
 
-  --font-heading: 'Bricolage Grotesque', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-
-  --text-hero: clamp(3.3rem, 2rem + 6vw, 6.9rem);
-  --text-4xl: clamp(2.65rem, 1.7rem + 4vw, 5.6rem);
-  --text-3xl: clamp(2.1rem, 1.5rem + 2.6vw, 4rem);
-  --text-2xl: clamp(1.55rem, 1.2rem + 1.5vw, 2.4rem);
-  --text-xl: clamp(1.1rem, 1rem + 0.65vw, 1.35rem);
-
-  --section-padding: clamp(5.5rem, 9vw, 9.5rem);
-  --border-hairline: 1px solid rgba(148, 163, 184, 0.12);
-  --border-primary: 1px solid rgba(34, 197, 94, 0.22);
-  --shadow-glow-green: 0 0 22px rgba(34, 197, 94, 0.22), 0 0 70px rgba(34, 197, 94, 0.08);
-  --shadow-glow-blue: 0 0 22px rgba(59, 130, 246, 0.18), 0 0 70px rgba(59, 130, 246, 0.07);
+:root {
+  --gradient-logo: linear-gradient(120deg, #0a72f6 0%, #00c6fc 55%, #00eacc 100%);
+  --gradient-logo-v: linear-gradient(180deg, #0a72f6 0%, #00c6fc 55%, #00eacc 100%);
+  --gradient-ai: linear-gradient(100deg, #14c8f5 0%, #22dd9c 100%);
 }
 
 @layer base {
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 6.5rem;
-    color: var(--color-text-primary);
-    background: var(--color-bg-primary);
-    font-family: var(--font-body);
-    color-scheme: dark;
-  }
-
+  html { color-scheme: light; scroll-behavior: auto; -webkit-text-size-adjust: 100%; overflow-x: clip; }
   body {
-    min-height: 100vh;
-    overflow-x: hidden;
-    margin: 0;
-    background:
-      radial-gradient(circle at 9% 5%, rgba(34, 197, 94, 0.055), transparent 22rem),
-      radial-gradient(circle at 92% 18%, rgba(59, 130, 246, 0.045), transparent 24rem),
-      var(--color-bg-primary);
-    color: var(--color-text-primary);
-    text-rendering: optimizeLegibility;
+    background: var(--color-soft); color: var(--color-ink);
+    font-family: var(--font-sans); font-size: 1rem; line-height: 1.6;
+    font-synthesis: none; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
   }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; }
+  p, li, dd, figcaption { text-wrap: pretty; }
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  :focus-visible { outline: 2px solid var(--color-electric); outline-offset: 3px; border-radius: 6px; }
+  /* The fixed pill covers the top of the viewport: scroll-padding keeps focus scrolling (Tab, Shift+Tab)
+     clear of it. Sections cancel it with a negative margin, so anchors still land on the section top,
+     whose own padding clears the pill (native jumps and Lenis both read these two values). */
+  html { --pill-clear: calc(max(12px, env(safe-area-inset-top)) + 76px); scroll-padding-top: var(--pill-clear); }
+  section[id] { scroll-margin-top: calc(-1 * var(--pill-clear)); }
+  /* headings that only receive programmatic focus (menu navigation) */
+  :where(h2[tabindex='-1']):focus { outline: none; }
+  .on-dark :focus-visible { outline-color: var(--color-teal); }
+  ::selection { background: var(--color-teal); color: var(--color-night); }
+}
 
-  body.menu-lock {
-    overflow: hidden;
+@layer components {
+  .on-dark { color: #fff; }
+  .wrap { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: 1rem; }
+  @media (min-width: 40rem) { .wrap { padding-inline: 1.5rem; } }
+  .section { padding-block: 6rem; }
+  .section-lg { padding-block: 6rem; }
+  @media (min-width: 64rem) { .section { padding-block: 8rem; } .section-lg { padding-block: 10rem; } }
+
+  .eyebrow { font-family: var(--font-display); font-size: .875rem; line-height: 1.25rem; font-weight: 500; letter-spacing: .025em; color: var(--color-action); }
+  .on-dark .eyebrow { color: var(--color-teal); }
+  .section-intro { color: var(--color-muted); }
+  .on-dark .section-intro { color: rgb(255 255 255 / .75); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    min-height: 3rem; padding: .75rem 1.25rem; border-radius: 9999px;
+    font-family: var(--font-display); font-size: 1rem; line-height: 1.25rem; font-weight: 600;
+    white-space: nowrap; user-select: none;
+    transition: background-color 300ms var(--ease-brand), color 300ms var(--ease-brand),
+      transform 300ms var(--ease-brand), opacity 300ms var(--ease-brand), visibility 300ms;
   }
+  .btn:active { transform: scale(.98); }
+  .btn-primary { background: var(--color-action); color: #fff; }
+  .btn-primary:hover { background: var(--color-action-hover); }
+  .btn-lg { min-height: 3.5rem; padding: 1rem 1.75rem; font-size: 1.0625rem; }
+  /* very narrow screens and 400% zoom: the long label wraps instead of widening its column */
+  @media (max-width: 359px) { .btn-lg { white-space: normal; text-align: center; padding-inline: 1.25rem; } }
+  .btn-sm { min-height: 2.5rem; padding: .5rem 1rem; font-size: .875rem; }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-heading);
-    font-weight: 650;
-    font-variation-settings: 'wdth' 92;
+  .link-arrow {
+    display: inline-flex; align-items: center; gap: .375rem; min-height: 2.75rem;
+    font-family: var(--font-display); font-weight: 600; color: var(--color-action);
+    text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px;
+    text-decoration-color: rgb(10 98 208 / .3); transition: text-decoration-color 300ms var(--ease-brand);
   }
+  .link-arrow:hover { text-decoration-color: currentColor; }
+  .on-dark .link-arrow { color: #fff; text-decoration-color: rgb(255 255 255 / .35); }
+  .on-dark .link-arrow:hover { text-decoration-color: currentColor; }
+  .link-arrow svg { transition: transform 300ms var(--ease-brand); }
+  .link-arrow:hover .nudge-x { transform: translateX(2px); }
+  .link-arrow:hover .nudge-y { transform: translateY(2px); }
+  .link-arrow:hover .nudge-ne { transform: translate(2px, -2px); }
+  .text-link { color: var(--color-action); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .on-dark .text-link { color: #fff; }
 
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
+  .chip { display: inline-flex; align-items: center; gap: .25rem; border-radius: 9999px; padding: .125rem .625rem; font-size: .75rem; line-height: 1.125rem; font-weight: 600; white-space: nowrap; }
+  /* not a solid blue fill: solid action blue is reserved for the one CTA */
+  .chip-new { background: var(--color-sky); color: var(--color-action); box-shadow: inset 0 0 0 1px rgb(10 98 208 / .25); }
+  .chip-draft { background: var(--color-draft-bg); color: var(--color-draft); }
+  .chip-ok { background: var(--color-ok-bg); color: var(--color-ok); }
+  .chip-info { background: var(--color-sky); color: var(--color-action); }
 
-  button,
-  input,
-  textarea,
-  select {
-    font: inherit;
-  }
-
-  button {
-    color: inherit;
-  }
-
-  img,
-  picture,
-  svg {
-    max-width: 100%;
-  }
-
-  ::selection {
-    color: #fff;
-    background: rgba(34, 197, 94, 0.34);
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--color-primary-light);
-    outline-offset: 4px;
-  }
-
-  details > summary {
-    list-style: none;
-  }
-
-  details > summary::-webkit-details-marker {
-    display: none;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    body {
-      animation: page-in 500ms ease both;
-    }
+  .wm-ai { color: var(--color-teal); }
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .wm-ai { background-image: var(--gradient-ai); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
   }
 }
 
-@layer utilities {
-  .skip-link {
-    position: fixed;
-    top: 0.75rem;
-    left: 1rem;
-    z-index: 200;
-    padding: 0.8rem 1rem;
-    color: #04130a;
-    background: #86efac;
-    border-radius: 0.5rem;
-    transform: translateY(-200%);
-  }
+/* Reveal: hidden state exists only when motion is allowed AND the reveal script is running */
+html.motion [data-reveal] { transition: opacity 900ms var(--ease-brand), transform 900ms var(--ease-brand); transition-delay: var(--reveal-delay, 0ms); }
+html.motion.reveal-ready [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(2rem); }
 
-  .skip-link:focus {
-    transform: translateY(0);
-  }
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+html.menu-open { overflow: hidden; }
 
-  .glass {
-    border: 1px solid var(--color-bg-glass-border);
-    background: var(--color-bg-glass);
-    backdrop-filter: blur(16px) saturate(130%);
-  }
-
-  .glass-strong {
-    border-bottom: 1px solid rgba(148, 163, 184, 0.14);
-    background: rgba(5, 12, 22, 0.88);
-    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.28);
-    backdrop-filter: blur(22px) saturate(140%);
-  }
-
-  .gradient-text {
-    background: var(--gradient-text);
-    background-size: 160% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .glow-green {
-    box-shadow: var(--shadow-glow-green);
-  }
-
-  .glow-blue {
-    box-shadow: var(--shadow-glow-blue);
-  }
-
-  .section-padding {
-    padding-top: var(--section-padding);
-    padding-bottom: var(--section-padding);
-  }
+/* Print: every block in its final state, no fixed header repeated on each page */
+@media print {
+  html.motion.reveal-ready [data-reveal] { opacity: 1 !important; transform: none !important; }
+  [data-word] { opacity: 1 !important; }
+  header { position: absolute !important; }
 }
 
-@keyframes page-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@media (max-width: 640px) {
-  html {
-    scroll-padding-top: 5.5rem;
-  }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
 }

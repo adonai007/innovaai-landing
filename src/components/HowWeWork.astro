@@ -1,0 +1,157 @@
+---
+/**
+ * Cómo trabajamos: three engagement steps on white cards over sky. Each card opens with a
+ * static mini visual (process map, prototype with a supervisor comment, review queue).
+ * md: visual beside the text inside each card. lg: three columns sharing a subgrid, so the visuals,
+ * step numbers and deliverables line up across cards. Reveals only.
+ */
+import Icon from './ui/Icon.astro';
+import SectionHead from './ui/SectionHead.astro';
+import type { HowWeWorkData, QueueRow } from '../data/types';
+
+interface Props {
+  data: HowWeWorkData;
+}
+const { data } = Astro.props;
+const { map, prototype, inUse } = data.visuals;
+
+const toneChip: Record<QueueRow['tone'], string> = {
+  ok: 'chip-ok',
+  edited: 'chip-info',
+  returned: 'chip-draft',
+};
+---
+
+<section id="como-trabajamos" class="section bg-sky" aria-labelledby="como-trabajamos-title">
+  <div class="wrap">
+    {/* split head: the intro sits in the right column, level with the h2 */}
+    <div class="grid gap-4 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-24">
+      <SectionHead head={{ ...data.head, intro: undefined }} titleId="como-trabajamos-title" />
+      <p data-reveal style="--reveal-delay:120ms" class="section-intro max-w-[36rem] text-lead lg:pt-8">{data.head.intro}</p>
+    </div>
+
+    <ol class="mt-12 grid gap-4 lg:mt-16 lg:grid-cols-3 lg:gap-y-0">
+      {
+        data.steps.map((step, i) => (
+          <li
+            data-reveal
+            style={`--reveal-delay:${i * 80}ms`}
+            class="flex flex-col rounded-3xl bg-white p-6 sm:p-8 md:grid md:grid-cols-2 md:grid-rows-[auto_1fr_auto] md:gap-x-8 lg:row-span-4 lg:grid-cols-1 lg:grid-rows-subgrid lg:gap-0 lg:p-6 xl:p-8"
+          >
+            <div
+              aria-hidden="true"
+              class="min-h-[220px] rounded-2xl bg-soft p-4 text-ui ring-1 ring-line/60 ring-inset md:row-[1/span_3] lg:row-auto"
+            >
+              {i === 0 && (
+                <>
+                  <p class="font-display text-sm font-semibold">{map.title}</p>
+                  <div class="relative mt-2">
+                    <span class="absolute top-4 bottom-4 left-[9.5px] w-px bg-line" />
+                    <ol>
+                      {map.rows.map((row, r) => (
+                        <li
+                          class:list={[
+                            'relative flex items-center gap-2.5 py-1.5',
+                            r === map.highlightIndex && '-mx-2 my-1 rounded-xl bg-white px-2 ring-2 ring-action/30',
+                          ]}
+                        >
+                          <span
+                            class:list={[
+                              'grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-medium tabular-nums',
+                              r === map.highlightIndex ? 'bg-action text-white' : 'bg-white text-muted ring-1 ring-line',
+                            ]}
+                          >
+                            {r + 1}
+                          </span>
+                          {r === map.highlightIndex ? (
+                            <span class="flex min-w-0 flex-col items-start">
+                              <span class="font-medium">{row}</span>
+                              <span class="chip chip-info mt-1">{map.highlightTag}</span>
+                            </span>
+                          ) : (
+                            <span class="min-w-0">{row}</span>
+                          )}
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                  <div class="my-3 border-t border-line" />
+                  <p class="text-xs text-muted">{map.measureLabel}</p>
+                  <p class="mt-0.5 font-medium">{map.measure}</p>
+                </>
+              )}
+
+              {i === 1 && (
+                <>
+                  <div class="rounded-xl bg-white p-3 ring-1 ring-line">
+                    <span class="chip chip-info">{prototype.badge}</span>
+                    <p class="mt-2 font-semibold">{prototype.title}</p>
+                    <dl class="mt-1">
+                      {prototype.fields.map((f) => (
+                        <div class="grid grid-cols-[88px_1fr] gap-2 py-1">
+                          <dt class="text-muted">{f.label}</dt>
+                          <dd class="font-medium">{f.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <div class="mt-1.5 flex items-center justify-between gap-2 rounded-lg border border-dashed border-muted/40 px-2 py-1.5 text-muted">
+                      <span>{prototype.missing.label}</span>
+                      <span class="chip chip-draft">{prototype.missing.value}</span>
+                    </div>
+                  </div>
+                  <div class="mt-3 flex gap-2.5">
+                    <span class="grid size-7 shrink-0 place-items-center rounded-full bg-sky text-[11px] font-semibold text-action">
+                      {prototype.comment.initials}
+                    </span>
+                    <div class="min-w-0 rounded-xl rounded-tl-sm bg-white px-3 py-2 ring-1 ring-line">
+                      <p class="text-xs leading-snug">
+                        <span class="block font-semibold">{prototype.comment.name}</span>
+                        <span class="block text-muted">{prototype.comment.role}</span>
+                      </p>
+                      <p class="mt-0.5">{prototype.comment.text}</p>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {i === 2 && (
+                <>
+                  <p class="font-semibold">{inUse.title}</p>
+                  <ul class="mt-1">
+                    {inUse.rows.map((row) => (
+                      <li class="flex items-center justify-between gap-2 border-b border-line py-2 last:border-0">
+                        <div class="min-w-0">
+                          <p class="font-medium">{row.name}</p>
+                          <p class="text-xs text-muted">{row.detail}</p>
+                        </div>
+                        <span class:list={['chip', toneChip[row.tone]]}>{row.status}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+
+            <p class="mt-8 font-display text-sm font-semibold text-action tabular-nums md:col-[2] md:mt-0 lg:col-auto lg:mt-8">
+              {step.number}
+            </p>
+            <div class="md:col-[2] lg:col-auto">
+              <h3 class="mt-2 text-xl font-semibold tracking-tight">{step.title}</h3>
+              <p class="mt-2 text-muted">{step.body}</p>
+            </div>
+            <div class="mt-auto pt-6 md:col-[2] lg:col-auto">
+              <div class="border-t border-line pt-4">
+                <p class="text-sm text-muted">{data.deliverableLabel}</p>
+                <p class="mt-1 flex gap-2 font-medium">
+                  <Icon name="check-circle" weight="fill" class="mt-0.5 size-5 shrink-0 text-action" />
+                  {step.deliverable}
+                </p>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="mt-4 text-xs text-muted">{data.caption}</p>
+  </div>
+</section>
