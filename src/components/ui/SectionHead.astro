@@ -1,12 +1,47 @@
 ---
-/** Eyebrow + h2 + optional intro. On dark sections the parent <section> carries .on-dark. */
-import type { SectionHead as SectionHeadData } from '../../data/types';
-interface Props { head: SectionHeadData; titleId: string; class?: string }
-const { head, titleId, class: className = '' } = Astro.props;
+/**
+ * Section header: optional label, the h2 (split by Lines) and an optional intro, then the slot.
+ * Colours follow `tone`; the h2 inherits the section colour.
+ */
+import Lines from './Lines.astro';
+
+interface Props {
+  title: string;
+  titleId: string;
+  label?: string;
+  intro?: string;
+  align?: 'start' | 'center';
+  size?: 'section' | 'hero' | 'display';
+  tone?: 'light' | 'dark';
+  /** adds data-reveal to the block (default true) */
+  reveal?: boolean;
+  class?: string;
+}
+const {
+  title,
+  titleId,
+  label,
+  intro,
+  align = 'start',
+  size = 'section',
+  tone = 'light',
+  reveal = true,
+  class: className = '',
+} = Astro.props;
+const sizeClass = { section: 'text-section', hero: 'text-hero', display: 'text-display' }[size];
+const dark = tone === 'dark';
+const center = align === 'center';
 ---
-<div data-reveal class:list={['max-w-[680px]', className]}>
-  <p class="eyebrow">{head.eyebrow}</p>
-  <h2 id={titleId} class="mt-3 text-h2 font-semibold">{head.title}</h2>
-  {head.intro && <p class="section-intro mt-4 max-w-[36rem] text-lead">{head.intro}</p>}
+
+<div data-reveal={reveal ? '' : undefined} class:list={[{ 'text-center': center }, className]}>
+  {label && <p class:list={['text-label', dark ? 'text-on-night-2' : 'text-ink']}>{label}</p>}
+  <h2 id={titleId} class:list={[sizeClass, { 'mt-2': label }]}><Lines text={title} /></h2>
+  {
+    intro && (
+      <p class:list={['mt-4 max-w-[40rem] text-intro', dark ? 'text-on-night-2' : 'text-ink-2', { 'mx-auto': center }]}>
+        {intro}
+      </p>
+    )
+  }
   <slot />
 </div>

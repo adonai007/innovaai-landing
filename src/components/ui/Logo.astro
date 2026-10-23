@@ -1,16 +1,49 @@
 ---
-/** InnovaAI lockup for dark surfaces only (header, menu, closing, footer): mark tile + "Innova" + gradient "AI". */
+/**
+ * InnovaAI lockup: the mark in a rounded tile plus the text wordmark in currentColor. "AI" takes the action blue
+ * on light and the on-night link blue inside [data-theme='dark'] or .on-night. No gradient.
+ */
 import { Image } from 'astro:assets';
 import mark from '../../assets/brand/innovaai-mark.png';
-interface Props { size?: 'sm' | 'md' | 'lg'; class?: string; /** above the fold (header pill) */ eager?: boolean }
-const { size = 'sm', class: className = '', eager = false } = Astro.props;
-const px = { sm: 32, md: 40, lg: 64 }[size];
-const text = { sm: 'text-lg', md: 'text-2xl', lg: 'text-4xl' }[size];
-const gap = { sm: 'gap-2', md: 'gap-2.5', lg: 'gap-3' }[size];
+
+interface Props {
+  size?: 'nav' | 'footer';
+  /** above the fold (global nav) */
+  eager?: boolean;
+  class?: string;
+}
+const { size = 'nav', eager = false, class: className = '' } = Astro.props;
+const px = size === 'nav' ? 22 : 16;
 ---
-<span class:list={['inline-flex items-center', gap, className]}>
-  <span class="shrink-0 overflow-hidden rounded-[28%] bg-logo-bg ring-1 ring-white/10" style={`width:${px}px;height:${px}px`}>
-    <Image src={mark} alt="" width={px} height={px} densities={[1, 2]} loading={eager ? 'eager' : 'lazy'} class="size-full" />
+
+<span class:list={['logo inline-flex items-center', size === 'nav' ? 'gap-[0.4375rem]' : 'gap-1.5', className]}>
+  <span class="logo-tile shrink-0 overflow-hidden rounded-[22%]" style={`width:${px}px;height:${px}px`}>
+    <Image
+      src={mark}
+      alt=""
+      width={px}
+      height={px}
+      densities={[1, 2]}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      class="block size-full"
+    />
   </span>
-  <span class:list={['logo-word', text, 'font-display font-semibold leading-none tracking-tight text-white']}>Innova<span class="wm-ai">AI</span></span>
+  <span
+    class:list={[
+      'logo-word font-semibold leading-none tracking-[-0.01em] whitespace-nowrap',
+      size === 'nav' ? 'text-[0.9375rem]' : 'text-[0.75rem]',
+    ]}>Innova<span class="logo-ai">AI</span></span
+  >
 </span>
+
+<style is:global>
+  .logo-ai {
+    color: var(--color-action);
+    transition: color 320ms var(--ease-standard);
+  }
+  [data-theme='dark'] .logo-ai,
+  .on-night .logo-ai {
+    color: var(--color-link-on-night);
+  }
+</style>

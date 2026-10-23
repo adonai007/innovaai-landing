@@ -1,74 +1,78 @@
-import { getLenis } from './state';
-
 /**
- * Header CTA: visible only while no [data-primary-cta] (hero, closing) intersects the viewport.
- * Without JS (no html.js) the CTA is always visible. With JS its slot collapses while it is hidden.
+ * Global nav behaviour (components/Header.astro).
+ * - initNavTheme: the bar turns dark while a [data-nav-theme="dark"] section crosses a 1px line at half its height.
+ * - initMenu: the native <dialog> menu below 834px.
+ * Without JS the bar stays light and the links show as a scrollable second row (CSS only).
  */
-export function initHeaderCta() {
-  const cta = document.querySelector<HTMLElement>('[data-header-cta]');
-  if (!cta) return;
-  const slot = cta.closest<HTMLElement>('[data-header-cta-slot]');
-  const show = (on: boolean) => {
-    cta.classList.toggle('is-shown', on);
-    slot?.classList.toggle('is-shown', on);
+
+/** Keep in sync with the `nav` breakpoint in global.css (52.125em = 834px at the default text size). */
+const DESKTOP_NAV = '(min-width: 52.125em)';
+
+export function initNavTheme() {
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+  const sections = document.querySelectorAll<HTMLElement>('[data-nav-theme="dark"]');
+  if (!nav || !sections.length || !('IntersectionObserver' in window)) return;
+  const crossing = new Set<Element>();
+  let io: IntersectionObserver | undefined;
+
+  const build = () => {
+    io?.disconnect();
+    crossing.clear();
+    // the root band is a 1px horizontal line at half the bar's height
+    const p = Math.round(nav.offsetHeight / 2);
+    const bottom = Math.max(0, window.innerHeight - p - 1);
+    io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) crossing.add(e.target);
+          else crossing.delete(e.target);
+        }
+        nav.dataset.theme = crossing.size ? 'dark' : 'light';
+      },
+      { rootMargin: `-${p}px 0px -${bottom}px 0px` },
+    );
+    sections.forEach((s) => io!.observe(s));
   };
-  const targets = document.querySelectorAll<HTMLElement>('[data-primary-cta]');
-  if (!targets.length || !('IntersectionObserver' in window)) {
-    show(true);
-    return;
-  }
-  // A primary CTA that slides under the header pill no longer counts as visible, so the header CTA takes
-  // over as soon as it is covered (the pill's bottom edge moves with the safe area).
-  const pill = document.querySelector<HTMLElement>('.header-pill');
-  const top = Math.round((pill?.getBoundingClientRect().bottom ?? 68) + 4);
-  const inView = new Set<Element>();
-  const io = new IntersectionObserver(
-    (entries) => {
-      // "in view" = at least half of it shows below the pill, so a sliver never leaves the page without a CTA
-      for (const e of entries) {
-        if (e.isIntersecting && e.intersectionRatio >= 0.5) inView.add(e.target);
-        else inView.delete(e.target);
-      }
-      show(inView.size === 0);
-    },
-    { threshold: [0, 0.5, 1], rootMargin: `-${top}px 0px 0px 0px` },
-  );
-  targets.forEach((t) => io.observe(t));
+
+  build();
+  let timer = 0;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(build, 150);
+  });
 }
 
 /** Mobile menu: native <dialog> opened with showModal() (focus trap, Escape, inert page). */
 export function initMenu() {
   const dialog = document.getElementById('site-menu') as HTMLDialogElement | null;
-  const burger = document.querySelector<HTMLButtonElement>('[data-menu-open]');
-  if (!dialog || !burger || typeof dialog.showModal !== 'function') return;
+  const button = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  if (!dialog || !button || typeof dialog.showModal !== 'function') return;
   const root = document.documentElement;
 
   const teardown = () => {
-    getLenis()?.start();
     root.classList.remove('menu-open');
-    burger.setAttribute('aria-expanded', 'false');
+    button.setAttribute('aria-expanded', 'false');
   };
   const close = () => {
     if (dialog.open) dialog.close();
     teardown();
   };
 
-  burger.addEventListener('click', () => {
+  button.addEventListener('click', () => {
     if (dialog.open) return;
     dialog.showModal();
-    getLenis()?.stop();
     root.classList.add('menu-open');
-    burger.setAttribute('aria-expanded', 'true');
+    button.setAttribute('aria-expanded', 'true');
   });
 
   dialog.querySelectorAll('[data-menu-close]').forEach((b) => b.addEventListener('click', close));
   dialog.addEventListener('cancel', () => close());
-  // Escape and the close button return focus to the burger; a menu link moves focus to its section instead.
+  // Escape and the close button return focus to the menu button; a menu link moves focus to its section instead.
   let navigating = false;
   dialog.addEventListener('close', () => {
     teardown();
     if (navigating) navigating = false;
-    else burger.focus({ preventScroll: true });
+    else button.focus({ preventScroll: true });
   });
 
   dialog.querySelectorAll<HTMLAnchorElement>('a[data-menu-link]').forEach((a) =>
@@ -80,12 +84,9 @@ export function initMenu() {
       e.preventDefault();
       navigating = true;
       close();
-      const lenis = getLenis();
-      // time-based, so it always completes (a lerped scroll to a half-pixel target never settles)
-      if (lenis) lenis.scrollTo(section, { duration: 1.1 });
-      else section.scrollIntoView();
+      section.scrollIntoView();
       history.replaceState(null, '', hash);
-      // keyboard and screen reader users continue from the section, not from the burger at the top
+      // keyboard and screen reader users continue from the section, not from the menu button at the top
       const labelId = section.getAttribute('aria-labelledby');
       const heading = (labelId && document.getElementById(labelId)) || section;
       if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
@@ -93,8 +94,7 @@ export function initMenu() {
     }),
   );
 
-  const mq = window.matchMedia('(min-width: 1024px)');
-  mq.addEventListener('change', (e) => {
+  window.matchMedia(DESKTOP_NAV).addEventListener('change', (e) => {
     if (e.matches) close();
   });
 }

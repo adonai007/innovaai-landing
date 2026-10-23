@@ -1,49 +1,24 @@
 import type { FaqData } from '../types';
 
 export const faq = {
-  head: {
-    eyebrow: 'Frequently asked questions',
-    title: 'Before you start.',
-    // Text before the WhatsApp link; FAQ.astro renders it in SectionHead's slot (SPEC 4.9).
-    intro: 'Direct answers to what usually comes up in a first conversation. If you have another question, ',
-  },
-  introLink: 'message us on WhatsApp',
-  introEnd: '.',
+  title: 'Frequently asked questions.',
+  introBefore: 'Have another question? ',
+  introLink: 'Message us on WhatsApp',
+  introAfter: '.',
   items: [
-    {
-      question: 'What kinds of processes can AI improve?',
-      answer:
-        'Processes involving repetitive work, information search, document classification, frequent writing, customer service or decisions that depend on gathering scattered data. During the diagnostic, we prioritize one concrete use case.',
-    },
-    {
-      question: 'Does my data need to be perfect?',
-      answer:
-        'No. We first review what information exists, how reliable it is and what can be used safely. Often the first improvement is precisely organizing the workflow and its data.',
-    },
-    {
-      question: 'Will AI replace my team?',
-      answer:
-        'No. The tool prepares drafts and gathers information; your team reviews and decides what matters.',
-    },
-    {
-      question: 'How do you handle sensitive information?',
-      answer:
-        'We define access, retention, providers and review points from the design stage. Not every solution needs to store the same information or use the same model.',
-    },
-    {
-      question: 'How long does a first use case take?',
-      answer:
-        'A focused use case can reach a prototype in one week and be validated over the following weeks, depending on data access, integrations and scope. We confirm this after the diagnostic.',
-    },
-    {
-      question: 'How much does it cost?',
-      answer:
-        'It depends on the case and the scope. The first conversation is free. If we find a good case, we propose a clear scope and budget before any work starts.',
-    },
-    {
-      question: 'Who is behind InnovaAI?',
-      answer:
-        'InnovaAI is an applied AI studio founded in Bolivia by Adonai Callejas. Besides working with companies, we build and maintain our own products: Dicta and DentiMed.',
-    },
+    { question: 'What is InnovaAI?',
+      answer: 'An AI product studio founded by Adonai Callejas and based in La Paz, Bolivia. We build and maintain our own products, DentiMed and Dicta, and design tools with teams at other companies.' },
+    { question: 'Do you work with teams in other countries?',
+      answer: 'Yes. We talk on WhatsApp, in Spanish or English, wherever you are. We agree on the scope and the way of working together.' },
+    { question: 'Where can I use DentiMed?',
+      answer: "DentiMed is made for dentists and is available in Spanish. It runs in your phone's browser, with nothing to download from an app store, and you choose your clinic's main currency. It's currently in a founders pilot." },
+    { question: 'Does AI replace people?',
+      answer: "No. Our tools gather the information and prepare a draft. A person reviews and confirms what matters before it's saved or sent." },
+    { question: 'How do you handle sensitive information?',
+      answer: 'From the design stage we define who has access, what is stored, for how long and with which providers. In DentiMed, each clinic is isolated from the others, important actions are recorded in an audit log, and no draft is saved without human review.' },
+    { question: 'How much does it cost?',
+      answer: "It depends on the scope. If there's a good fit, we propose a clear scope and budget before any work begins. The first conversation is free. DentiMed is in a founders pilot, and Dicta is free to start." },
+    { question: 'Where do we start?',
+      answer: "With a 30-minute conversation. Tell us which task keeps repeating, and we'll see together whether there's a good place to start." },
   ],
 } satisfies FaqData;

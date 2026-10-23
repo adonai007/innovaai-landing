@@ -1,6 +1,14 @@
 ---
+/**
+ * Base document: meta, Open Graph, hreflang, canonical, the JSON-LD @graph (Organization, WebSite, WebPage plus
+ * the page's own nodes) and the inline mode script.
+ *
+ * Mode script (runs before first paint): swaps no-js for js, adds motion or still (reduced motion or Save-Data)
+ * and slow-net on 2G. Fonts: Apple devices get html.sf and render SF Pro from the system stack (no download);
+ * everywhere else it preloads the one Inter latin opsz file that global.css declares.
+ */
 import '../styles/global.css';
-import outfitLatin from '@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2?url';
+import interLatin from '@fontsource-variable/inter/files/inter-latin-opsz-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -12,7 +20,6 @@ interface Props {
   ogImage?: string;
   ogImageAlt: string;
   structuredData?: Record<string, unknown>[];
-  mainEntityId?: string;
 }
 
 const {
@@ -24,7 +31,6 @@ const {
   ogImage = '/images/innovaai-og.jpg',
   ogImageAlt,
   structuredData = [],
-  mainEntityId,
 } = Astro.props;
 const altLang = lang === 'es' ? 'en' : 'es';
 const currentPath = Astro.url.pathname;
@@ -39,7 +45,8 @@ const ogImageURL = new URL(ogImage, siteURL);
 const organizationId = `${siteURL.href}#organization`;
 const websiteId = `${siteURL.href}#website`;
 const webpageId = `${canonicalURL.href}#webpage`;
-const pageEntityId = mainEntityId ?? organizationId;
+const ogLocale = lang === 'es' ? 'es_LA' : 'en_US';
+const ogLocaleAlt = lang === 'es' ? 'en_US' : 'es_LA';
 const schema = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -71,7 +78,7 @@ const schema = {
         addressLocality: 'La Paz',
         addressCountry: 'BO',
       },
-      areaServed: ['Bolivia', 'Latin America'],
+      areaServed: 'Worldwide',
       founder: {
         '@type': 'Person',
         name: 'Adonai Callejas',
@@ -84,12 +91,11 @@ const schema = {
       },
       knowsLanguage: ['Spanish', 'English'],
       knowsAbout: [
-        'AI consulting',
-        'business automation',
-        'knowledge management',
-        'team adoption',
+        'AI product design',
+        'software development',
         'voice dictation',
         'dental clinic software',
+        'workflow automation',
       ],
     },
     {
@@ -108,8 +114,8 @@ const schema = {
       name: title,
       description,
       isPartOf: { '@id': websiteId },
-      about: { '@id': pageEntityId },
-      mainEntity: { '@id': pageEntityId },
+      about: { '@id': organizationId },
+      mainEntity: { '@id': organizationId },
       primaryImageOfPage: {
         '@type': 'ImageObject',
         url: ogImageURL.href,
@@ -129,7 +135,7 @@ const schema = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script is:inline>
+    <script is:inline define:vars={{ interUrl: interLatin }}>
       (function () {
         var d = document.documentElement;
         d.classList.remove('no-js');
@@ -138,11 +144,23 @@ const schema = {
         var c = navigator.connection;
         var sd = c && c.saveData;
         d.classList.add(rm || sd ? 'still' : 'motion');
-        // 2G: the cinematic chapter never builds its tall tracks (no layout shift when its script arrives late)
+        // 2G: the film chapter never builds its tall tracks (no layout shift when its script arrives late)
         if (c && /(^|-)2g$/.test(c.effectiveType || '')) d.classList.add('slow-net');
+        // Apple devices render SF Pro from the system stack and download no font; everyone else gets Inter
+        var uad = navigator.userAgentData;
+        var platform = (uad && uad.platform) || navigator.platform || '';
+        if (/Mac|iPhone|iPad|iPod|macOS/.test(platform)) d.classList.add('sf');
+        else {
+          var l = document.createElement('link');
+          l.rel = 'preload';
+          l.as = 'font';
+          l.type = 'font/woff2';
+          l.crossOrigin = 'anonymous';
+          l.href = interUrl;
+          document.head.appendChild(l);
+        }
       })();
     </script>
-    <link rel="preload" href={outfitLatin} as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />
     <meta
       name="robots"
@@ -150,7 +168,7 @@ const schema = {
     />
     <meta name="author" content="InnovaAI" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#fafbf9" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light" />
 
     <link rel="icon" type="image/png" sizes="32x32" href="/images/innovaai-logo-mark-32.png" />
@@ -168,25 +186,19 @@ const schema = {
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:site_name" content="InnovaAI" />
-    <meta property="og:locale" content={lang === 'es' ? 'es_BO' : 'en_US'} />
-    <meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_BO'} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
     <meta property="og:image" content={ogImageURL.href} />
     <meta property="og:image:secure_url" content={ogImageURL.href} />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content={ogImageAlt}
-    />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL.href} />
-    <meta
-      name="twitter:image:alt"
-      content={ogImageAlt}
-    />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
     <title>{title}</title>
@@ -194,7 +206,7 @@ const schema = {
   <body>
     <a
       href="#contenido"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-ink focus:shadow-float"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-caption focus:text-ink focus:ring-2 focus:ring-action focus:outline-hidden"
       >{skipLink}</a
     >
     <slot />

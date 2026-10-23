@@ -5,8 +5,9 @@ export const navigation = {
   homeLabel: 'InnovaAI, volver al inicio',
   navLabel: 'Principal',
   links: [
-    { label: 'Qué construimos', href: '#que-construimos' },
-    { label: 'Productos', href: '#productos' },
+    { label: 'DentiMed', href: '#dentimed' },
+    { label: 'Dicta', href: '#dicta' },
+    { label: 'Para equipos', href: '#que-construimos' },
     { label: 'Cómo trabajamos', href: '#como-trabajamos' },
     { label: 'Preguntas', href: '#preguntas' },
   ],

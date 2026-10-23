@@ -1,0 +1,15 @@
+---
+/** STUB (phase 1 foundation). Phase 2 replaces this with the Dicta tile (SPEC2 4.4). */
+import type { DictaData } from '../data/types';
+
+interface Props {
+  data: DictaData;
+}
+const { data } = Astro.props;
+---
+
+<section id="dicta" aria-labelledby="dicta-title" data-nav-theme="dark" class="section on-night">
+  <div class="wrap text-center">
+    <h2 id="dicta-title" class="text-eyebrow">{data.lockup.name}</h2>
+  </div>
+</section>

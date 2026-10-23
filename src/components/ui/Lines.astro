@@ -1,0 +1,9 @@
+---
+/** Splits a headline on "\n": a line break from 735px up only (.br-lg), a plain space below. */
+interface Props {
+  text: string;
+}
+const lines = Astro.props.text.split('\n');
+---
+
+{lines.map((line, i) => (i === 0 ? line : <Fragment><br class="br-lg" />{' '}{line}</Fragment>))}

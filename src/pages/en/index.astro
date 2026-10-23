@@ -1,15 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
-import Hero from '../../components/Hero.astro';
+import Ribbon from '../../components/Ribbon.astro';
+import DentimedHero from '../../components/dentimed/DentimedHero.astro';
+import DentimedFeatures from '../../components/dentimed/DentimedFeatures.astro';
+import Dicta from '../../components/Dicta.astro';
 import CinematicStory from '../../components/CinematicStory.astro';
-import Example from '../../components/Example.astro';
-import UseCases from '../../components/UseCases.astro';
-import Products from '../../components/Products.astro';
+import EverydayWork from '../../components/EverydayWork.astro';
 import HowWeWork from '../../components/HowWeWork.astro';
-import Principles from '../../components/Principles.astro';
-import Tagline from '../../components/Tagline.astro';
-import Audience from '../../components/Audience.astro';
 import FAQ from '../../components/FAQ.astro';
 import Closing from '../../components/Closing.astro';
 import Footer from '../../components/Footer.astro';
@@ -17,15 +15,11 @@ import { site } from '../../data/en/site';
 import { navigation } from '../../data/en/navigation';
 import { footer } from '../../data/en/footer';
 import { seo } from '../../data/en/seo';
-import { hero } from '../../data/en/hero';
+import { dentimed } from '../../data/en/dentimed';
+import { dicta } from '../../data/en/dicta';
 import { cinema } from '../../data/en/cinema';
-import { example } from '../../data/en/example';
-import { useCases } from '../../data/en/use-cases';
-import { products } from '../../data/en/products';
+import { everydayWork } from '../../data/en/everyday-work';
 import { howWeWork } from '../../data/en/how-we-work';
-import { principles } from '../../data/en/principles';
-import { tagline } from '../../data/en/tagline';
-import { audience } from '../../data/en/audience';
 import { faq } from '../../data/en/faq';
 import { closing } from '../../data/en/closing';
 import { DENTIMED_URL, DICTA_URL } from '../../data/links';
@@ -33,17 +27,16 @@ import { DENTIMED_URL, DICTA_URL } from '../../data/links';
 const siteURL = new URL('/', Astro.site ?? 'https://innovai.click');
 const pageURL = new URL('/en/', siteURL);
 const orgId = `${siteURL.href}#organization`;
-const serviceId = `${pageURL.href}#applied-ai-consulting`;
 const structuredData = [
   {
     '@type': 'Service',
-    '@id': serviceId,
+    '@id': `${pageURL.href}#service`,
     name: seo.home.serviceName,
     serviceType: seo.home.serviceType,
     description: seo.home.serviceDescription,
     url: pageURL.href,
     provider: { '@id': orgId },
-    areaServed: ['Bolivia', 'Latin America'],
+    areaServed: 'Worldwide',
     audience: { '@type': 'BusinessAudience', audienceType: seo.home.audience },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
@@ -62,7 +55,7 @@ const structuredData = [
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     inLanguage: 'es',
-    description: products.dentimed.tagline,
+    description: dentimed.lockup.subhead,
     publisher: { '@id': orgId },
   },
   {
@@ -72,7 +65,7 @@ const structuredData = [
     url: DICTA_URL,
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Windows, Linux',
-    description: products.dicta.tagline,
+    description: dicta.lockup.subhead,
     publisher: { '@id': orgId },
   },
   {
@@ -96,19 +89,17 @@ const structuredData = [
   ogImage={seo.ogImage}
   ogImageAlt={seo.ogImageAlt}
   structuredData={structuredData}
-  mainEntityId={serviceId}
 >
   <Header nav={navigation} site={site} />
   <main id="contenido">
-    <Hero data={hero} site={site} />
+    <h1 class="sr-only">{site.h1}</h1>
+    <Ribbon site={site} />
+    <DentimedHero data={dentimed} />
+    <DentimedFeatures data={dentimed} />
+    <Dicta data={dicta} />
     <CinematicStory data={cinema} />
-    <Example data={example} />
-    <UseCases data={useCases} />
-    <Products data={products} site={site} />
+    <EverydayWork data={everydayWork} site={site} />
     <HowWeWork data={howWeWork} />
-    <Principles data={principles} />
-    <Tagline data={tagline} />
-    <Audience data={audience} />
     <FAQ data={faq} site={site} />
     <Closing data={closing} site={site} />
   </main>

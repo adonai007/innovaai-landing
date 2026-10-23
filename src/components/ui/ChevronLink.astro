@@ -1,0 +1,45 @@
+---
+/**
+ * Text link with a trailing chevron (our own SVG). The label is split at its last space so the chevron never
+ * wraps alone; hover underlines the text only, never the chevron.
+ */
+import type { Locale } from '../../data/types';
+
+interface Props {
+  href: string;
+  label: string;
+  external?: boolean;
+  /** screen-reader text appended to the label */
+  hint?: string;
+  hreflang?: Locale;
+  lang?: string;
+  size?: 'caption' | 'body' | 'intro';
+  class?: string;
+}
+const { href, label, external = false, hint, hreflang, lang, size = 'body', class: className = '' } = Astro.props;
+const sizeClass = { caption: 'text-caption', body: 'text-body', intro: 'text-intro' }[size];
+const cut = label.lastIndexOf(' ');
+const head = cut > 0 ? label.slice(0, cut + 1) : '';
+const last = cut > 0 ? label.slice(cut + 1) : label;
+---
+
+<a
+  href={href}
+  class:list={['link-chevron', sizeClass, className]}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  hreflang={hreflang}
+  lang={lang}
+>{head && <span class="lc-text">{head}</span>}<span class="whitespace-nowrap"><span class="lc-text">{last}</span><svg
+      class="lc-icon"
+      viewBox="0 0 7 12"
+      aria-hidden="true"
+      focusable="false"
+      ><path
+        d="M1 1l5 5-5 5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path></svg
+    ></span>{hint && <span class="sr-only"> {hint}</span>}</a>

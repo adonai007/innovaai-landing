@@ -1,15 +1,20 @@
 import type { SiteData } from '../types';
 import { waHref } from '../links';
 
-const whatsappMessage = 'Hi Adonai, I saw the InnovaAI website and would like to talk about a task that keeps repeating in my company.';
+const whatsappMessage = "Hi Adonai, I saw the InnovaAI website and I'd like to talk about a task that keeps repeating in my work.";
 
 export const site = {
   lang: 'en',
   skipLink: 'Skip to content',
+  h1: 'InnovaAI, AI product studio',
+  ribbon: {
+    text: 'InnovaAI is an AI product studio from Latin America, for the world.',
+    link: { label: 'Meet the studio', href: '#historia' },
+  },
   whatsappMessage,
   whatsappHref: waHref(whatsappMessage),
+  whatsappHint: '(opens WhatsApp in a new tab)',
   cta: "Let's talk on WhatsApp",
   ctaShort: "Let's talk",
-  demoNote: 'Demo data.',
   externalHint: '(opens in a new tab)',
 } satisfies SiteData;

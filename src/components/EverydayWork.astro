@@ -1,0 +1,16 @@
+---
+/** STUB (phase 1 foundation). Phase 2 replaces this with the everyday work grid (SPEC2 4.6). */
+import type { EverydayWorkData, SiteData } from '../data/types';
+
+interface Props {
+  data: EverydayWorkData;
+  site: SiteData;
+}
+const { data } = Astro.props;
+---
+
+<section id="que-construimos" aria-labelledby="que-construimos-title" class="section bg-canvas-alt">
+  <div class="wrap">
+    <h2 id="que-construimos-title" class="text-section">{data.title}</h2>
+  </div>
+</section>

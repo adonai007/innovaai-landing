@@ -1,15 +1,15 @@
 import type { SeoData } from '../types';
 
 export const seo = {
-  organizationDescription: 'Estudio boliviano de IA aplicada. Construimos herramientas que preparan el trabajo para que tu equipo decida. Creadores de Dicta y DentiMed.',
+  organizationDescription: 'Estudio de producto con IA fundado por Adonai Callejas, con base en La Paz, Bolivia. Creadores de DentiMed y Dicta.',
   ogImage: '/images/innovaai-og.jpg',
-  ogImageAlt: 'InnovaAI: la IA prepara el trabajo, tu equipo decide.',
+  ogImageAlt: 'InnovaAI. Menos repetición. Más criterio.',
   home: {
-    title: 'InnovaAI · Estudio de IA aplicada en Bolivia',
-    description: 'Estudio boliviano de IA aplicada, creadores de Dicta y DentiMed. Construimos herramientas que preparan el trabajo para que tu equipo decida.',
-    serviceName: 'Diagnóstico, prototipo e implementación de IA aplicada',
-    serviceType: 'Consultoría e implementación de inteligencia artificial',
-    serviceDescription: 'Elegimos una tarea concreta de tu empresa, probamos una herramienta con material real y la dejamos funcionando con tu equipo.',
-    audience: 'Empresas en Bolivia y Latinoamérica',
+    title: 'InnovaAI · Productos con IA para el trabajo de cada día',
+    description: 'Estudio de producto con IA desde Latinoamérica. Creamos DentiMed, el asistente para odontólogos, y Dicta, dictado por voz para Windows y Linux.',
+    serviceName: 'Diseño y desarrollo de herramientas con IA',
+    serviceType: 'Desarrollo de software con inteligencia artificial',
+    serviceDescription: 'Elegimos una tarea concreta, probamos una primera versión con material real y la dejamos en uso con tu equipo.',
+    audience: 'Empresas y equipos de Latinoamérica y del mundo',
   },
 } satisfies SeoData;

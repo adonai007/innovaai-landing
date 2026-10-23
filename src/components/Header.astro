@@ -1,9 +1,14 @@
 ---
-/** Floating dark translucent pill + full-screen <dialog> menu (below lg). Behaviour lives in scripts/header.ts. */
+/**
+ * Global nav (Apple style): a 44px frosted bar (48px below 834px), sticky at the top. Logo left, five links
+ * centred from 834px, language link and a small blue pill on the right, plus the menu button below 834px.
+ * data-theme switches to "dark" while a [data-nav-theme="dark"] section sits under the bar (scripts/header.ts).
+ * The menu is a native <dialog> (showModal: focus trap, Escape, inert page). Without JS the menu button is
+ * hidden and the links show as a second, horizontally scrollable row below 834px.
+ */
 import Logo from './ui/Logo.astro';
-import Icon from './ui/Icon.astro';
-import WhatsAppCta from './ui/WhatsAppCta.astro';
-import LinkArrow from './ui/LinkArrow.astro';
+import Button from './ui/Button.astro';
+import ChevronLink from './ui/ChevronLink.astro';
 import type { NavigationData, SiteData } from '../data/types';
 
 interface Props {
@@ -13,20 +18,25 @@ interface Props {
 const { nav, site } = Astro.props;
 ---
 
-<header class="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-[max(12px,env(safe-area-inset-top))]">
-  <div class="header-pill on-dark pointer-events-auto relative flex h-14 w-full max-w-5xl items-center justify-between gap-2 rounded-full bg-night/75 py-2 pr-2 pl-3 shadow-pill backdrop-blur-lg backdrop-saturate-150">
-    <a href="#inicio" aria-label={nav.homeLabel} class="shrink-0 rounded-full"><Logo size="sm" eager /></a>
+<header
+  data-nav
+  data-theme="light"
+  class="nav-bar sticky top-0 z-50 h-[var(--nav-h)] bg-white/80 text-ink backdrop-blur-[20px] backdrop-saturate-[1.8] transition-[background-color,color] duration-[320ms] ease-standard data-[theme=dark]:bg-night-3/80 data-[theme=dark]:text-on-night"
+>
+  <div
+    class="mx-auto flex h-[var(--nav-h)] max-w-[64rem] items-center justify-between gap-4 px-4 nav:grid nav:grid-cols-[1fr_auto_1fr] nav:px-[1.375rem]"
+  >
+    <a href="#top" aria-label={nav.homeLabel} class="nav-home flex h-full items-center justify-self-start">
+      <Logo size="nav" eager />
+    </a>
 
-    <nav aria-label={nav.navLabel} class="hidden lg:absolute lg:top-1/2 lg:left-1/2 lg:block lg:-translate-x-1/2 lg:-translate-y-1/2">
-      <ul class="flex gap-1">
+    <nav aria-label={nav.navLabel} class="hidden h-full nav:block">
+      <ul class="flex h-full">
         {
           nav.links.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class="block rounded-full px-3 py-2.5 font-display text-sm font-medium text-white/80 transition-[color,background-color] duration-300 ease-brand hover:bg-white/8 hover:text-white"
-              >
-                {link.label}
+            <li class="h-full">
+              <a href={link.href} class="nav-link flex h-full items-center px-2 text-legal whitespace-nowrap">
+                <span class="nav-label">{link.label}</span>
               </a>
             </li>
           ))
@@ -34,176 +44,161 @@ const { nav, site } = Astro.props;
       </ul>
     </nav>
 
-    {/* The CTA slot sits left of the language link: when it collapses, the language link stays put at the pill's end. */}
-    <div class="flex items-center gap-1">
-      <span class="header-cta-slot" data-header-cta-slot>
-        <span class="header-cta-clip">
-          <WhatsAppCta size="sm" headerCta href={site.whatsappHref} label={site.ctaShort} hint={site.externalHint} class="header-cta" />
-        </span>
-      </span>
+    <div class="flex items-center gap-1.5 justify-self-end nav:gap-2">
       <a
         href={nav.lang.href}
         hreflang={nav.lang.hreflang}
         lang={nav.lang.hreflang}
         aria-label={nav.lang.ariaLabel}
-        class="hidden size-10 place-items-center rounded-full font-display text-sm font-semibold text-white/80 ring-1 ring-white/15 transition-[color,background-color] duration-300 ease-brand ring-inset hover:bg-white/8 hover:text-white sm:grid"
+        class="nav-link hidden h-[var(--nav-h)] items-center px-2 text-legal nav:flex"
       >
-        {nav.lang.short}
+        <span class="nav-label">{nav.lang.short}</span>
       </a>
+      <Button size="nav" href={site.whatsappHref} label={site.ctaShort} external hint={site.whatsappHint} />
       <button
         type="button"
         data-menu-open
         aria-controls="site-menu"
         aria-expanded="false"
         aria-label={nav.menuOpen}
-        class="grid size-10 shrink-0 place-items-center rounded-full text-white transition-[color,background-color] duration-300 ease-brand hover:bg-white/8 lg:hidden"
+        class="nav-burger -mr-3.5 grid size-11 shrink-0 place-items-center nav:hidden"
       >
-        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
+        <span class="burger" aria-hidden="true"><span></span><span></span></span>
       </button>
     </div>
   </div>
 
-  <dialog id="site-menu" class="menu-dialog on-dark" aria-label={nav.menuTitle} data-lenis-prevent>
-    <div class="mx-auto flex h-full max-w-5xl flex-col px-4">
-      <div class="mt-[max(12px,env(safe-area-inset-top))] flex h-14 shrink-0 items-center justify-between pr-2 pl-3">
-        <Logo size="sm" />
-        <button
-          type="button"
-          data-menu-close
-          aria-label={nav.menuClose}
-          class="grid size-10 place-items-center rounded-full text-white transition-[color,background-color] duration-300 ease-brand hover:bg-white/8"
-        >
-          <Icon name="x" class="size-5" />
-        </button>
-      </div>
-
-      <nav aria-label={nav.navLabel} class="mt-8 px-3">
-        <ul class="border-t border-white/10">
-          {
-            nav.links.map((link) => (
-              <li>
-                <a
-                  data-menu-link
-                  href={link.href}
-                  class="group flex items-center justify-between border-b border-white/10 py-4 font-display text-2xl font-medium tracking-tight text-white"
-                >
-                  {link.label}
-                  <Icon
-                    name="arrow-right"
-                    class="size-5 text-white/50 transition-transform duration-300 ease-brand group-hover:translate-x-0.5 group-hover:text-white"
-                  />
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-
-      <div class="mt-8 flex flex-col items-start gap-1 px-3">
+  <nav aria-label={nav.navLabel} class="nav-nojs">
+    <ul class="flex h-10 items-center gap-1 overflow-x-auto px-2.5">
+      {
+        nav.links.map((link) => (
+          <li class="shrink-0">
+            <a href={link.href} class="nav-link flex h-10 items-center px-1.5 text-legal whitespace-nowrap">
+              <span class="nav-label">{link.label}</span>
+            </a>
+          </li>
+        ))
+      }
+      <li class="shrink-0">
         <a
           href={nav.lang.href}
           hreflang={nav.lang.hreflang}
           lang={nav.lang.hreflang}
-          class="py-2 text-lg text-white/80 transition-[color,background-color] duration-300 ease-brand hover:text-white"
+          aria-label={nav.lang.ariaLabel}
+          class="nav-link flex h-10 items-center px-1.5 text-legal"
         >
-          {nav.lang.long}
+          <span class="nav-label">{nav.lang.short}</span>
         </a>
-        <LinkArrow href={nav.linkedin.href} label={nav.linkedin.label} external icon="arrow-up-right" hint={site.externalHint} />
+      </li>
+    </ul>
+  </nav>
+
+  <dialog id="site-menu" class="menu bg-white text-ink" aria-label={nav.menuTitle}>
+    <div class="flex min-h-full flex-col">
+      <div class="mx-auto flex h-[var(--nav-h)] w-full max-w-[64rem] shrink-0 items-center justify-between px-4">
+        <Logo size="nav" />
+        <button type="button" data-menu-close aria-label={nav.menuClose} class="-mr-3.5 grid size-11 place-items-center">
+          <span class="burger is-x" aria-hidden="true"><span></span><span></span></span>
+        </button>
       </div>
 
-      <div class="mt-auto px-3 pt-8 pb-[max(24px,env(safe-area-inset-bottom))]">
-        <WhatsAppCta size="lg" href={site.whatsappHref} label={site.cta} hint={site.externalHint} class="w-full" />
+      <div class="mx-auto flex w-full max-w-[64rem] grow flex-col px-4 pt-5">
+        <nav aria-label={nav.navLabel}>
+          <ul>
+            {
+              nav.links.map((link, i) => (
+                <li class="menu-item" style={`--i:${i}`}>
+                  <a data-menu-link href={link.href} class="menu-link block py-2 text-[1.75rem] leading-[1.14] font-semibold tracking-[var(--tr-card)]">
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+
+        <div class="menu-item mt-8 flex flex-col items-start gap-3" style={`--i:${nav.links.length}`}>
+          <a
+            href={nav.lang.href}
+            hreflang={nav.lang.hreflang}
+            lang={nav.lang.hreflang}
+            class="menu-lang text-body text-ink-2"
+          >
+            {nav.lang.long}
+          </a>
+          <ChevronLink href={nav.linkedin.href} label={nav.linkedin.label} external hint={site.externalHint} />
+        </div>
+
+        <div class="menu-item mt-auto pt-10 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:max-w-[22rem]" style={`--i:${nav.links.length + 1}`}>
+          <Button size="l" class="w-full" label={site.cta} href={site.whatsappHref} external hint={site.whatsappHint} />
+        </div>
       </div>
     </div>
   </dialog>
 </header>
 
 <style is:global>
-  .menu-icon {
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .nav-bar { background-color: #fbfbfd; }
+    .nav-bar[data-theme='dark'] { background-color: #161617; }
+  }
+
+  .nav-link {
+    color: rgb(0 0 0 / 0.8);
+    transition: color 320ms var(--ease-standard);
+  }
+  .nav-link:hover { color: var(--color-ink); }
+  [data-theme='dark'] .nav-link { color: rgb(255 255 255 / 0.8); }
+  [data-theme='dark'] .nav-link:hover { color: #fff; }
+  /* full-height links: the focus ring hugs the label, not the 44px hit area */
+  .nav-link:focus-visible, .nav-home:focus-visible { outline: none; }
+  .nav-link:focus-visible .nav-label, .nav-home:focus-visible .logo {
+    outline: 2px solid var(--color-action); outline-offset: 0.25rem; border-radius: 4px;
+  }
+  [data-theme='dark'] .nav-link:focus-visible .nav-label,
+  [data-theme='dark'] .nav-home:focus-visible .logo { outline-color: var(--color-link-on-night); }
+
+  /* menu button: two 16px lines that turn into an X */
+  .burger {
     position: relative;
     display: block;
-    width: 18px;
-    height: 12px;
+    width: 1rem;
+    height: 1rem;
   }
-  .menu-icon span {
+  .burger span {
     position: absolute;
     left: 0;
     width: 100%;
-    height: 2px;
-    border-radius: 2px;
+    height: 0.09375rem;
+    border-radius: 1px;
     background: currentColor;
-    transition:
-      transform 400ms var(--ease-brand),
-      top 400ms var(--ease-brand);
+    transition: transform 320ms var(--ease-standard), top 320ms var(--ease-standard);
   }
-  .menu-icon span:first-child {
-    top: 2px;
-  }
-  .menu-icon span:last-child {
-    top: 8px;
-  }
-  [aria-expanded='true'] > .menu-icon span:first-child {
-    top: 5px;
-    transform: rotate(45deg);
-  }
-  [aria-expanded='true'] > .menu-icon span:last-child {
-    top: 5px;
-    transform: rotate(-45deg);
-  }
-
-  /* Header CTA: hidden while a primary CTA is in view (scripts/header.ts). Its slot collapses to zero
-     width (grid 0fr to 1fr) so the pill never shows an empty gap. The nav is centered on its own and the
-     language link sits after the slot, so nothing else moves. The clip's padding and negative margin keep
-     the focus ring visible. */
-  html.js .header-cta-slot {
-    display: grid;
-    grid-template-columns: 0fr;
-    transition: grid-template-columns 400ms var(--ease-brand);
-  }
-  html.js .header-cta-slot.is-shown {
-    grid-template-columns: 1fr;
-  }
-  html.js .header-cta-clip {
-    min-width: 0;
-    overflow: hidden;
-    padding: 6px;
-    margin: -6px;
-  }
-  html.js .header-cta:not(.is-shown) {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(4px);
-  }
-
-  /* Narrow phones (small Androids, large display size): the ES label needs the room. Drop the glyph and
-     tighten the padding below 375px, and keep only the mark tile below 340px, so the CTA never runs
-     under the burger. */
-  @media (max-width: 374px) {
-    .header-cta {
-      padding-inline: 0.75rem;
-    }
-    .header-cta svg {
-      display: none;
-    }
-  }
-  @media (max-width: 339px) {
-    .header-pill .logo-word {
-      display: none;
-    }
-  }
-
-  /* Windows high contrast: the bars are drawn with a system colour and the pill gets an opaque surface */
+  .burger span:first-child { top: 0.25rem; }
+  .burger span:last-child { top: 0.65625rem; }
+  [aria-expanded='true'] > .burger span,
+  .burger.is-x span { top: 0.453125rem; }
+  [aria-expanded='true'] > .burger span:first-child,
+  .burger.is-x span:first-child { transform: rotate(45deg); }
+  [aria-expanded='true'] > .burger span:last-child,
+  .burger.is-x span:last-child { transform: rotate(-45deg); }
   @media (forced-colors: active) {
-    .menu-icon span {
-      background: ButtonText;
-    }
-    .header-pill {
-      background: Canvas;
-      border: 1px solid CanvasText;
-    }
+    .burger span { background: ButtonText; }
   }
 
-  .menu-dialog {
+  /* no-JS: the menu button is useless, so the links become a scrollable second row below 834px */
+  .nav-nojs { display: none; }
+  html.no-js [data-menu-open] { display: none; }
+  @media (max-width: 52.0625em) {
+    html.no-js { scroll-padding-top: calc(var(--nav-h) + 2.5rem); }
+    html.no-js [data-nav] { height: auto; }
+    html.no-js .nav-nojs { display: block; }
+  }
+  .nav-nojs ul { scrollbar-width: none; }
+  .nav-nojs ul::-webkit-scrollbar { display: none; }
+
+  /* full-screen light menu */
+  .menu {
     position: fixed;
     inset: 0;
     width: 100%;
@@ -215,23 +210,16 @@ const { nav, site } = Astro.props;
     border: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    background: var(--color-night);
-    color: #fff;
-    pointer-events: auto;
   }
-  .menu-dialog::backdrop {
-    background: transparent;
-  }
-  @keyframes menu-in {
-    from {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-  }
-  html.motion .menu-dialog[open] {
-    animation: menu-in 400ms var(--ease-brand);
-  }
-  html.no-js [data-menu-open] {
-    display: none;
+  .menu::backdrop { background: transparent; }
+  .menu-link { transition: color 320ms var(--ease-standard); }
+  .menu-link:hover { color: var(--color-ink-2); }
+  .menu-lang:hover { color: var(--color-ink); text-decoration: underline; text-underline-offset: 0.18em; }
+  @keyframes menu-fade { from { opacity: 0; } }
+  @keyframes menu-rise { from { opacity: 0; transform: translateY(0.5rem); } }
+  html.motion .menu[open] { animation: menu-fade 240ms var(--ease-out); }
+  html.motion .menu[open] .menu-item {
+    animation: menu-rise 400ms var(--ease-out) both;
+    animation-delay: calc(60ms + var(--i, 0) * 30ms);
   }
 </style>

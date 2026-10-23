@@ -1,0 +1,15 @@
+---
+/** STUB (phase 1 foundation). Phase 2 replaces this with the DentiMed first fold (SPEC2 4.2). */
+import type { DentimedData } from '../../data/types';
+
+interface Props {
+  data: DentimedData;
+}
+const { data } = Astro.props;
+---
+
+<section id="dentimed" aria-labelledby="dentimed-title" class="overflow-clip bg-canvas-alt pt-[var(--tile-pad)] pb-[var(--section-pad)]">
+  <div class="wrap text-center">
+    <h2 id="dentimed-title" class="text-eyebrow">{data.lockup.name}</h2>
+  </div>
+</section>

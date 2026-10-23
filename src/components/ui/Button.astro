@@ -1,0 +1,23 @@
+---
+/** Pill button: blue `primary` or outline `secondary`. Text only, never an icon inside. */
+interface Props {
+  href: string;
+  label: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'l' | 's' | 'nav' | 'auto';
+  external?: boolean;
+  /** screen-reader text appended to the label, e.g. "(abre WhatsApp en una pestaña nueva)" */
+  hint?: string;
+  class?: string;
+}
+const { href, label, variant = 'primary', size = 'auto', external = false, hint, class: className = '' } = Astro.props;
+const variantClass = { primary: 'btn-primary', secondary: 'btn-secondary' }[variant];
+const sizeClass = { l: 'btn-l', s: 'btn-s', nav: 'btn-nav', auto: 'btn-auto' }[size];
+---
+
+<a
+  href={href}
+  class:list={['btn', variantClass, sizeClass, className]}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+>{label}{hint && <span class="sr-only"> {hint}</span>}</a>
