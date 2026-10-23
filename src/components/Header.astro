@@ -93,7 +93,11 @@ const { nav, site } = Astro.props;
     </ul>
   </nav>
 
-  <dialog id="site-menu" class="menu bg-white text-ink" aria-label={nav.menuTitle}>
+  <dialog
+    id="site-menu"
+    class="menu bg-white/95 text-ink backdrop-blur-[20px] backdrop-saturate-[1.8]"
+    aria-label={nav.menuTitle}
+  >
     <div class="flex min-h-full flex-col">
       <div class="mx-auto flex h-[var(--nav-h)] w-full max-w-[64rem] shrink-0 items-center justify-between px-4">
         <Logo size="nav" />

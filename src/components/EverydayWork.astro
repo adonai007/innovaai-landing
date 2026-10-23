@@ -1,16 +1,78 @@
 ---
-/** STUB (phase 1 foundation). Phase 2 replaces this with the everyday work grid (SPEC2 4.6). */
+/**
+ * Everyday work (#que-construimos): six examples of tools the studio builds with a team, as white cards on
+ * #f5f5f7. Each card: a blue Phosphor icon at the top, the title and body at the bottom. No images, no mockups,
+ * no names. One chevron link to WhatsApp below the grid.
+ */
+import Icon from './ui/Icon.astro';
+import SectionHead from './ui/SectionHead.astro';
+import ChevronLink from './ui/ChevronLink.astro';
 import type { EverydayWorkData, SiteData } from '../data/types';
 
 interface Props {
   data: EverydayWorkData;
   site: SiteData;
 }
-const { data } = Astro.props;
+const { data, site } = Astro.props;
 ---
 
 <section id="que-construimos" aria-labelledby="que-construimos-title" class="section bg-canvas-alt">
   <div class="wrap">
-    <h2 id="que-construimos-title" class="text-section">{data.title}</h2>
+    <SectionHead title={data.title} titleId="que-construimos-title" intro={data.intro} />
+
+    <ul class="mt-[var(--head-gap)] grid gap-5 md:grid-cols-2 lg:grid-cols-3" role="list">
+      {
+        data.items.map((item, i) => (
+          <li
+            data-reveal
+            style={`--reveal-delay: ${i * 60}ms`}
+            class="work-card flex flex-col rounded-card bg-canvas p-7 md:p-8 lg:min-h-[20rem] lg:p-10"
+          >
+            <Icon name={item.icon} class="size-9 shrink-0 text-action" />
+            <h3 class="mt-auto pt-10 text-card">{item.title}</h3>
+            <p class="mt-3 text-ink-2">{item.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="mt-12 text-center">
+      <ChevronLink size="intro" href={site.whatsappHref} label={data.cta} external hint={site.whatsappHint} />
+    </p>
   </div>
 </section>
+
+<style>
+  /* Cards in the same row share their rows (icon, title, body) through subgrid, so titles and bodies line up
+     across the row whatever their length. The title sits at the bottom of its row (margin-top: auto), right
+     above the body. Without subgrid each card is a flex column with the copy pushed to the bottom. */
+  @supports (grid-template-rows: subgrid) {
+    .work-card {
+      display: grid;
+      grid-row: span 3;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+    .work-card > :global(*) {
+      grid-column: 1;
+    }
+    .work-card > :global(svg) {
+      grid-row: 1;
+    }
+    .work-card > h3 {
+      grid-row: 2;
+    }
+    .work-card > p {
+      grid-row: 3;
+    }
+    /* A subgrid takes its height from the shared rows, so the 20rem minimum (minus the padding) comes from an
+       empty item spanning all three rows. */
+    @media (min-width: 66.8125em) {
+      .work-card::before {
+        content: '';
+        grid-area: 1 / 1 / 4 / 2;
+        min-height: 15rem;
+      }
+    }
+  }
+</style>

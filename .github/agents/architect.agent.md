@@ -13,11 +13,11 @@ The plan is a Markdown document with the following sections:
 
 - **Overview** — one-paragraph description of the feature, refactor, or architectural change
 - **Requirements** — bulleted list of product, design, content, and i18n requirements. Call out whether both Spanish and English are in scope
-- **Impacted Surface** — the specific files, directories, and data bundles the change touches (`src/components/...`, `src/data/es/...`, `src/data/en/...`, `src/pages/...`, `src/styles/global.css`, `src/scripts/animations.ts`, `astro.config.mjs`)
+- **Impacted Surface** — the specific files, directories, and data bundles the change touches (`src/components/...`, `src/data/es/...`, `src/data/en/...`, `src/pages/...`, `src/styles/global.css`, `src/scripts/*.ts`, `astro.config.mjs`)
 - **Implementation Steps** — ordered, atomic steps. Each step names the file(s) it edits and the expected outcome. Keep steps small enough that a single PR can ship them
-- **Design System Impact** — whether new tokens need to enter `@theme` in `src/styles/global.css`, whether new utility helpers are required, and whether Lucide icons need to be added
-- **Animation Plan** — which `data-animate` hooks are needed and how `src/scripts/animations.ts` must be extended, if at all
-- **i18n Plan** — the exact keys being added or renamed in `src/data/es/*.ts` and `src/data/en/*.ts`; explicitly state when the DiarioMed sub-landing is involved (ES-only)
+- **Design System Impact** — whether new tokens need to enter `@theme` in `src/styles/global.css`, whether new utility helpers are required, and whether Phosphor icon names need to be added to `IconName` in `src/data/types.ts`
+- **Motion Plan** — whether the section needs `data-reveal`, a scroll-driven or one-shot script (one motion idea per section, never looped), and how `html.still`, `html.slow-net` and no JS keep the final static state. No animation or smooth-scroll library
+- **i18n Plan** — the exact keys being added or renamed in `src/data/es/*.ts` and `src/data/en/*.ts`, with the type change in `src/data/types.ts`
 - **Testing** — how the change will be verified. This project has no test runner today; default to manual `npm run dev` + `npm run build` checks. Only recommend introducing Playwright when the feature warrants it
 - **Rollout and Risks** — how Render auto-deploys the change on merge to `main`, and any risks worth flagging (bundle size, perceived performance, SEO, accessibility, broken hreflang)
 

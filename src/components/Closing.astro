@@ -1,16 +1,42 @@
 ---
-/** STUB (phase 1 foundation). Phase 2 replaces this with the closing (SPEC2 4.9). */
+/**
+ * Closing (#contacto): one centered block on white. Headline, a short paragraph, the one large blue WhatsApp
+ * pill, the reassurance line (wrapping only at its separators), who replies, and a chevron link to LinkedIn.
+ * No cards, no steps, no dark background. Motion: the block fades and rises in once (data-reveal).
+ */
+import Button from './ui/Button.astro';
+import ChevronLink from './ui/ChevronLink.astro';
 import type { ClosingData, SiteData } from '../data/types';
 
 interface Props {
   data: ClosingData;
   site: SiteData;
 }
-const { data } = Astro.props;
+const { data, site } = Astro.props;
+const reassurance = data.reassurance.split(' · ');
 ---
 
 <section id="contacto" aria-labelledby="contacto-title" class="section bg-canvas">
-  <div class="wrap-text text-center">
+  <div data-reveal class="wrap-text text-center">
     <h2 id="contacto-title" class="text-tile">{data.title}</h2>
+    <p class="mx-auto mt-4 max-w-[40rem] text-intro text-ink-2">{data.body}</p>
+    <div class="mt-8">
+      <Button size="l" href={site.whatsappHref} label={site.cta} external hint={site.whatsappHint} />
+    </div>
+    <p class="mt-4 text-caption text-ink-2">
+      {
+        reassurance.map((segment, i) =>
+          i < reassurance.length - 1 ? (
+            <Fragment><span class="whitespace-nowrap">{`${segment} ·`}</span> </Fragment>
+          ) : (
+            <span class="whitespace-nowrap">{segment}</span>
+          ),
+        )
+      }
+    </p>
+    <p class="mt-1 text-caption text-ink-2">{data.founder}</p>
+    <p class="mt-6">
+      <ChevronLink href={data.linkedin.href} label={data.linkedin.label} external hint={site.externalHint} />
+    </p>
   </div>
 </section>

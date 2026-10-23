@@ -1,0 +1,315 @@
+/*
+ * DentiMed app UI (dark theme), ported from DentiMed's own landing (dentimed-landing-v2, PhoneStory.astro).
+ * Every rule is scoped under .dm-app and every size is in em, so the UI scales with the font size its frame
+ * sets (the phone screen: calc(var(--phone-w) / 25); the feature fragments: 0.875rem). No motion states here.
+ * DentiMed palette: screen #0b202a, cards #123241, raised #183e4f, teal #04b5b2, blue #0976f7, ok #12b886,
+ * draft amber rgb(255 196 0), alert #fb7185.
+ */
+.dm-app {
+  --dm-screen: #0b202a;
+  --dm-card: #123241;
+  --dm-raised: #183e4f;
+  --dm-teal: #04b5b2;
+  --dm-blue: #0976f7;
+  --dm-alert: #fb7185;
+  --dm-muted: #8fb3c1;
+  background: var(--dm-screen);
+  color: #e6f0f4;
+  font-family: var(--font-sans);
+  line-height: 1.35;
+  letter-spacing: -0.003em;
+  text-align: start;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.dm-app p { text-wrap: wrap; }
+.dm-app .dm-i { display: block; width: 1.25em; height: 1.25em; flex-shrink: 0; }
+
+/* status bar: time left, signal and battery right, centred on the camera hole */
+.dm-app .dm-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2.1em;
+  padding: 0 2.05em 0 2.25em;
+  font-size: 0.923em;
+  font-weight: 600;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.dm-app .dm-status-icons { display: flex; align-items: center; gap: 0.3em; }
+.dm-app .dm-status-icons .dm-i { width: 1.15em; height: 1.15em; }
+.dm-app .dm-status-icons .dm-i + .dm-i { width: 1.4em; height: 1.4em; }
+
+.dm-app .dm-h { font-weight: 600; color: #fff; }
+.dm-app .dm-kicker { font-size: 0.846em; color: var(--dm-muted); }
+
+/* screens */
+.dm-app .dm-scr { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0.3em 1.077em 0; }
+
+/* app bar */
+.dm-app .dm-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0.7em 0.15em 0.95em;
+}
+.dm-app .dm-bar .dm-i { width: 1.45em; height: 1.45em; color: #fff; }
+.dm-app .dm-bar-title { font-size: 1.08em; }
+.dm-app .dm-rec-time {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.46em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--dm-teal);
+}
+.dm-app .dm-rec-dot,
+.dm-app .dm-dot-live {
+  display: inline-block;
+  width: 0.615em;
+  height: 0.615em;
+  border-radius: 99px;
+  background: var(--dm-alert);
+}
+.dm-app .dm-dot-live { width: 0.5em; height: 0.5em; background: #12b886; }
+
+/* patient card */
+.dm-app .dm-pt {
+  display: flex;
+  align-items: center;
+  gap: 0.77em;
+  padding: 0.77em;
+  border-radius: 1.077em;
+  background: var(--dm-card);
+  box-shadow: inset 0 0 0 1px var(--dm-raised);
+}
+.dm-app .dm-avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 99px;
+  background: var(--dm-teal);
+  color: var(--dm-screen);
+  font-size: 0.923em;
+  font-weight: 600;
+  width: 3em;
+  height: 3em;
+}
+.dm-app .dm-pt-name { font-weight: 600; color: #fff; }
+.dm-app .dm-pt-sub { font-size: 0.846em; color: var(--dm-muted); }
+.dm-app .dm-rec-status {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  margin-top: 0.9em;
+  padding-inline: 0.15em;
+  font-size: 0.846em;
+  color: var(--dm-muted);
+}
+
+/* static waveform: 40 bars, heights from dmApp.wave, centred in the free space above the controls */
+.dm-app .dm-wave-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: 0;
+  padding: 1em 0;
+}
+.dm-app .dm-wave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.24em;
+  width: 100%;
+  height: 11em;
+}
+.dm-app .dm-wave span {
+  width: 0.28em;
+  min-height: 0.28em;
+  border-radius: 0.3em;
+  background: var(--dm-teal);
+}
+.dm-app .dm-wave span:nth-child(3n) { background: var(--dm-blue); }
+
+/* recording controls */
+.dm-app .dm-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.54em;
+  padding-bottom: 3.6em;
+}
+.dm-app .dm-ctl {
+  display: grid;
+  place-items: center;
+  width: 3.7em;
+  height: 3.7em;
+  border-radius: 99px;
+  background: var(--dm-card);
+  color: #fff;
+}
+.dm-app .dm-ctl .dm-i { width: 1.4em; height: 1.4em; }
+.dm-app .dm-ctl-stop {
+  width: 4.92em;
+  height: 4.92em;
+  background: var(--dm-alert);
+  box-shadow: 0 0 0 0.46em rgb(251 113 133 / 0.18);
+}
+.dm-app .dm-ctl-stop .dm-i { width: 1.7em; height: 1.7em; }
+.dm-app .dm-ctl-ghost {
+  width: auto;
+  min-width: 3.7em;
+  padding: 0 1.15em;
+  font-size: 0.923em;
+  font-weight: 600;
+  height: 4em;
+}
+
+/* draft */
+.dm-app .dm-draft-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.6em;
+  padding: 0.6em 0.15em 0.8em;
+}
+.dm-app .dm-draft-name { font-size: 1.23em; line-height: 1.2; margin-top: 0.1em; }
+.dm-app .dm-pill-ai {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.31em;
+  padding: 0.36em 0.73em;
+  border-radius: 99px;
+  font-size: 0.846em;
+  white-space: nowrap;
+  color: #9cc8ff;
+  background: rgb(9 118 247 / 0.16);
+}
+.dm-app .dm-pill-ai .dm-i { width: 1.15em; height: 1.15em; }
+.dm-app .dm-list { display: grid; gap: 0.615em; }
+
+/* one draft card */
+.dm-app .dm-card {
+  padding: 0.69em 0.846em 0.77em;
+  border-radius: 1.077em;
+  background: var(--dm-card);
+  box-shadow: inset 0 0 0 1px var(--dm-raised);
+}
+.dm-app .dm-card-head { display: flex; align-items: center; gap: 0.615em; margin-bottom: 0.4em; }
+.dm-app .dm-card-ico {
+  display: grid;
+  place-items: center;
+  width: 1.846em;
+  height: 1.846em;
+  flex-shrink: 0;
+  border-radius: 0.615em;
+  background: rgb(4 181 178 / 0.16);
+  color: var(--dm-teal);
+}
+.dm-app .dm-card-ico .dm-i { width: 1.23em; height: 1.23em; }
+.dm-app .dm-card-title { flex: 1; min-width: 0; font-weight: 600; color: #fff; }
+.dm-app .dm-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.19em 0.67em;
+  border-radius: 99px;
+  font-size: 0.81em;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #ffd27a;
+  background: rgb(255 196 0 / 0.12);
+}
+.dm-app .dm-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75em;
+  font-size: 0.923em;
+  color: #c9dbe2;
+}
+.dm-app .dm-line + .dm-line { margin-top: 0.15em; }
+.dm-app .dm-val { font-weight: 600; color: #fff; white-space: nowrap; }
+.dm-app .dm-text { margin-top: 0.1em; font-size: 0.885em; color: #a9c3cd; }
+.dm-app .dm-line + .dm-text { margin-top: 0.3em; }
+.dm-app .dm-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.dm-app .dm-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.46em;
+  margin-top: 0.5em;
+  padding: 0.45em 0.7em;
+  border-radius: 0.727em;
+  font-size: 0.846em;
+  color: #ffd0d6;
+  background: rgb(251 113 133 / 0.14);
+}
+.dm-app .dm-alert .dm-i { width: 1.27em; height: 1.27em; margin-top: 0.03em; color: var(--dm-alert); }
+
+/* next appointment card: tinted blue, the one card that also lands in the agenda */
+.dm-app .dm-card-cita {
+  background: color-mix(in srgb, var(--dm-blue) 11%, var(--dm-card));
+  box-shadow: inset 0 0 0 1px rgb(9 118 247 / 0.55);
+}
+.dm-app .dm-card-cita .dm-card-ico { background: rgb(9 118 247 / 0.22); color: #9cc8ff; }
+.dm-app .dm-cita-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.615em;
+  margin: 0.15em 0 0.3em;
+}
+.dm-app .dm-cita-when { font-size: 1.23em; font-weight: 600; color: #fff; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dm-app .dm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.36em;
+  padding: 0.4em 0.85em;
+  border-radius: 99px;
+  font-size: 0.846em;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fff;
+  background: var(--dm-blue);
+}
+.dm-app .dm-chip .dm-i { width: 1.27em; height: 1.27em; }
+
+/* buttons (draft actions, composer) */
+.dm-app .dm-actions { display: flex; gap: 0.615em; }
+.dm-app .dm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45em;
+  min-height: 3.1em;
+  padding: 0 1.25em;
+  border-radius: 0.92em;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fff;
+}
+.dm-app .dm-btn-ghost { background: var(--dm-card); box-shadow: inset 0 0 0 1px var(--dm-raised); }
+.dm-app .dm-btn-blue { background: var(--dm-blue); }
+.dm-app .dm-btn-wide { flex: 1; }
+
+/* prefilled WhatsApp composer: the person taps Enviar */
+.dm-app .dm-to { display: flex; align-items: center; gap: 0.6em; font-size: 0.846em; color: var(--dm-muted); }
+.dm-app .dm-to::after { content: ''; flex: 1; height: 1px; background: rgb(255 255 255 / 0.08); }
+.dm-app .dm-bubble {
+  margin-top: 0.6em;
+  padding: 0.7em 0.85em;
+  border-radius: 1.1em 1.1em 1.1em 0.35em;
+  background: #e7f6f0;
+  color: var(--dm-screen);
+  font-size: 0.923em;
+  line-height: 1.38;
+}
+.dm-app .dm-send { display: flex; justify-content: flex-end; margin-top: 0.75em; }
+.dm-app .dm-send .dm-btn { min-height: 2.7em; padding: 0 1.1em; border-radius: 99px; }
+.dm-app .dm-send .dm-i { width: 1.15em; height: 1.15em; }

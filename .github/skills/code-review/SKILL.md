@@ -15,11 +15,12 @@ Ask for the following inputs if not provided:
 ## Requirements
 
 - Apply the priority tiers defined in `../../instructions/code-review.instructions.md`: Critical / Important / Suggestion
-- Confirm every user-facing string lives in `src/data/{es,en}/**` and that parity holds (except for the ES-only DiarioMed sub-landing)
+- Confirm every user-facing string lives in `src/data/{es,en}/**` and that parity holds. The only exception is DentiMed's own Spanish UI in `src/data/dentimed-app.ts`, used only by `src/components/dentimed/*`
 - Reject hardcoded hex colors; direct the author to `@theme` tokens or the shared utility classes
 - Flag any emoji in source files, comments, commit messages, or copy
 - Verify new components declare `interface Props` and accept translated strings as props
-- Verify `data-animate` hooks are preserved or intentionally removed, and that new animations go through `src/scripts/animations.ts`
+- Verify `data-reveal`, `data-nav-theme` and `data-cinema` hooks are preserved or intentionally removed, that no animation or smooth-scroll library was added, and that every mode (`html.still`, `html.slow-net`, no JS) still shows the final state
+- Check copy against the content rules in `CLAUDE.md`: no fictitious names or demo captions outside the DentiMed UI, no invented numbers, Bolivia only in its three places, verified DentiMed and Dicta claims only
 - Check for new `client:*` directives and require a justification
 - Confirm no secrets or ignored files (`.env*`, `.mcp.json`) have been committed
 - Deliver comments anchored to file and line, with a concrete alternative where possible

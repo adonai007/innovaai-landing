@@ -1,5 +1,16 @@
 ---
-/** STUB (phase 1 foundation). Phase 2 replaces this with how we work (SPEC2 4.7). */
+/**
+ * How we work (#como-trabajamos): an Apple article block (label, two-line hero headline, highlight paragraph)
+ * over three numbered steps in one row, each under a hairline and ending with what the team takes away.
+ * No visuals. Motion: the head and each step fade and rise in once (data-reveal, 0 / 80 / 160ms); every other
+ * mode shows the static final state.
+ *
+ * Head and steps share one column so both edges line up: the 87.5% gutter below 1120px and Apple's 980px text
+ * column above it (the width .wrap-text has from 1069px). Below 1069px .wrap-text is 692px, which would break the
+ * Spanish headline into three lines at 1000 to 1068px and leave the steps wider than the head.
+ */
+import SectionHead from './ui/SectionHead.astro';
+import Highlight from './ui/Highlight.astro';
 import type { HowWeWorkData } from '../data/types';
 
 interface Props {
@@ -9,7 +20,42 @@ const { data } = Astro.props;
 ---
 
 <section id="como-trabajamos" aria-labelledby="como-trabajamos-title" class="section bg-canvas">
-  <div class="wrap-text">
-    <h2 id="como-trabajamos-title" class="text-hero">{data.label}</h2>
+  <div class="wrap max-w-[61.25rem]">
+    <SectionHead size="hero" label={data.label} title={data.title} titleId="como-trabajamos-title">
+      <Highlight class="mt-6 max-w-[46rem]" leadIn={data.leadIn} body={data.body} />
+    </SectionHead>
+
+    <ol class="mt-[var(--head-gap)] grid gap-10 md:grid-cols-3 md:gap-8 lg:gap-10" role="list">
+      {
+        data.steps.map((step, i) => (
+          <li data-reveal style={`--reveal-delay: ${i * 80}ms`} class="step border-t border-hairline pt-6">
+            <p class="text-kicker text-ink-2 tabular-nums" aria-hidden="true">{step.number}</p>
+            <h3 class="mt-2 text-card">{step.title}</h3>
+            <p class="mt-3 text-ink-2">{step.body}</p>
+            <p class="mt-5 text-caption">
+              <span class="block font-semibold text-ink">{data.deliverableLabel}</span>
+              <span class="text-ink-2">{step.deliverable}</span>
+            </p>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>
+
+<style>
+  /* From 735px the three steps share their rows (number, title, body, deliverable) through subgrid, so titles
+     and deliverables line up across the row whatever the length of each text. Without subgrid each step is a
+     plain block in the same order. */
+  @media (min-width: 45.9375em) {
+    @supports (grid-template-rows: subgrid) {
+      .step {
+        display: grid;
+        grid-row: span 4;
+        grid-template-rows: subgrid;
+        row-gap: 0;
+        align-content: start;
+      }
+    }
+  }
+</style>

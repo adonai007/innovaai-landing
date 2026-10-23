@@ -15,9 +15,9 @@ Ask for the following inputs if not provided:
 
 ## Requirements
 
-- Preserve every `data-animate` attribute and its value; the scroll-animation registration in `src/scripts/animations.ts` depends on them
+- Preserve every `data-reveal`, `data-nav-theme`, `data-cinema`, `data-scene*` and `data-dicta` attribute; `src/scripts/reveals.ts`, `header.ts`, `cinema.ts` and `dicta-demo.ts` depend on them
 - Preserve the `interface Props` contract of every component unless the refactor explicitly renames or reshapes it — in which case update all call sites in the same change
-- Keep i18n parity: if a key is renamed in `src/data/es/*`, rename it in `src/data/en/*` simultaneously (except for the ES-only DiarioMed bundle)
+- Keep i18n parity: if a key is renamed in `src/data/es/*`, rename it in `src/data/en/*` simultaneously
 - Do not swap design tokens for hardcoded values; keep colors flowing through `@theme` variables and shared utility classes
 - Do not introduce new dependencies, linters, formatters, or config files
 - Run `npm run build` after the refactor and confirm the `dist/` output is unchanged in structure; visual regressions are blockers

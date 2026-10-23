@@ -1,15 +1,158 @@
 ---
-/** STUB (phase 1 foundation). Phase 2 replaces this with the Dicta tile (SPEC2 4.4). */
+/**
+ * #dicta: the Dicta product tile on black. Lockup (icon and name, headline, subhead, meta line, one pill), then
+ * an HTML window where the dictated text appears at the cursor, the F9 keycap and the status pill, then three
+ * features. Motion (src/scripts/dicta-demo.ts, html.motion only, once): the key presses, the pill listens and
+ * the text types itself. The default markup is the final state: full text, idle pill, solid caret.
+ */
+import { Image } from 'astro:assets';
+import Button from './ui/Button.astro';
+import Lines from './ui/Lines.astro';
+import dictaIcon from '../assets/brand/dicta-icon.png';
 import type { DictaData } from '../data/types';
 
 interface Props {
   data: DictaData;
 }
 const { data } = Astro.props;
+const { lockup, cta, mock, features } = data;
+/** "F9" never starts a line in titles and subheads */
+const nb = (s: string) => s.replace(/ F9\b/g, ' F9');
+const meta = lockup.meta.split(' · ');
+const delays = ['--reveal-delay:0ms', '--reveal-delay:80ms', '--reveal-delay:160ms'];
 ---
 
 <section id="dicta" aria-labelledby="dicta-title" data-nav-theme="dark" class="section on-night">
-  <div class="wrap text-center">
-    <h2 id="dicta-title" class="text-eyebrow">{data.lockup.name}</h2>
+  <div class="wrap-text text-center">
+    <h2 id="dicta-title" class="flex items-center justify-center gap-2.5 text-eyebrow">
+      <Image src={dictaIcon} width={36} height={36} densities={[1, 2]} alt="" loading="lazy" decoding="async" class="size-7 shrink-0 md:size-9" />
+      {lockup.name}
+    </h2>
+    <p class="mt-2 text-tile text-balance"><Lines text={nb(lockup.title)} /></p>
+    <p class="mx-auto mt-3 max-w-[40rem] text-subhead text-balance text-on-night md:mt-4">{nb(lockup.subhead)}</p>
+    <p class="mt-3 text-caption text-on-night-2">
+      {
+        meta.map((segment, i) => (
+          <Fragment>
+            <span class="whitespace-nowrap">
+              {segment}
+              {i < meta.length - 1 && ' ·'}
+            </span>
+            {i < meta.length - 1 && ' '}
+          </Fragment>
+        ))
+      }
+    </p>
+    <div class="mt-5 flex justify-center md:mt-6">
+      <Button size="auto" variant="primary" href={cta.href} label={cta.label} external hint={cta.srHint} />
+    </div>
   </div>
+
+  <div class="wrap mt-12 md:mt-16" aria-hidden="true" data-dicta data-state="idle">
+    <div class="dicta-window mx-auto w-full max-w-[45rem] rounded-tile bg-night-2 ring-1 ring-white/12" data-dicta-window>
+      <div class="flex h-11 items-center justify-between px-5">
+        <span class="text-caption text-on-night-2">{mock.windowTitle}</span>
+        <span class="flex items-center gap-4 text-white/40">
+          <svg class="size-2.5" viewBox="0 0 10 10" focusable="false"><path d="M1 5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" /></svg>
+          <svg class="size-2.5" viewBox="0 0 10 10" focusable="false"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" /></svg>
+        </span>
+      </div>
+      <div class="min-h-[9rem] px-6 py-8 text-left text-intro text-on-night md:px-10 md:py-12">
+        <p class="relative">
+          <span class="invisible">{mock.text}<i class="dicta-caret"></i></span>
+          <span class="absolute inset-0"><span data-dicta-text>{mock.text}</span><i class="dicta-caret" data-dicta-caret></i></span>
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-6 flex items-center justify-center gap-4">
+      <span class="dicta-key grid size-14 place-items-center rounded-tile bg-night-2 text-body font-semibold ring-1 ring-white/20">{mock.key}</span>
+      <span class="inline-flex items-center gap-2 rounded-pill bg-night-2 px-4 py-2 text-caption ring-1 ring-white/12">
+        <i class="dicta-dot"></i>
+        <span class="dicta-pill-label">
+          <span class="dicta-idle">{mock.pillIdle}</span>
+          <span class="dicta-listening">{mock.pillListening}</span>
+        </span>
+      </span>
+    </div>
+  </div>
+
+  <ul class="wrap mt-16 grid gap-8 md:mt-20 md:grid-cols-3 md:gap-10">
+    {
+      features.map((f, i) => (
+        <li class="border-t border-hairline-on-night pt-6" data-reveal style={delays[i]}>
+          <h3 class="text-intro font-semibold text-on-night">{f.title}</h3>
+          <p class="mt-2 text-on-night-2">{f.body}</p>
+        </li>
+      ))
+    }
+  </ul>
 </section>
+
+<style>
+  .dicta-caret {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    margin-left: 0.12em;
+    vertical-align: -0.18em;
+    border-radius: 1px;
+    background: var(--color-dicta);
+  }
+  [data-dicta].is-blink [data-dicta-caret] {
+    animation: dicta-blink 1s steps(1, end) 3;
+  }
+  @keyframes dicta-blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  /* pressed: 2px down (relative offset, no layout shift) and a lighter cap */
+  .dicta-key {
+    position: relative;
+    top: 0;
+    transition:
+      top 160ms var(--ease-out),
+      background-color 160ms var(--ease-out);
+  }
+  [data-state='listening'] .dicta-key {
+    top: 2px;
+    background-color: #2c2c2e;
+  }
+  .dicta-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    flex-shrink: 0;
+    border-radius: 99px;
+    background: rgb(255 255 255 / 0.4);
+    transition: background-color 320ms var(--ease-standard);
+  }
+  [data-state='listening'] .dicta-dot {
+    background: var(--color-dicta);
+  }
+  /* both labels share one cell, so the pill keeps its width when the label swaps */
+  .dicta-pill-label {
+    display: inline-grid;
+  }
+  .dicta-pill-label > span {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+  }
+  .dicta-listening,
+  [data-state='listening'] .dicta-idle {
+    visibility: hidden;
+  }
+  [data-state='listening'] .dicta-listening {
+    visibility: visible;
+  }
+</style>
+
+<script>
+  import '../scripts/dicta-demo';
+</script>

@@ -1,18 +1,323 @@
 ---
 /**
- * STUB (phase 1 foundation). Phase 2 replaces this with the film chapter (SPEC2 4.5).
- * No data-cinema here, so scripts/cinema.ts stays inert. The previous component is in git history (HEAD).
+ * Historia: the film that opens the studio chapter, right after Dicta (owner's brief: docs/creative/innovai-brand-film.md).
+ * A centered intro lockup, then three scenes, each a poster (<picture>) under a 5s clip that scripts/cinema.ts
+ * scrubs from scroll. True black, a bottom scrim only where the copy sits, one short headline and one line per scene.
+ *
+ * Default markup = final static state: posters and copy in normal flow (no JS, html.still, html.slow-net, short
+ * screens). The tall sticky tracks are CSS-first: they exist only under html.motion (not html.slow-net, set on 2G)
+ * on screens taller than 37.5625em (601px at the default font size; ems follow the visitor's text size), and
+ * cinema.ts adds .is-static when a constraint only JS can see applies (a preference or network change, copy
+ * enlarged beyond its pinned frame).
+ * Once the script runs it adds .is-live: each scene's copy then fades in after its stage pins and fades out again
+ * when the visitor scrolls back above it. The pause button (with a progress ring for the whole chapter) needs the
+ * script, so it ships hidden; cinema.ts reveals it and shows it only while a stage is pinned (.is-active) or while
+ * it has keyboard focus.
+ * Nothing in here uses data-reveal, and no ancestor of a stage may clip overflow (sticky).
  */
+import Icon from './ui/Icon.astro';
+import Lines from './ui/Lines.astro';
+import SectionHead from './ui/SectionHead.astro';
+import Highlight from './ui/Highlight.astro';
+import ChevronLink from './ui/ChevronLink.astro';
 import type { CinemaData } from '../data/types';
 
 interface Props {
   data: CinemaData;
 }
 const { data } = Astro.props;
+/* Portrait crop (768x1024 poster and clip, copy at the bottom). Repeated literally in the media queries below. */
+const PORTRAIT = '(max-width: 767px), (max-aspect-ratio: 1/1)';
+/* Portrait crop pan per scene, horizontal focus in % at progress 0 and 1 (cinema.ts eases between them).
+   Phones only see about 60% of the 768px clip width: scene 2 follows the voice wave to the three panels,
+   scene 3 starts on that same frame and settles on the person reviewing at the laptop beside the organized panels. */
+const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
 ---
 
-<section id="historia" aria-labelledby="historia-title" data-nav-theme="dark" class="cinema section on-night seam">
-  <div class="wrap-text text-center">
-    <h2 id="historia-title" class="text-display">{data.label}</h2>
+<section
+  id="historia"
+  class="cinema on-night seam"
+  data-nav-theme="dark"
+  aria-labelledby="historia-title"
+  data-cinema
+  data-portrait={PORTRAIT}
+>
+  <div class="wrap-text pt-[var(--section-pad)] pb-[var(--head-gap)] text-center">
+    <SectionHead
+      size="display"
+      align="center"
+      tone="dark"
+      reveal={false}
+      label={data.label}
+      title={data.title}
+      titleId="historia-title"
+    />
+    <Highlight tone="dark" class="mx-auto mt-6 max-w-[40rem]" leadIn={data.leadIn} body={data.body} />
+    <p class="mt-6">
+      <ChevronLink href={data.skip.href} label={data.skip.label} />
+    </p>
+  </div>
+
+  <div class="cinema-track">
+    {
+      data.scenes.map((scene, index) => (
+        <article
+          id={scene.id}
+          class="cinema-scene"
+          data-scene={index}
+          data-focus={PORTRAIT_FOCUS[index]}
+          aria-labelledby={`${scene.id}-title`}
+        >
+          <div class="scene-stage" data-scene-stage>
+            <picture class="scene-media">
+              <source media={PORTRAIT} srcset={`/cinema/scene-${index + 1}-mobile.webp`} width="768" height="1024" />
+              <img
+                src={`/cinema/scene-${index + 1}-desktop.webp`}
+                width="1920"
+                height="1080"
+                alt={scene.alt}
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+            <video
+              class="scene-video"
+              muted
+              playsinline
+              disablepictureinpicture
+              preload="none"
+              tabindex="-1"
+              aria-hidden="true"
+              data-desktop={`/cinema/scene-${index + 1}-desktop.mp4`}
+              data-mobile={`/cinema/scene-${index + 1}-mobile.mp4`}
+            />
+            <div class="scene-shade" aria-hidden="true" />
+            <div class="scene-frame wrap" data-scene-frame>
+              <div class="scene-copy" data-scene-copy>
+                <p class="text-kicker text-on-night-2">{scene.label}</p>
+                <h3 id={`${scene.id}-title`} class="mt-2 text-tile text-on-night">
+                  <Lines text={scene.title} />
+                </h3>
+                <p class="scene-line mt-3 text-intro text-on-night">{scene.line}</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+
+    <div class="cinema-controls" data-cinema-controls hidden>
+      <div class="wrap flex justify-end">
+        <button
+          type="button"
+          class="cinema-toggle relative grid size-14 shrink-0 place-items-center rounded-full bg-night-2/72 text-on-night backdrop-blur-[20px] backdrop-saturate-[1.8] transition-colors duration-[320ms] ease-standard hover:bg-night-2/90"
+          aria-label={data.pause}
+          data-motion-toggle
+          data-pause={data.pause}
+          data-resume={data.resume}
+        >
+          <svg class="cinema-ring" viewBox="0 0 56 56" aria-hidden="true" focusable="false">
+            <circle class="cinema-ring-track" cx="28" cy="28" r="27" />
+            <circle class="cinema-ring-value" cx="28" cy="28" r="27" />
+          </svg>
+          <Icon name="pause" weight="fill" class="icon-pause size-[1.125rem]" />
+          <Icon name="play" weight="fill" class="icon-play size-[1.125rem]" />
+        </button>
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+  import '../scripts/cinema';
+</script>
+
+<style>
+  /* ---------- static: each scene is a full-screen poster with its copy at the bottom, in normal flow ---------- */
+  .scene-stage {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    display: flex;
+    min-height: 100svh;
+  }
+  .scene-media,
+  .scene-media img,
+  .scene-video,
+  .scene-shade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .scene-media img,
+  .scene-video {
+    object-fit: cover;
+    object-position: 62% 50%;
+  }
+  .scene-video {
+    opacity: 0;
+    transition: opacity 300ms var(--ease-out);
+  }
+  .scene-video.is-ready {
+    opacity: 1;
+  }
+  /* Image scrims in true black, only where text sits: the bottom for the copy, a short band at the top so the
+     intro, the previous scene and the nav meet the footage without a seam. The first layer closes the bottom edge
+     to black, so a stage that scrolls away meets the next scene's black top without a visible line. */
+  .scene-shade {
+    background:
+      linear-gradient(0deg, #000 0%, rgb(0 0 0 / 0) 5%),
+      linear-gradient(0deg, rgb(0 0 0 / 0.88) 0%, rgb(0 0 0 / 0.55) 26%, rgb(0 0 0 / 0) 50%),
+      linear-gradient(180deg, #000 0%, rgb(0 0 0 / 0) 14%);
+  }
+  /* The copy sits at the bottom on every layout; the top padding clears the nav, the bottom one the pause button. */
+  .scene-frame {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    min-height: 100svh;
+    padding-top: calc(var(--nav-h) + 1.5rem);
+    padding-bottom: 5.5rem;
+  }
+  /* The line keeps a 40rem measure; the headline may run wider so each of its two lines stays on one line. */
+  .scene-copy {
+    max-width: 52rem;
+  }
+  .scene-line {
+    max-width: 40rem;
+  }
+
+  /* copy reveal: hidden only once the script runs on the pinned layout (.is-live), shown from 10% of a scene */
+  :global(html.motion) .cinema.is-live:not(.is-static) [data-scene-copy] {
+    transition:
+      opacity 800ms var(--ease-out),
+      transform 800ms var(--ease-out);
+  }
+  :global(html.motion) .cinema.is-live:not(.is-static) [data-scene-copy]:not(.is-in) {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+
+  /* ---------- the pause button: sticky to the viewport bottom over the pinned stage ---------- */
+  .cinema-track {
+    position: relative;
+  }
+  .cinema-controls {
+    --controls-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    position: sticky;
+    bottom: var(--controls-bottom);
+    z-index: 2;
+    height: 3.5rem;
+    /* overlap the last scene so the track keeps its height and the button never jumps when it unsticks */
+    margin-top: calc(-3.5rem - var(--controls-bottom));
+    margin-bottom: var(--controls-bottom);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 320ms var(--ease-standard);
+  }
+  .cinema-controls[hidden] {
+    display: none;
+  }
+  /* shown while a stage is pinned (cinema.ts), or while the button has keyboard focus
+     (separate rules, so a browser without :has still gets the first one) */
+  .cinema-controls.is-active {
+    opacity: 1;
+  }
+  .cinema-controls:has(:focus-visible) {
+    opacity: 1;
+  }
+  .cinema-controls.is-active .cinema-toggle,
+  .cinema-controls:has(:focus-visible) .cinema-toggle {
+    pointer-events: auto;
+  }
+  .cinema-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    rotate: -90deg;
+    fill: none;
+    stroke-width: 2;
+  }
+  .cinema-ring-track {
+    stroke: rgb(255 255 255 / 0.24);
+  }
+  /* 169.65 = the circumference (2 * PI * 27); --cinema-progress is the mean of the three scenes (cinema.ts) */
+  .cinema-ring-value {
+    stroke: var(--color-on-night);
+    stroke-dasharray: 169.65;
+    stroke-dashoffset: calc(169.65 * (1 - var(--cinema-progress, 0)));
+  }
+  .cinema-toggle:not([data-paused]) :global(.icon-play),
+  .cinema-toggle[data-paused] :global(.icon-pause) {
+    display: none;
+  }
+
+  /* ---------- motion: tall track per scene, sticky stage scrubbed by scripts/cinema.ts ---------- */
+  /* 37.5625em = 601px at the default font size; keep in sync with tallViewport in cinema.ts */
+  @media screen and (min-height: 37.5625em) {
+    :global(html.motion:not(.slow-net)) .cinema:not(.is-static) .cinema-scene {
+      height: 150svh;
+    }
+    /* the footage covers the large viewport; the copy lives in the small one, so a browser toolbar never hides it */
+    :global(html.motion:not(.slow-net)) .cinema:not(.is-static) .scene-stage {
+      position: sticky;
+      top: 0;
+      height: 100lvh;
+      min-height: 0;
+    }
+    :global(html.motion:not(.slow-net)) .cinema:not(.is-static) .scene-frame {
+      height: 100svh;
+      min-height: 0;
+    }
+  }
+
+  @media (min-width: 66.8125em) {
+    .scene-frame {
+      padding-bottom: 6rem;
+    }
+  }
+
+  /* ---------- portrait crop: a taller bottom scrim under the copy ---------- */
+  @media (max-width: 767px), (max-aspect-ratio: 1/1) {
+    /* the person sits in the left third of the portrait clips: keep the head in frame on narrow phones;
+       in motion cinema.ts pans --focus-x toward each scene's payoff */
+    .scene-media img,
+    .scene-video {
+      object-position: var(--focus-x, 25%) 50%;
+    }
+    .scene-shade {
+      background:
+        linear-gradient(0deg, #000 0%, rgb(0 0 0 / 0) 4%),
+        linear-gradient(0deg, rgb(0 0 0 / 0.92) 0%, rgb(0 0 0 / 0.7) 32%, rgb(0 0 0 / 0) 58%),
+        linear-gradient(180deg, #000 0%, rgb(0 0 0 / 0) 12%);
+    }
+  }
+
+  /* reduced motion or Save-Data: posters only, even if a clip was decoded before the preference changed */
+  :global(html.still) .scene-video {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scene-video {
+      display: none;
+    }
+  }
+
+  @media print {
+    .scene-stage,
+    .scene-frame {
+      min-height: 0;
+    }
+    .scene-video,
+    .cinema-controls {
+      display: none;
+    }
+    .cinema [data-scene-copy] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>

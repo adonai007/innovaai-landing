@@ -2,32 +2,55 @@
 /**
  * InnovaAI lockup: the mark in a rounded tile plus the text wordmark in currentColor. "AI" takes the action blue
  * on light and the on-night link blue inside [data-theme='dark'] or .on-night. No gradient.
+ * `eager` (the global nav, first fold) inlines the mark as a ~1 KB WebP data URI at 2x, so the first fold requests
+ * no image file; if the build cannot run sharp it falls back to the regular eager <Image>.
  */
 import { Image } from 'astro:assets';
 import mark from '../../assets/brand/innovaai-mark.png';
 
 interface Props {
   size?: 'nav' | 'footer';
-  /** above the fold (global nav) */
+  /** above the fold (global nav): inline the mark */
   eager?: boolean;
   class?: string;
 }
 const { size = 'nav', eager = false, class: className = '' } = Astro.props;
 const px = size === 'nav' ? 22 : 16;
+
+let inlineMark: string | undefined;
+if (eager) {
+  try {
+    const { default: sharp } = await import('sharp');
+    const { join } = await import('node:path');
+    const buf = await sharp(join(process.cwd(), 'src/assets/brand/innovaai-mark.png'))
+      .resize(px * 2)
+      .webp({ quality: 90 })
+      .toBuffer();
+    inlineMark = `data:image/webp;base64,${buf.toString('base64')}`;
+  } catch {
+    inlineMark = undefined;
+  }
+}
 ---
 
 <span class:list={['logo inline-flex items-center', size === 'nav' ? 'gap-[0.4375rem]' : 'gap-1.5', className]}>
   <span class="logo-tile shrink-0 overflow-hidden rounded-[22%]" style={`width:${px}px;height:${px}px`}>
-    <Image
-      src={mark}
-      alt=""
-      width={px}
-      height={px}
-      densities={[1, 2]}
-      loading={eager ? 'eager' : 'lazy'}
-      decoding="async"
-      class="block size-full"
-    />
+    {
+      inlineMark ? (
+        <img src={inlineMark} alt="" width={px} height={px} decoding="async" class="block size-full" />
+      ) : (
+        <Image
+          src={mark}
+          alt=""
+          width={px}
+          height={px}
+          densities={[1, 2]}
+          loading={eager ? 'eager' : 'lazy'}
+          decoding="async"
+          class="block size-full"
+        />
+      )
+    }
   </span>
   <span
     class:list={[
