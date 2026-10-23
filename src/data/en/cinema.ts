@@ -1,7 +1,7 @@
 import type { CinemaData } from '../types';
 
 export const cinema = {
-  label: 'The studio',
+  label: 'The team',
   title: 'Less repetition.\nMore judgment.',
   leadIn: "What we learned building DentiMed and Dicta, we bring to your team’s work.",
   body: 'A vision, in three scenes, of what we can design with you.',

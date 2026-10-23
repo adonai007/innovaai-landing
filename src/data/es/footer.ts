@@ -3,7 +3,7 @@ import { DENTIMED_URL, DICTA_URL, LINKEDIN_URL } from '../links';
 import { site } from './site';
 
 export const footer = {
-  tagline: 'InnovaAI es un estudio de producto con IA. Desde Latinoamérica, para el mundo.',
+  tagline: 'InnovaAI es un equipo que desarrolla productos con inteligencia artificial. Desde Latinoamérica, para el mundo.',
   columns: [
     {
       title: 'Productos',
@@ -13,7 +13,7 @@ export const footer = {
       ],
     },
     {
-      title: 'Estudio',
+      title: 'InnovaAI',
       links: [
         { label: 'Para equipos', href: '#que-construimos' },
         { label: 'Cómo trabajamos', href: '#como-trabajamos' },

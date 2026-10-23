@@ -7,7 +7,7 @@ export const faq = {
   introAfter: '.',
   items: [
     { question: 'What is InnovaAI?',
-      answer: 'An AI product studio founded by Adonai Callejas and based in La Paz, Bolivia. We build and maintain our own products, DentiMed and Dicta, and design tools with teams at other companies.' },
+      answer: 'A team that builds AI products, based in La Paz, Bolivia. We make and maintain our own products, DentiMed and Dicta, and design tools with teams at other companies.' },
     { question: 'Do you work with teams in other countries?',
       answer: 'Yes. We talk on WhatsApp, in Spanish or English, wherever you are. We agree on the scope and the way of working together.' },
     { question: 'Where can I use DentiMed?',
