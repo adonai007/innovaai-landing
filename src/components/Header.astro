@@ -3,7 +3,8 @@
  * Global nav (Apple style): a 44px frosted bar (48px below 834px), sticky at the top. Logo left, five links
  * centred from 834px, language link and a small blue pill on the right, plus the menu button below 834px.
  * data-theme switches to "dark" while a [data-nav-theme="dark"] section sits under the bar (scripts/header.ts).
- * The menu is a native <dialog> (showModal: focus trap, Escape, inert page). Without JS the menu button is
+ * The menu is a native <dialog> (showModal: focus trap, Escape, inert page), solid white so the page behind
+ * never shows through, with its links in the page's 87.5% column. Without JS the menu button is
  * hidden and the links show as a second, horizontally scrollable row below 834px.
  */
 import Logo from './ui/Logo.astro';
@@ -95,7 +96,7 @@ const { nav, site } = Astro.props;
 
   <dialog
     id="site-menu"
-    class="menu bg-white/95 text-ink backdrop-blur-[20px] backdrop-saturate-[1.8]"
+    class="menu bg-white text-ink"
     aria-label={nav.menuTitle}
   >
     <div class="flex min-h-full flex-col">
@@ -106,7 +107,7 @@ const { nav, site } = Astro.props;
         </button>
       </div>
 
-      <div class="mx-auto flex w-full max-w-[64rem] grow flex-col px-4 pt-5">
+      <div class="menu-body mx-auto flex w-[87.5%] max-w-[61.25rem] grow flex-col pt-5">
         <nav aria-label={nav.navLabel}>
           <ul>
             {
@@ -162,6 +163,14 @@ const { nav, site } = Astro.props;
   [data-theme='dark'] .nav-link:focus-visible .nav-label,
   [data-theme='dark'] .nav-home:focus-visible .logo { outline-color: var(--color-link-on-night); }
 
+  /* menu open and close buttons: the ring hugs the 16px glyph inside the 44px hit area, so the viewport edge
+     never clips it */
+  [data-menu-open]:focus-visible, [data-menu-close]:focus-visible { outline: none; }
+  [data-menu-open]:focus-visible > .burger, [data-menu-close]:focus-visible > .burger {
+    outline: 2px solid var(--color-action); outline-offset: 0.5rem; border-radius: 6px;
+  }
+  [data-theme='dark'] [data-menu-open]:focus-visible > .burger { outline-color: var(--color-link-on-night); }
+
   /* menu button: two 16px lines that turn into an X */
   .burger {
     position: relative;
@@ -195,6 +204,7 @@ const { nav, site } = Astro.props;
   html.no-js [data-menu-open] { display: none; }
   @media (max-width: 52.0625em) {
     html.no-js { scroll-padding-top: calc(var(--nav-h) + 2.5rem); }
+    html.no-js [data-nav] :is(a, button) { scroll-margin-top: calc(-1 * (var(--nav-h) + 2.5rem)); }
     html.no-js [data-nav] { height: auto; }
     html.no-js .nav-nojs { display: block; }
   }

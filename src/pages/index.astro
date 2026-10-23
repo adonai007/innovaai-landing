@@ -10,7 +10,8 @@ const target = 'https://innovai.click/es/';
     <meta http-equiv="refresh" content={`0; url=${target}`} />
     <link rel="canonical" href={target} />
     <title>InnovaAI</title>
-    <script is:inline>window.location.replace('/es/');</script>
+    {/* English browsers go to /en/; everyone else, and every visitor without JS, to the Spanish default */}
+    <script is:inline>window.location.replace(/^en\b/i.test(navigator.language || '') ? '/en/' : '/es/');</script>
   </head>
   <body><a href={target}>InnovaAI</a></body>
 </html>

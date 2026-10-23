@@ -28,7 +28,7 @@ The page follows Apple's design language and writing style and puts the products
 
 - `src/components/` — one Astro component per landing section, `PascalCase.astro`: `Header`, `Ribbon`, `Dicta`, `CinematicStory`, `EverydayWork`, `HowWeWork`, `FAQ`, `Closing`, `Footer`
 - `src/components/dentimed/` — the DentiMed first fold and bento (`DentimedHero`, `DentimedFeatures`) plus the HTML phone (`DentimedPhone`) and one app card (`DmCard`)
-- `src/components/ui/` — shared primitives: `Icon`, `Logo`, `Button`, `ChevronLink`, `SectionHead`, `Lines`, `Highlight`
+- `src/components/ui/` — shared primitives: `Icon`, `Logo`, `Button`, `ChevronLink`, `SectionHead`, `Lines`, `MetaLine`, `Highlight`
 - `src/data/types.ts` — one type per data bundle; every `src/data/{es,en}/*.ts` ends with `satisfies <Type>` (tuples enforce ES/EN parity)
 - `src/data/{es,en}/*.ts` — localized content: `site`, `navigation`, `footer`, `seo`, `dentimed`, `dicta`, `cinema`, `everyday-work`, `how-we-work`, `faq`, `closing`
 - `src/data/links.ts` (locale-neutral URLs) and `src/data/dentimed-app.ts` (DentiMed's Spanish app UI and its demo patient, used only by `src/components/dentimed/*`)
@@ -54,7 +54,7 @@ The page follows Apple's design language and writing style and puts the products
   - Type scale: `text-display`, `text-hero`, `text-tile`, `text-section`, `text-eyebrow`, `text-label`, `text-subhead`, `text-card`, `text-question`, `text-intro`, `text-kicker`, `text-body`, `text-caption`, `text-legal`
 - Prefer the components-layer classes `.wrap`, `.wrap-text`, `.section`, `.on-night`, `.seam`, `.btn` with `.btn-primary` / `.btn-secondary` and a size, `.link-chevron`, `.text-link` over re-implementing them
 - Buttons: the blue pill for the main action, the outline pill for a second action beside it, chevron links (`ChevronLink`) for everything else. No icons inside pills
-- Cards: 28px radius (`rounded-card`), no borders, no shadows; separation comes from fill contrast only. The only shadow is the DentiMed phone device. Glass (`backdrop-blur-[20px] backdrop-saturate-[1.8]`) only on the nav, the mobile menu and the film's pause button. No gradients except the film's image scrims
+- Cards: 28px radius (`rounded-card`), no borders, no shadows; separation comes from fill contrast only. The only shadow is the DentiMed phone device. Glass (`backdrop-blur-[20px] backdrop-saturate-[1.8]`) only on the nav and the film's pause button (the mobile menu is solid white). No gradients except the film's image scrims
 - Breakpoints are `md` (735px), `nav` (834px) and `lg` (1069px), defined in em; no other breakpoints exist
 - Do **not** hardcode hex values in components; go through tokens (DentiMed's app palette lives only in `dentimed-app.css`)
 - No `@apply` in component styles; component `<style>` blocks use plain CSS with `var(--color-*)`

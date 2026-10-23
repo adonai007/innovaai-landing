@@ -1,7 +1,7 @@
 ---
 /**
- * FAQ (#preguntas): the section head with a WhatsApp line, then seven native <details> rows between hairlines
- * in the 980px text column. No script: the browser opens and closes each row, with the keyboard too.
+ * FAQ (#preguntas): a centred section head with a WhatsApp line (centred, so its edge never competes with the
+ * start-aligned sections above), then seven native <details> rows between hairlines in the 980px text column. No script: the browser opens and closes each row, with the keyboard too.
  * Motion: the head and the list fade and rise in once (data-reveal); under html.motion, where the browser can
  * animate a details panel (::details-content and interpolate-size), the answer grows and fades in while the
  * caret turns. Every other mode opens instantly. The summary draws its own focus ring inside the row.
@@ -19,7 +19,7 @@ const { data, site } = Astro.props;
 
 <section id="preguntas" aria-labelledby="preguntas-title" class="section bg-canvas-alt">
   <div class="wrap-text">
-    <SectionHead title={data.title} titleId="preguntas-title">
+    <SectionHead title={data.title} titleId="preguntas-title" align="center">
       <p class="mt-4 text-intro text-ink-2">
         {data.introBefore}<a
           class="text-link"

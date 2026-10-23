@@ -60,7 +60,11 @@ export function initMenu() {
 
   button.addEventListener('click', () => {
     if (dialog.open) return;
+    // showModal() focuses the close button, which sits in the nav's scroll-padding band: global.css gives nav
+    // controls a negative scroll margin, and this keeps the page where it was in browsers that still scroll
+    const y = window.scrollY;
     dialog.showModal();
+    if (window.scrollY !== y) window.scrollTo({ top: y, behavior: 'instant' });
     root.classList.add('menu-open');
     button.setAttribute('aria-expanded', 'true');
   });

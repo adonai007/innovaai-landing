@@ -1,11 +1,13 @@
 ---
 /**
  * #dentimed: the first fold. DentiMed's product lockup (icon and name, headline, subhead, meta line, two pills)
- * over two HTML phones built from DentiMed's own app UI: Dictado (left, lower, from 735px) and Borrador.
+ * over two HTML phones built from DentiMed's own app UI: Dictado (left, lower, from 735px) and Borrador. The lockup
+ * is kept tight (one-line subhead, a shorter meta line on phones) so the phones take a real share of the fold.
  * Motion: under html.motion the phones rise once on load; every other mode shows the static final state.
  */
 import Button from '../ui/Button.astro';
 import Lines from '../ui/Lines.astro';
+import MetaLine from '../ui/MetaLine.astro';
 import DentimedPhone from './DentimedPhone.astro';
 import dmIconRaw from '../../assets/brand/dentimed-icon.svg?raw';
 import type { DentimedData } from '../../data/types';
@@ -15,7 +17,6 @@ interface Props {
 }
 const { data } = Astro.props;
 const { lockup, primary, demo } = data;
-const meta = lockup.meta.split(' · ');
 // DentiMed's real icon, inlined so the first fold requests no image
 const dmIcon = dmIconRaw.replace('<svg ', '<svg class="dm-icon" aria-hidden="true" focusable="false" ');
 ---
@@ -31,28 +32,17 @@ const dmIcon = dmIconRaw.replace('<svg ', '<svg class="dm-icon" aria-hidden="tru
       {lockup.name}
     </h2>
     <p class="mt-2 text-hero text-balance"><Lines text={lockup.title} /></p>
-    <p class="mx-auto mt-3 max-w-[40rem] text-subhead text-balance md:mt-4 lg:max-w-[46rem]">{lockup.subhead}</p>
-    <p class="mt-3 text-caption text-ink-2">
-      {
-        meta.map((segment, i) => (
-          <Fragment>
-            <span class="whitespace-nowrap">
-              {segment}
-              {i < meta.length - 1 && ' ·'}
-            </span>
-            {i < meta.length - 1 && ' '}
-          </Fragment>
-        ))
-      }
-    </p>
+    <p class="mx-auto mt-3 max-w-[40rem] text-subhead text-balance md:mt-4 md:max-w-none lg:max-w-[46rem]">{lockup.subhead}</p>
+    <MetaLine class="mt-3 text-ink-2" text={lockup.meta} small={lockup.metaSmall} />
     <div class="mt-5 flex flex-wrap justify-center gap-3 md:mt-6 md:gap-4">
       <Button size="auto" variant="primary" href={primary.href} label={primary.label} external hint={primary.srHint} />
       <Button size="auto" variant="secondary" href={demo.href} label={demo.label} external hint={demo.srHint} />
     </div>
   </div>
 
-  <figure class="dm-phones mt-12 md:mt-16" role="img" aria-label={data.phonesLabel} lang="es">
-    <div class="dm-phones-row" aria-hidden="true">
+  {/* the label follows the page language; lang="es" marks only the Spanish app UI inside */}
+  <figure class="dm-phones mt-10 md:mt-12" role="img" aria-label={data.phonesLabel}>
+    <div class="dm-phones-row" aria-hidden="true" lang="es">
       <DentimedPhone screen="dictado" class="dm-phone-left hidden md:block" />
       <DentimedPhone screen="borrador" />
     </div>

@@ -11,8 +11,14 @@ export type IconName =
 export interface Link { label: string; href: string; external?: boolean; hreflang?: Locale; srHint?: string }
 export interface IconCard { icon: IconName; title: string; body: string }
 export interface TextCard { title: string; body: string }
-/** Product lockup. `title` may contain "\n": a line break from 735px up only. */
-export interface Lockup { name: string; title: string; subhead: string; meta: string }
+/** Product lockup. `title` may contain "\n" (see Lines: between two sentences it breaks at every width). */
+export interface Lockup {
+  name: string; title: string; subhead: string;
+  /** grey line under the subhead, segments separated by " · " */
+  meta: string;
+  /** optional shorter meta line shown below 735px instead of `meta`, so it stays on one line on phones */
+  metaSmall?: string;
+}
 
 export interface SiteData {
   lang: Locale; skipLink: string;

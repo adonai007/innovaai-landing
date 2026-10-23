@@ -5,9 +5,8 @@
  * No visuals. Motion: the head and each step fade and rise in once (data-reveal, 0 / 80 / 160ms); every other
  * mode shows the static final state.
  *
- * Head and steps share one column so both edges line up: the 87.5% gutter below 1120px and Apple's 980px text
- * column above it (the width .wrap-text has from 1069px). Below 1069px .wrap-text is 692px, which would break the
- * Spanish headline into three lines at 1000 to 1068px and leave the steps wider than the head.
+ * Head and steps share the wide .wrap column, so the headline starts on the same edge as the everyday-work
+ * section right above it (both start-aligned) and the scroll between them never jumps sideways.
  */
 import SectionHead from './ui/SectionHead.astro';
 import Highlight from './ui/Highlight.astro';
@@ -20,7 +19,7 @@ const { data } = Astro.props;
 ---
 
 <section id="como-trabajamos" aria-labelledby="como-trabajamos-title" class="section bg-canvas">
-  <div class="wrap max-w-[61.25rem]">
+  <div class="wrap">
     <SectionHead size="hero" label={data.label} title={data.title} titleId="como-trabajamos-title">
       <Highlight class="mt-6 max-w-[46rem]" leadIn={data.leadIn} body={data.body} />
     </SectionHead>

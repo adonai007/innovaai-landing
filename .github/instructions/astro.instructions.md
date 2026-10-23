@@ -38,7 +38,7 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all comp
 - Entrance reveals use the `data-reveal` attribute (never on the DentiMed first fold, the Dicta visual or in the film chapter). One motion idea per section, never looped: the DentiMed phones rise once, the Dicta text types once (`dicta-demo.ts`), the film clips are scrubbed from scroll (`cinema.ts`)
 - The default markup must be the final static state; hidden or initial states exist only under `html.motion` (reveals under `html.motion.reveal-ready`, the film tracks under `html.motion:not(.slow-net) .cinema:not(.is-static)`, the scene copy under `.cinema.is-live`). Script-only controls, like the film's pause button, ship with the `hidden` attribute and the script reveals them
 - Sections over black carry `.on-night` and `data-nav-theme="dark"`; `header.ts` switches the nav theme while one sits under the bar
-- DentiMed's own Spanish UI strings and demo patient live in `src/data/dentimed-app.ts` and are used only by `src/components/dentimed/*` (the figure carries `lang="es"`)
+- DentiMed's own Spanish UI strings and demo patient live in `src/data/dentimed-app.ts` and are used only by `src/components/dentimed/*` (the `aria-hidden` wrappers around that UI carry `lang="es"`; the labelled figure keeps the page language)
 - Use Astro's `<Image />` or `<Picture />` with images in `src/assets/`; keep only the OG images, favicons, the film media (`public/cinema/`, read-only) and the deck in `public/`. The first fold requests no image file
 
 ## SEO and metadata

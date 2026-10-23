@@ -27,5 +27,5 @@ For each change, verify locally before opening a PR:
 
 ## When to invest in test infrastructure
 
-- If the maintainer approves adding tests, **Playwright** is the recommended starting point: visual regression for hero sections, basic navigation smoke tests per locale, Lighthouse performance budget in CI
+- If the maintainer approves adding tests, **Playwright** is the recommended starting point: visual regression for the DentiMed first fold (`#dentimed`), basic navigation smoke tests per locale, Lighthouse performance budget in CI
 - Any new test infrastructure must run in the existing `.github/workflows/ci.yml` or a dedicated workflow; do not leave tests that never execute

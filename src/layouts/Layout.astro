@@ -16,7 +16,7 @@ interface Props {
   lang?: 'es' | 'en';
   skipLink: string;
   organizationDescription: string;
-  /** site-relative path of this locale's share card (the Organization keeps the Spanish card) */
+  /** site-relative path of this locale's share card (also the Organization image on this page) */
   ogImage?: string;
   ogImageAlt: string;
   structuredData?: Record<string, unknown>[];
@@ -39,8 +39,8 @@ const canonicalURL = new URL(currentPath, Astro.site ?? 'https://innovai.click')
 const altURL = new URL(altPath, Astro.site ?? 'https://innovai.click');
 const defaultURL = new URL(currentPath.replace(`/${lang}`, '/es'), Astro.site ?? 'https://innovai.click');
 const siteURL = new URL('/', Astro.site ?? 'https://innovai.click');
-const logoURL = new URL('/images/innovaai-logo-full.png', siteURL);
-const orgImageURL = new URL('/images/innovaai-og.jpg', siteURL);
+// the square mark tile (the same one the nav and favicons use), not the retired v1 banner
+const logoURL = new URL('/images/innovaai-logo-mark-192.png', siteURL);
 const ogImageURL = new URL(ogImage, siteURL);
 const organizationId = `${siteURL.href}#organization`;
 const websiteId = `${siteURL.href}#website`;
@@ -61,13 +61,13 @@ const schema = {
         '@type': 'ImageObject',
         url: logoURL.href,
         contentUrl: logoURL.href,
-        width: 576,
-        height: 220,
+        width: 192,
+        height: 192,
       },
       image: {
         '@type': 'ImageObject',
-        url: orgImageURL.href,
-        contentUrl: orgImageURL.href,
+        url: ogImageURL.href,
+        contentUrl: ogImageURL.href,
         width: 1200,
         height: 630,
       },
@@ -203,7 +203,7 @@ const schema = {
 
     <title>{title}</title>
   </head>
-  <body>
+  <body id="top">
     <a
       href="#contenido"
       class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-caption focus:text-ink focus:ring-2 focus:ring-action focus:outline-hidden"

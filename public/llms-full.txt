@@ -1,6 +1,6 @@
 # InnovaAI
 
-> InnovaAI is an AI product studio from Latin America, based in La Paz, Bolivia, and founded by Adonai Callejas. It builds and maintains its own products, DentiMed and Dicta, and designs AI tools with other companies' teams. In every product, software prepares a draft for review and a person confirms it before anything is saved or sent. It works in Spanish and English and does not publish client results, metrics or prices.
+> InnovaAI is an AI product studio from Latin America, based in La Paz, Bolivia, and founded by Adonai Callejas. It builds and maintains its own products, DentiMed and Dicta, and designs AI tools with other companies' teams. In every product, nothing is saved or sent until a person approves it. It works in Spanish and English and does not publish client results, metrics or prices.
 
 Canonical domain: https://innovai.click/
 
@@ -10,11 +10,11 @@ Spanish is the primary language; English pages are translations of the Spanish s
 
 ## DentiMed
 
-[DentiMed](https://dentimed.app): Finish the visit with the chart ready. Say what you did, and DentiMed drafts the chart. Nothing is saved without your approval. For dentists · In your phone's browser · In Spanish · Founders pilot.
+[DentiMed](https://dentimed.app): Finish the visit with the chart ready. Say what you did. DentiMed drafts the chart. Nothing is saved without your approval. For dentists · In your phone's browser · In Spanish · Founders pilot.
 
 - **Dictate the way you talk.** Record from the patient's chart and pause whenever you need to. DentiMed transcribes with dental terminology and uses the prices in your fee schedule.
 - **You confirm. Every time.** Everything arrives as a draft for you to review, correct and approve. If a medication conflicts with a recorded allergy, you see an alert before you approve.
-- **Next appointment and message, ready.** DentiMed suggests a free slot in your calendar and you book it with one tap. The WhatsApp message is prefilled, and you send it when you tap Send.
+- **Next appointment and message, ready.** DentiMed suggests a free slot in your calendar and you book it with one tap. The WhatsApp message is prefilled, and you send it when you tap Enviar.
 
 Security: your patients' data, under clear rules.
 
@@ -44,7 +44,7 @@ Tools that get everyday work ready. Every tool starts with one specific task on 
 - **Answers from your own documents.** Your team asks in plain words and gets the answer with its source.
 - **Documents, sorted.** Requests, forms and emails arrive classified and summarized for the right person.
 - **Replies ready for your customers.** Common questions get a draft built from your company's information. Your team edits it and sends it.
-- **A team that knows how to use AI.** Hands-on workshops with the tools you already use and clear rules on which data to use.
+- **A team that knows how to use AI.** Hands-on workshops with your team's tools and clear rules on which data to share.
 
 ## How InnovaAI works
 
@@ -66,7 +66,7 @@ Yes. We talk on WhatsApp, in Spanish or English, wherever you are. We agree on t
 DentiMed is made for dentists and is available in Spanish. It runs in your phone's browser, with nothing to download from an app store, and you choose your clinic's main currency. It's currently in a founders pilot.
 
 **Does AI replace people?**
-No. Our tools gather the information and prepare a draft. A person reviews and confirms what matters before it's saved or sent.
+No. Our tools gather the information and leave a draft. Nothing is saved or sent until someone on your team approves it.
 
 **How do you handle sensitive information?**
 From the design stage we define who has access, what is stored, for how long and with which providers. In DentiMed, each clinic is isolated from the others, important actions are recorded in an audit log, and no draft is saved without human review.
@@ -75,7 +75,7 @@ From the design stage we define who has access, what is stored, for how long and
 It depends on the scope. If there's a good fit, we propose a clear scope and budget before any work begins. The first conversation is free. DentiMed is in a founders pilot, and Dicta is free to start.
 
 **Where do we start?**
-With a 30-minute conversation. Tell us which task keeps repeating, and we'll see together whether there's a good place to start.
+With a 30-minute conversation on WhatsApp.
 
 ## Citation notes
 

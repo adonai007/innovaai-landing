@@ -2,6 +2,7 @@
 /**
  * Apple-style footer on #f5f5f7, 12px grey: tagline, hairline, logo breadcrumb, a three-column directory
  * (two columns below 735px), hairline, then copyright and location on the left and the language link on the right.
+ * Every link is a 24px-tall inline-flex box, so the whole row is the tap target.
  */
 import Logo from './ui/Logo.astro';
 import type { FooterData, SiteData } from '../data/types';
@@ -32,14 +33,14 @@ const copyright = data.copyright.replace('{year}', String(new Date().getFullYear
             <h2 class="font-semibold text-ink">{col.title}</h2>
             <ul class="mt-2">
               {col.links.map((link) => (
-                <li class="min-h-6 py-0.5">
+                <li class="min-h-6">
                   <a
                     href={link.href}
                     target={link.external ? '_blank' : undefined}
                     rel={link.external ? 'noopener noreferrer' : undefined}
                     hreflang={link.hreflang}
                     lang={link.hreflang}
-                    class="footer-link text-[#424245] hover:underline"
+                    class="footer-link inline-flex min-h-6 items-center text-[#424245] hover:underline"
                   >
                     {link.label}
                     {link.external && <span class="sr-only"> {link.srHint ?? site.externalHint}</span>}
@@ -62,7 +63,7 @@ const copyright = data.copyright.replace('{year}', String(new Date().getFullYear
         href={data.lang.href}
         hreflang={data.lang.hreflang}
         lang={data.lang.hreflang}
-        class="shrink-0 whitespace-nowrap text-[#424245] hover:underline"
+        class="-my-1 inline-flex min-h-6 shrink-0 items-center whitespace-nowrap text-[#424245] hover:underline"
       >
         {data.lang.label}
       </a>

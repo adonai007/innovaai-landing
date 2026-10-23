@@ -3,6 +3,7 @@
  * Historia: the film that opens the studio chapter, right after Dicta (owner's brief: docs/creative/innovai-brand-film.md).
  * A centered intro lockup, then three scenes, each a poster (<picture>) under a 5s clip that scripts/cinema.ts
  * scrubs from scroll. True black, a bottom scrim only where the copy sits, one short headline and one line per scene.
+ * Scene headlines are two short sentences; Lines starts each sentence on its own line at every width.
  *
  * Default markup = final static state: posters and copy in normal flow (no JS, html.still, html.slow-net, short
  * screens). The tall sticky tracks are CSS-first: they exist only under html.motion (not html.slow-net, set on 2G)
@@ -201,8 +202,11 @@ const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
   }
 
   /* ---------- the pause button: sticky to the viewport bottom over the pinned stage ---------- */
+  /* flow-root keeps the controls' bottom margin inside the track, so #historia ends exactly where the last stage
+     ends: the nav theme probe never finds a light gap over black footage, and the next section starts flush */
   .cinema-track {
     position: relative;
+    display: flow-root;
   }
   .cinema-controls {
     --controls-bottom: max(1.5rem, env(safe-area-inset-bottom));

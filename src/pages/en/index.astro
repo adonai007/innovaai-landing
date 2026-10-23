@@ -55,7 +55,8 @@ const structuredData = [
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     inLanguage: 'es',
-    description: dentimed.lockup.subhead,
+    // the lockup subhead plus the review card's body: what DentiMed drafts and that you approve it
+    description: `${dentimed.lockup.subhead} ${dentimed.features.items[1].body}`,
     publisher: { '@id': orgId },
   },
   {

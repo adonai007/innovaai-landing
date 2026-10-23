@@ -36,7 +36,7 @@
   --color-dicta: #10b981;        /* Dicta emerald: on black only (8.3:1) */
 
   /* type scale: fluid between 390px and 1068px, Apple's measured sizes at both ends */
-  --text-display: clamp(3rem, 1.85rem + 4.72vw, 5rem);            /* 48 -> 80 */
+  --text-display: clamp(2.25rem, 0.852rem + 6.215vw, 5rem);       /* 36 at 360, 38 at 390 -> 80: each film sentence keeps one line on phones */
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: var(--tr-display);
   --text-display--font-weight: 600;
@@ -44,7 +44,7 @@
   --text-hero--line-height: 1.0625;
   --text-hero--letter-spacing: var(--tr-hero);
   --text-hero--font-weight: 600;
-  --text-tile: clamp(2rem, 1.137rem + 3.54vw, 3.5rem);            /* 32 -> 56 */
+  --text-tile: clamp(1.75rem, 0.744rem + 4.13vw, 3.5rem);         /* 28 -> 56: one sentence per line on phones */
   --text-tile--line-height: 1.07;
   --text-tile--letter-spacing: var(--tr-tile);
   --text-tile--font-weight: 600;
@@ -111,7 +111,7 @@
     --nav-h: 3rem;
     --section-pad: 4.5rem;
     --head-gap: 2.5rem;
-    --tile-pad: 3rem;
+    --tile-pad: 2.5rem;
     /* tracking: Inter values by default (also used without JS) */
     --tr-display: -0.02em; --tr-hero: -0.02em; --tr-tile: -0.019em; --tr-section: -0.018em;
     --tr-eyebrow: -0.015em; --tr-subhead: -0.012em; --tr-card: -0.015em; --tr-label: -0.015em;
@@ -125,11 +125,14 @@
     --tr-question: 0.009em; --tr-intro: 0.011em; --tr-kicker: -0.019em; --tr-body: -0.022em;
     --tr-caption: -0.016em; --tr-legal: -0.01em;
   }
-  @media (min-width: 45.9375em) { :root { --section-pad: 6.5rem; --head-gap: 4rem; --tile-pad: 4rem; } }
+  @media (min-width: 45.9375em) { :root { --section-pad: 6.5rem; --head-gap: 4rem; --tile-pad: 3rem; } }
   @media (min-width: 52.125em) { :root { --nav-h: 2.75rem; } }
-  @media (min-width: 66.8125em) { :root { --section-pad: 9rem; --head-gap: 5rem; --tile-pad: 5rem; } }
+  @media (min-width: 66.8125em) { :root { --section-pad: 9rem; --head-gap: 5rem; --tile-pad: 3.5rem; } }
 
   html { color-scheme: light; -webkit-text-size-adjust: 100%; overflow-x: clip; scroll-padding-top: var(--nav-h); }
+  /* The sticky nav and its menu sit inside that padded band, so focusing or tapping one of their controls would
+     make the browser scroll the page to "reveal" it. A matching negative scroll margin keeps the page still. */
+  [data-nav] :is(a, button) { scroll-margin-top: calc(-1 * var(--nav-h)); }
   html.motion { scroll-behavior: smooth; }
   body {
     background: var(--color-canvas); color: var(--color-ink);
@@ -143,7 +146,8 @@
   summary::-webkit-details-marker { display: none; }
   :focus-visible { outline: 2px solid var(--color-action); outline-offset: 3px; border-radius: 4px; }
   .on-night :focus-visible, [data-theme='dark'] :focus-visible { outline-color: var(--color-link-on-night); }
-  /* "\n" in a headline is a line break from 735px up only (Apple's <br class="large">) */
+  /* "\n" inside a sentence is a line break from 735px up only (Apple's <br class="large">); Lines.astro keeps a
+     break between two sentences at every width */
   @media (max-width: 45.875em) { .br-lg { display: none; } }
   html.menu-open { overflow: hidden; }
 }
@@ -176,7 +180,9 @@
   .on-night .btn-secondary:hover { background: var(--color-link-on-night); color: #000; }
 
   /* chevron links: underline on hover, text only, never the chevron */
-  .link-chevron { color: var(--color-link); }
+  .link-chevron { position: relative; color: var(--color-link); }
+  /* a taller invisible hit area for touch; the focus ring still hugs the text */
+  .link-chevron::before { content: ''; position: absolute; inset: -0.625rem -0.25rem; }
   .link-chevron:hover .lc-text, .link-chevron:focus-visible .lc-text { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
   .lc-icon { display: inline-block; width: 0.42em; height: 0.72em; margin-left: 0.3em; vertical-align: -0.04em; }
   .on-night .link-chevron, [data-theme='dark'] .link-chevron { color: var(--color-link-on-night); }

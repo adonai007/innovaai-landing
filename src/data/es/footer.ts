@@ -8,8 +8,8 @@ export const footer = {
     {
       title: 'Productos',
       links: [
-        { label: 'DentiMed', href: DENTIMED_URL, external: true },
-        { label: 'Dicta', href: DICTA_URL, external: true },
+        { label: 'DentiMed', href: DENTIMED_URL, external: true, srHint: '(abre dentimed.app en una pestaña nueva)' },
+        { label: 'Dicta', href: DICTA_URL, external: true, srHint: '(abre el sitio de Dicta en una pestaña nueva)' },
       ],
     },
     {

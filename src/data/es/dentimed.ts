@@ -5,8 +5,9 @@ export const dentimed = {
   lockup: {
     name: 'DentiMed',
     title: 'Termina la atención\ncon la ficha lista.',
-    subhead: 'Cuentas lo que hiciste y DentiMed arma el borrador de la ficha. Nada se guarda sin tu aprobación.',
+    subhead: 'Cuentas lo que hiciste. DentiMed arma el borrador.',
     meta: 'Para odontólogos · Desde el navegador del teléfono · Piloto para fundadores',
+    metaSmall: 'Para odontólogos · Piloto para fundadores',
   },
   primary: { label: 'Conocer DentiMed', href: DENTIMED_URL, external: true, srHint: '(abre dentimed.app en una pestaña nueva)' },
   demo: {

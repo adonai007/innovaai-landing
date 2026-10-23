@@ -17,7 +17,7 @@ Ask for the following inputs if not provided:
 
 - Create the component under `src/components/`. Declare an `interface Props` in the frontmatter that imports only types from `src/data/types.ts`; accept already-translated strings, never import from `src/data/**`
 - Add the type to `src/data/types.ts` and both bundles, `src/data/es/<name>.ts` and `src/data/en/<name>.ts`, ending with `satisfies <Type>` (tuples for fixed-length lists keep ES/EN parity)
-- Render `<section id="<spanish-id>" aria-labelledby="<spanish-id>-title" class="section ...">` with `SectionHead` for the label, the h2 (titles may contain `\n`, rendered by `Lines` as a break from 735px up) and the intro. Use `.wrap` or `.wrap-text`
+- Render `<section id="<spanish-id>" aria-labelledby="<spanish-id>-title" class="section ...">` with `SectionHead` for the label, the h2 (titles may contain `\n`, rendered by `Lines`: a break at every width between two sentences, from 735px up inside one) and the intro. Use `.wrap` or `.wrap-text`
 - Pick the surface so two identical backgrounds never sit side by side. Cards take the other neutral (`canvas-alt` card on `canvas`, or `canvas` card on `canvas-alt`), 28px radius (`rounded-card`), no borders, no shadows
 - Black sections add `.on-night` and `data-nav-theme="dark"` so the nav switches theme over them
 - Actions: `Button` (blue pill, or outline pill beside it) or `ChevronLink`; external links pass `external` and an sr-only `hint`

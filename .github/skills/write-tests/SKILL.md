@@ -9,7 +9,7 @@ The InnovaAI landing page has **no** test runner configured (no Vitest, Jest, Pl
 
 Ask for the following inputs if not provided:
 
-- What exactly needs coverage (visual regression on the hero, locale routing smoke tests, form behavior, etc.)?
+- What exactly needs coverage (visual regression on the DentiMed first fold (`#dentimed`), locale routing smoke tests, the mobile menu, etc.)?
 - Is the maintainer open to adding a test runner to the project?
 - Which CI workflow should run the tests (extend `.github/workflows/ci.yml` or add a dedicated one)?
 
@@ -20,6 +20,6 @@ Ask for the following inputs if not provided:
 - If infrastructure is approved, propose a minimal setup:
   - Add `@playwright/test` as a dev dependency
   - Configure Playwright to run against `npm run preview` in CI
-  - Start with two tests: `/es/` renders the hero, `/en/` renders the hero
+  - Start with two tests: `/es/` renders the DentiMed first fold (`#dentimed`), `/en/` renders the DentiMed first fold
 - Never silently introduce a test runner or testing dependency; get explicit sign-off first
 - Follow the posture captured in `../../instructions/testing.instructions.md`

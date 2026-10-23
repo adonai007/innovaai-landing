@@ -1,6 +1,6 @@
 # InnovaAI
 
-> InnovaAI is an AI product studio from Latin America, based in La Paz, Bolivia, and founded by Adonai Callejas. It builds and maintains its own products, DentiMed and Dicta, and designs AI tools with other companies' teams. In every product, software prepares a draft for review and a person confirms it before anything is saved or sent. It works in Spanish and English and does not publish client results, metrics or prices.
+> InnovaAI is an AI product studio from Latin America, based in La Paz, Bolivia, and founded by Adonai Callejas. It builds and maintains its own products, DentiMed and Dicta, and designs AI tools with other companies' teams. In every product, nothing is saved or sent until a person approves it. It works in Spanish and English and does not publish client results, metrics or prices.
 
 Canonical domain: https://innovai.click/
 

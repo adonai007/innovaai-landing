@@ -8,7 +8,7 @@ export const site = {
   skipLink: 'Saltar al contenido',
   h1: 'InnovaAI, estudio de producto con IA',
   ribbon: {
-    text: 'InnovaAI es un estudio de producto con IA, de Latinoamérica para el mundo.',
+    text: 'InnovaAI es un estudio de producto con IA. Desde Latinoamérica, para el mundo.',
     link: { label: 'Conoce el estudio', href: '#historia' },
   },
   whatsappMessage,
