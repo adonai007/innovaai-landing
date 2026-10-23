@@ -15,8 +15,8 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all Type
 
 ## Data files
 
-- Localized content in `src/data/{es,en}/*.ts` should be declared with `as const` (const assertions) so downstream components can rely on literal types
-- Define the canonical type for a data bundle once (e.g. a `Service`, `Product`, `FaqItem`) and import it from both locales to guarantee parity
+- Localized content in `src/data/{es,en}/*.ts` ends with `satisfies <Type>` so literal types survive and the shape is checked; `src/data/dentimed-app.ts` uses `as const`
+- Define the canonical type for a data bundle once in `src/data/types.ts` (e.g. `DentimedData`, `CinemaData`, `FaqItem`) and use it from both locales; tuples enforce parity
 - Avoid circular imports between data files; if shared shapes grow, place them in `src/data/types.ts`
 
 ## Component props
@@ -28,7 +28,7 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all Type
 ## Client scripts
 
 - Scripts in `src/scripts/` run in the browser. Guard DOM access (`document`, `window`) at the entry point, not inside every helper
-- Type third-party APIs (GSAP, Lenis) from their own typings; do not re-declare them locally
+- Type browser APIs that lib.dom lacks (for example `navigator.connection`) with a small local type next to their use
 - Prefer `const` over `let`; use `readonly` on module-level arrays that are not mutated
 
 ## Naming

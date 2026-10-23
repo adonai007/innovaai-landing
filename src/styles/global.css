@@ -1,165 +1,203 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/outfit/wght.css';
-@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/inter/opsz.css';
 
 @theme {
-  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Outfit Variable', 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --breakpoint-*: initial;
+  --breakpoint-md: 45.9375em;
+  --breakpoint-nav: 52.125em;
+  --breakpoint-lg: 66.8125em;
 
-  --color-night: #071628;
-  --color-ink: #13283d;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter Variable', 'Inter Fallback', 'Segoe UI', Roboto, Arial, sans-serif;
+
+  /* neutrals (measured on apple.com) */
+  --color-ink: #1d1d1f;          /* 16.8:1 on white, 15.5:1 on #f5f5f7 */
+  --color-ink-2: #6e6e73;        /* 5.07:1 white, 4.66:1 #f5f5f7: any size */
+  --color-ink-3: #86868b;        /* 3.62:1 on white: only >= 21px/600 on light, any size on black (5.8:1) */
+  --color-canvas: #ffffff;
+  --color-canvas-alt: #f5f5f7;
+  --color-night: #000000;
+  --color-night-2: #1d1d1f;      /* cards and windows on black */
+  --color-night-3: #161617;      /* dark nav base */
+  --color-on-night: #f5f5f7;     /* 19.3:1 on black */
+  --color-on-night-2: #a1a1a6;   /* 8.2:1 on black, 6.5:1 on #1d1d1f */
+  --color-hairline: rgb(0 0 0 / 0.16);
+  --color-hairline-on-night: #424245;
+  --color-fill: #d2d2d7;
+
+  /* InnovaAI action blue (logo family). White on it 5.72:1; on #f5f5f7 as text 5.25:1 */
   --color-action: #0a62d0;
   --color-action-hover: #0851ad;
-  --color-electric: #0976f7;
-  --color-teal: #2de6d4;
-  --color-sky: #eaf2fd;
-  --color-soft: #fafbf9;
-  --color-line: #d8e1ea;
-  --color-muted: #4f6476;
-  --color-logo-bg: #020c19;
-  --color-draft: #92400e;
-  --color-draft-bg: #fef3c7;
-  --color-ok: #0f7a4f;
-  --color-ok-bg: #dcfce7;
-  --color-whatsapp: #25d366;
-  --color-dm-mint: #e7f6f0;
-  --color-dm-ink: #172f3c;
-  --color-dm-action: #00766f;
-  --color-dm-muted: #526875;
-  --color-dm-med: #04a4a5;
-  --color-dicta-bg: #0a0a0a;
-  --color-dicta-surface: #161616;
-  --color-dicta-green: #10b981;
+  --color-link: #0a62d0;
+  --color-link-on-night: #4da3ff; /* 8.0:1 on black, 6.4:1 on #1d1d1f */
 
-  --text-display: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
+  /* product accents: only inside their product sections */
+  --color-dm-accent: #00796f;    /* DentiMed text accent on light: 5.3:1 white, 4.86:1 #f5f5f7 */
+  --color-dm-teal: #04b5b2;      /* DentiMed brand teal: icons and app UI only, never text on light */
+  --color-dicta: #10b981;        /* Dicta emerald: on black only (8.3:1) */
+
+  /* type scale: fluid between 390px and 1068px, Apple's measured sizes at both ends */
+  --text-display: clamp(2.25rem, 0.852rem + 6.215vw, 5rem);       /* 36 at 360, 38 at 390 -> 80: each film sentence keeps one line on phones */
   --text-display--line-height: 1.05;
-  --text-display--letter-spacing: -0.025em;
-  --text-h2: clamp(1.875rem, 1.45rem + 1.75vw, 3rem);
-  --text-h2--line-height: 1.1;
-  --text-h2--letter-spacing: -0.025em;
-  --text-h3-lg: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem);
-  --text-h3-lg--line-height: 1.2;
-  --text-h3-lg--letter-spacing: -0.02em;
-  --text-lead: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
-  --text-lead--line-height: 1.55;
-  --text-ui: 0.8125rem;
-  --text-ui--line-height: 1.45;
+  --text-display--letter-spacing: var(--tr-display);
+  --text-display--font-weight: 600;
+  --text-hero: clamp(2.5rem, 1.637rem + 3.54vw, 4rem);            /* 40 -> 64 */
+  --text-hero--line-height: 1.0625;
+  --text-hero--letter-spacing: var(--tr-hero);
+  --text-hero--font-weight: 600;
+  --text-tile: clamp(1.75rem, 0.744rem + 4.13vw, 3.5rem);         /* 28 -> 56: one sentence per line on phones */
+  --text-tile--line-height: 1.07;
+  --text-tile--letter-spacing: var(--tr-tile);
+  --text-tile--font-weight: 600;
+  --text-section: clamp(2rem, 1.425rem + 2.36vw, 3rem);           /* 32 -> 48 */
+  --text-section--line-height: 1.083;
+  --text-section--letter-spacing: var(--tr-section);
+  --text-section--font-weight: 600;
+  --text-eyebrow: clamp(1.3125rem, 1.061rem + 1.03vw, 1.75rem);   /* 21 -> 28, product name above a headline */
+  --text-eyebrow--line-height: 1.143;
+  --text-eyebrow--letter-spacing: var(--tr-eyebrow);
+  --text-eyebrow--font-weight: 600;
+  --text-subhead: clamp(1.1875rem, 0.864rem + 1.33vw, 1.75rem);   /* 19 -> 28, weight 400 */
+  --text-subhead--line-height: 1.17;
+  --text-subhead--letter-spacing: var(--tr-subhead);
+  --text-subhead--font-weight: 400;
+  --text-card: clamp(1.3125rem, 1.061rem + 1.03vw, 1.75rem);      /* 21 -> 28, card titles */
+  --text-card--line-height: 1.143;
+  --text-card--letter-spacing: var(--tr-card);
+  --text-card--font-weight: 600;
+  --text-label: clamp(1.3125rem, 1.2046rem + 0.4425vw, 1.5rem);   /* 21 -> 24, section labels */
+  --text-label--line-height: 1.167;
+  --text-label--letter-spacing: var(--tr-label);
+  --text-label--font-weight: 600;
+  --text-question: clamp(1.1875rem, 1.008rem + 0.737vw, 1.5rem);  /* 19 -> 24, FAQ questions */
+  --text-question--line-height: 1.25;
+  --text-question--letter-spacing: var(--tr-question);
+  --text-question--font-weight: 600;
+  --text-intro: clamp(1.1875rem, 1.116rem + 0.295vw, 1.3125rem);  /* 19 -> 21, highlight paragraphs, large links */
+  --text-intro--line-height: 1.381;
+  --text-intro--letter-spacing: var(--tr-intro);
+  --text-kicker: clamp(0.875rem, 0.767rem + 0.442vw, 1.0625rem);  /* 14 -> 17, card labels */
+  --text-kicker--line-height: 1.24;
+  --text-kicker--letter-spacing: var(--tr-kicker);
+  --text-kicker--font-weight: 600;
+  --text-body: 1.0625rem;                                         /* 17 */
+  --text-body--line-height: 1.47059;
+  --text-body--letter-spacing: var(--tr-body);
+  --text-caption: 0.875rem;                                       /* 14 */
+  --text-caption--line-height: 1.42859;
+  --text-caption--letter-spacing: var(--tr-caption);
+  --text-legal: 0.75rem;                                          /* 12: nav, footer, legal */
+  --text-legal--line-height: 1.33337;
+  --text-legal--letter-spacing: var(--tr-legal);
 
-  --radius-island: 2.5rem;
+  --radius-card: 1.75rem;   /* 28px: every card, everywhere */
+  --radius-tile: 1.125rem;  /* 18px: inner tiles, windows, keycaps */
+  --radius-pill: 980px;
 
-  --shadow-pill: inset 0 0 0 1px rgb(255 255 255 / 0.1), 0 8px 32px rgb(7 22 40 / 0.18);
-  --shadow-window: 0 0 0 1px rgb(7 22 40 / 0.06), 0 30px 80px -24px rgb(7 22 40 / 0.45);
-  /* the same window on night or the Dicta panel: a night-coloured shadow only bands, so go darker and draw the edge */
-  --shadow-window-dark: 0 0 0 1px rgb(255 255 255 / 0.1), 0 30px 80px -24px rgb(0 0 0 / 0.6);
-  --shadow-float: 0 0 0 1px rgb(7 22 40 / 0.06), 0 16px 40px -12px rgb(7 22 40 / 0.35);
-
-  --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.6, 1); /* UI colour transitions, 320ms */
+  --ease-out: cubic-bezier(0, 0, 0.5, 1);        /* reveals and transforms */
 }
 
-:root {
-  --gradient-logo: linear-gradient(120deg, #0a72f6 0%, #00c6fc 55%, #00eacc 100%);
-  --gradient-logo-v: linear-gradient(180deg, #0a72f6 0%, #00c6fc 55%, #00eacc 100%);
-  --gradient-ai: linear-gradient(100deg, #14c8f5 0%, #22dd9c 100%);
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('Liberation Sans'), local('Helvetica');
+  size-adjust: 107.4%;
+  ascent-override: 90.2%;
+  descent-override: 22.48%;
+  line-gap-override: 0%;
 }
 
 @layer base {
-  html { color-scheme: light; scroll-behavior: auto; -webkit-text-size-adjust: 100%; overflow-x: clip; }
-  body {
-    background: var(--color-soft); color: var(--color-ink);
-    font-family: var(--font-sans); font-size: 1rem; line-height: 1.6;
-    font-synthesis: none; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  :root {
+    --nav-h: 3rem;
+    --section-pad: 4.5rem;
+    --head-gap: 2.5rem;
+    --tile-pad: 2.5rem;
+    /* tracking: Inter values by default (also used without JS) */
+    --tr-display: -0.02em; --tr-hero: -0.02em; --tr-tile: -0.019em; --tr-section: -0.018em;
+    --tr-eyebrow: -0.015em; --tr-subhead: -0.012em; --tr-card: -0.015em; --tr-label: -0.015em;
+    --tr-question: -0.013em; --tr-intro: -0.012em; --tr-kicker: -0.008em; --tr-body: -0.011em;
+    --tr-caption: -0.006em; --tr-legal: 0em;
   }
-  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; }
+  /* SF Pro on Apple devices: Apple's measured tracking */
+  html.sf {
+    --tr-display: -0.015em; --tr-hero: -0.009em; --tr-tile: -0.005em; --tr-section: -0.003em;
+    --tr-eyebrow: 0.007em; --tr-subhead: 0.009em; --tr-card: 0.007em; --tr-label: 0.009em;
+    --tr-question: 0.009em; --tr-intro: 0.011em; --tr-kicker: -0.019em; --tr-body: -0.022em;
+    --tr-caption: -0.016em; --tr-legal: -0.01em;
+  }
+  @media (min-width: 45.9375em) { :root { --section-pad: 6.5rem; --head-gap: 4rem; --tile-pad: 3rem; } }
+  @media (min-width: 52.125em) { :root { --nav-h: 2.75rem; } }
+  @media (min-width: 66.8125em) { :root { --section-pad: 9rem; --head-gap: 5rem; --tile-pad: 3.5rem; } }
+
+  html { color-scheme: light; -webkit-text-size-adjust: 100%; overflow-x: clip; scroll-padding-top: var(--nav-h); }
+  /* The sticky nav and its menu sit inside that padded band, so focusing or tapping one of their controls would
+     make the browser scroll the page to "reveal" it. A matching negative scroll margin keeps the page still. */
+  [data-nav] :is(a, button) { scroll-margin-top: calc(-1 * var(--nav-h)); }
+  html.motion { scroll-behavior: smooth; }
+  body {
+    background: var(--color-canvas); color: var(--color-ink);
+    font-family: var(--font-sans); font-size: 1.0625rem; line-height: 1.47059; letter-spacing: var(--tr-body);
+    font-weight: 400; font-optical-sizing: auto; font-synthesis: none;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4 { font-weight: 600; text-wrap: balance; }
   p, li, dd, figcaption { text-wrap: pretty; }
   summary { list-style: none; }
   summary::-webkit-details-marker { display: none; }
-  :focus-visible { outline: 2px solid var(--color-electric); outline-offset: 3px; border-radius: 6px; }
-  /* The fixed pill covers the top of the viewport: scroll-padding keeps focus scrolling (Tab, Shift+Tab)
-     clear of it. Sections cancel it with a negative margin, so anchors still land on the section top,
-     whose own padding clears the pill (native jumps and Lenis both read these two values). */
-  html { --pill-clear: calc(max(12px, env(safe-area-inset-top)) + 76px); scroll-padding-top: var(--pill-clear); }
-  section[id] { scroll-margin-top: calc(-1 * var(--pill-clear)); }
-  /* headings that only receive programmatic focus (menu navigation) */
-  :where(h2[tabindex='-1']):focus { outline: none; }
-  .on-dark :focus-visible { outline-color: var(--color-teal); }
-  ::selection { background: var(--color-teal); color: var(--color-night); }
+  :focus-visible { outline: 2px solid var(--color-action); outline-offset: 3px; border-radius: 4px; }
+  .on-night :focus-visible, [data-theme='dark'] :focus-visible { outline-color: var(--color-link-on-night); }
+  /* "\n" inside a sentence is a line break from 735px up only (Apple's <br class="large">); Lines.astro keeps a
+     break between two sentences at every width */
+  @media (max-width: 45.875em) { .br-lg { display: none; } }
+  html.menu-open { overflow: hidden; }
 }
 
 @layer components {
-  .on-dark { color: #fff; }
-  .wrap { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: 1rem; }
-  @media (min-width: 40rem) { .wrap { padding-inline: 1.5rem; } }
-  .section { padding-block: 6rem; }
-  .section-lg { padding-block: 6rem; }
-  @media (min-width: 64rem) { .section { padding-block: 8rem; } .section-lg { padding-block: 10rem; } }
+  .wrap { width: min(78.75rem, 87.5%); margin-inline: auto; }
+  .wrap-text { width: min(43.25rem, 87.5%); margin-inline: auto; }
+  @media (min-width: 66.8125em) { .wrap-text { width: min(61.25rem, 87.5%); } }
+  .section { padding-block: var(--section-pad); }
+  .on-night { background: var(--color-night); color: var(--color-on-night); }
+  /* Apple's 12px white seam between two dark full-bleed tiles (a border, so the nav probe stays "dark") */
+  .seam { border-top: 0.75rem solid var(--color-canvas); }
 
-  .eyebrow { font-family: var(--font-display); font-size: .875rem; line-height: 1.25rem; font-weight: 500; letter-spacing: .025em; color: var(--color-action); }
-  .on-dark .eyebrow { color: var(--color-teal); }
-  .section-intro { color: var(--color-muted); }
-  .on-dark .section-intro { color: rgb(255 255 255 / .75); }
-
+  /* buttons: blue pill (primary), outline pill (secondary). No icons inside pills. */
   .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-    min-height: 3rem; padding: .75rem 1.25rem; border-radius: 9999px;
-    font-family: var(--font-display); font-size: 1rem; line-height: 1.25rem; font-weight: 600;
-    white-space: nowrap; user-select: none;
-    transition: background-color 300ms var(--ease-brand), color 300ms var(--ease-brand),
-      transform 300ms var(--ease-brand), opacity 300ms var(--ease-brand), visibility 300ms;
+    display: inline-flex; align-items: center; justify-content: center; text-align: center;
+    border: 1px solid transparent; border-radius: var(--radius-pill); font-weight: 400; white-space: nowrap;
+    transition: background-color 320ms var(--ease-standard), color 320ms var(--ease-standard), border-color 320ms var(--ease-standard);
   }
-  .btn:active { transform: scale(.98); }
+  .btn-l, .btn-auto { min-height: 2.75rem; padding: 0.6875rem 1.3125rem; font-size: 1.0625rem; line-height: 1.17648; letter-spacing: var(--tr-body); }
+  .btn-s { min-height: 2.25rem; padding: 0.5rem 0.9375rem; font-size: 0.875rem; line-height: 1.28577; letter-spacing: var(--tr-caption); }
+  @media (max-width: 45.875em) { .btn-auto { min-height: 2.25rem; padding: 0.5rem 0.9375rem; font-size: 0.875rem; line-height: 1.28577; letter-spacing: var(--tr-caption); } }
+  .btn-nav { min-height: 1.75rem; padding: 0.25rem 0.75rem; font-size: 0.75rem; line-height: 1.33337; letter-spacing: var(--tr-legal); }
+  @media (max-width: 22.4375em) { .btn-l { white-space: normal; } }
   .btn-primary { background: var(--color-action); color: #fff; }
   .btn-primary:hover { background: var(--color-action-hover); }
-  .btn-lg { min-height: 3.5rem; padding: 1rem 1.75rem; font-size: 1.0625rem; }
-  /* very narrow screens and 400% zoom: the long label wraps instead of widening its column */
-  @media (max-width: 359px) { .btn-lg { white-space: normal; text-align: center; padding-inline: 1.25rem; } }
-  .btn-sm { min-height: 2.5rem; padding: .5rem 1rem; font-size: .875rem; }
+  .btn-secondary { background: transparent; border-color: var(--color-link); color: var(--color-link); }
+  .btn-secondary:hover { background: var(--color-link); color: #fff; }
+  .on-night .btn-secondary { border-color: var(--color-link-on-night); color: var(--color-link-on-night); }
+  .on-night .btn-secondary:hover { background: var(--color-link-on-night); color: #000; }
 
-  .link-arrow {
-    display: inline-flex; align-items: center; gap: .375rem; min-height: 2.75rem;
-    font-family: var(--font-display); font-weight: 600; color: var(--color-action);
-    text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px;
-    text-decoration-color: rgb(10 98 208 / .3); transition: text-decoration-color 300ms var(--ease-brand);
-  }
-  .link-arrow:hover { text-decoration-color: currentColor; }
-  .on-dark .link-arrow { color: #fff; text-decoration-color: rgb(255 255 255 / .35); }
-  .on-dark .link-arrow:hover { text-decoration-color: currentColor; }
-  .link-arrow svg { transition: transform 300ms var(--ease-brand); }
-  .link-arrow:hover .nudge-x { transform: translateX(2px); }
-  .link-arrow:hover .nudge-y { transform: translateY(2px); }
-  .link-arrow:hover .nudge-ne { transform: translate(2px, -2px); }
-  .text-link { color: var(--color-action); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-  .on-dark .text-link { color: #fff; }
-
-  .chip { display: inline-flex; align-items: center; gap: .25rem; border-radius: 9999px; padding: .125rem .625rem; font-size: .75rem; line-height: 1.125rem; font-weight: 600; white-space: nowrap; }
-  /* not a solid blue fill: solid action blue is reserved for the one CTA */
-  .chip-new { background: var(--color-sky); color: var(--color-action); box-shadow: inset 0 0 0 1px rgb(10 98 208 / .25); }
-  .chip-draft { background: var(--color-draft-bg); color: var(--color-draft); }
-  .chip-ok { background: var(--color-ok-bg); color: var(--color-ok); }
-  .chip-info { background: var(--color-sky); color: var(--color-action); }
-
-  .wm-ai { color: var(--color-teal); }
-  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-    .wm-ai { background-image: var(--gradient-ai); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
-  }
+  /* chevron links: underline on hover, text only, never the chevron */
+  .link-chevron { position: relative; color: var(--color-link); }
+  /* a taller invisible hit area for touch; the focus ring still hugs the text */
+  .link-chevron::before { content: ''; position: absolute; inset: -0.625rem -0.25rem; }
+  .link-chevron:hover .lc-text, .link-chevron:focus-visible .lc-text { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .lc-icon { display: inline-block; width: 0.42em; height: 0.72em; margin-left: 0.3em; vertical-align: -0.04em; }
+  .on-night .link-chevron, [data-theme='dark'] .link-chevron { color: var(--color-link-on-night); }
+  .text-link { color: var(--color-link); }
+  .text-link:hover { text-decoration: underline; text-underline-offset: 0.18em; }
 }
 
-/* Reveal: hidden state exists only when motion is allowed AND the reveal script is running */
-html.motion [data-reveal] { transition: opacity 900ms var(--ease-brand), transform 900ms var(--ease-brand); transition-delay: var(--reveal-delay, 0ms); }
-html.motion.reveal-ready [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(2rem); }
+/* reveal: the hidden state exists only under html.motion AND once the reveal script runs */
+html.motion [data-reveal] { transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out); transition-delay: var(--reveal-delay, 0ms); }
+html.motion.reveal-ready [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(1.5rem); }
 
-/* Lenis */
-html.lenis, html.lenis body { height: auto; }
-.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
-.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
-html.menu-open { overflow: hidden; }
-
-/* Print: every block in its final state, no fixed header repeated on each page */
 @media print {
   html.motion.reveal-ready [data-reveal] { opacity: 1 !important; transform: none !important; }
-  [data-word] { opacity: 1 !important; }
-  header { position: absolute !important; }
+  [data-nav] { position: static !important; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
 }

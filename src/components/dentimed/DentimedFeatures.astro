@@ -1,0 +1,274 @@
+---
+/**
+ * #dentimed-funciones: DentiMed in four cards. A 2x2 bento of #f5f5f7 cards on white: the dictation photo,
+ * two fragments of DentiMed's own app UI (the medication alert, the next appointment and its prefilled
+ * message) that bleed off the card's bottom edge, and the four security rules as white inner tiles.
+ */
+import { Picture } from 'astro:assets';
+import Icon from '../ui/Icon.astro';
+import SectionHead from '../ui/SectionHead.astro';
+import ChevronLink from '../ui/ChevronLink.astro';
+import DmCard from './DmCard.astro';
+import { dmApp } from '../../data/dentimed-app';
+import dictadoPhoto from '../../assets/photos/dentimed-dictado.webp';
+import type { DentimedData, IconName } from '../../data/types';
+import '../../styles/dentimed-app.css';
+
+interface Props {
+  data: DentimedData;
+}
+const { data } = Astro.props;
+const { features, photoAlt } = data;
+const [dictado, revision, cita] = features.items;
+const card = (id: (typeof dmApp.cards)[number]['id']) => dmApp.cards.find((c) => c.id === id)!;
+const securityIcons: [IconName, IconName, IconName, IconName] = [
+  'buildings',
+  'clock-counter-clockwise',
+  'book-open-text',
+  'user-check',
+];
+---
+
+<section id="dentimed-funciones" aria-labelledby="dentimed-funciones-title" class="section bg-canvas">
+  <div class="wrap">
+    <SectionHead title={features.title} titleId="dentimed-funciones-title" />
+
+    <div class="mt-[var(--head-gap)] grid gap-5 md:grid-cols-2">
+      <!-- 1 · Dictado: the photo -->
+      <article class="dmf-card" data-reveal style="--reveal-delay:0ms">
+        <div class="dmf-copy">
+          <p class="text-kicker text-dm-accent">{dictado.label}</p>
+          <h3 class="mt-2 text-card">{dictado.title}</h3>
+          <p class="mt-3 max-w-[30rem] text-ink-2">{dictado.body}</p>
+        </div>
+        <div class="dmf-visual">
+          <Picture
+            src={dictadoPhoto}
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            widths={[560, 840, 1120, 1240]}
+            sizes="(min-width: 66.8125em) 620px, (min-width: 45.9375em) calc(43.75vw - 10px), 87.5vw"
+            loading="lazy"
+            decoding="async"
+            alt={photoAlt}
+            class="size-full object-cover"
+            style="object-position: 28% 38%"
+          />
+        </div>
+      </article>
+
+      <!-- 2 · Revisión: the medication card with its allergy alert -->
+      <article class="dmf-card" data-reveal style="--reveal-delay:80ms">
+        <div class="dmf-copy">
+          <p class="text-kicker text-dm-accent">{revision.label}</p>
+          <h3 class="mt-2 text-card">{revision.title}</h3>
+          <p class="mt-3 max-w-[30rem] text-ink-2">{revision.body}</p>
+        </div>
+        <div class="dmf-visual">
+          <div class="dmf-frag dm-app" aria-hidden="true" lang="es">
+            <DmCard card={card('medicamentos')}>
+              <div class="dm-actions dmf-frag-actions">
+                <span class="dm-btn dm-btn-ghost">{dmApp.draft.edit}</span>
+                <span class="dm-btn dm-btn-blue dm-btn-wide">{dmApp.draft.confirm}</span>
+              </div>
+            </DmCard>
+            <div class="dmf-next"><DmCard card={card('plan')} /></div>
+            <div class="dmf-next"><DmCard card={card('cobro')} /></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 · Próxima cita: the appointment and the prefilled message -->
+      <article class="dmf-card" data-reveal style="--reveal-delay:160ms">
+        <div class="dmf-copy">
+          <p class="text-kicker text-dm-accent">{cita.label}</p>
+          <h3 class="mt-2 text-card">{cita.title}</h3>
+          <p class="mt-3 max-w-[30rem] text-ink-2">{cita.body}</p>
+        </div>
+        <div class="dmf-visual dmf-visual-flow">
+          <div class="dmf-frag dm-app" aria-hidden="true" lang="es">
+            <DmCard card={card('cita')} />
+            <div class="dmf-composer">
+              <p class="dm-to">{dmApp.message.to}</p>
+              <p class="dm-bubble">{dmApp.message.text}</p>
+              <div class="dm-send">
+                <span class="dm-btn dm-btn-blue">
+                  <Icon name="paper-plane-right" weight="fill" class="dm-i" />
+                  {dmApp.message.send}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 · Seguridad -->
+      <article class="dmf-card" data-reveal style="--reveal-delay:240ms">
+        <div class="dmf-copy">
+          <p class="text-kicker text-dm-accent">{features.security.label}</p>
+          <h3 class="mt-2 text-card">{features.security.title}</h3>
+        </div>
+        <ul class="dmf-sec" role="list">
+          {
+            features.security.items.map((item, i) => (
+              <li class="dmf-sec-tile">
+                <Icon name={securityIcons[i]} class="dmf-sec-icon text-dm-accent" />
+                <span class="dmf-sec-label">{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </article>
+    </div>
+
+    <p class="mt-12 text-center">
+      <ChevronLink size="intro" href={features.more.href} label={features.more.label} external hint={features.more.srHint} />
+    </p>
+  </div>
+</section>
+
+<style>
+  .dmf-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-canvas-alt);
+  }
+  .dmf-copy {
+    padding: 1.75rem;
+  }
+  .dmf-visual {
+    position: relative;
+    margin-top: auto;
+    height: 16rem;
+    overflow: hidden;
+  }
+
+  /* Seguridad: the four rules as white inner tiles. Phones: one row per rule (icon, then the label). From 735px:
+     a 2x2 block of tiles (icon top, label bottom) that fills whatever height the row gives the card. */
+  .dmf-sec {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding: 0 1.75rem 1.75rem;
+  }
+  .dmf-sec-tile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-tile);
+    background: var(--color-canvas);
+  }
+  .dmf-sec-tile :global(.dmf-sec-icon) {
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+  }
+  .dmf-sec-label {
+    font-size: var(--text-intro);
+    font-weight: 600;
+    line-height: 1.19;
+    letter-spacing: var(--tr-intro);
+  }
+  @media (min-width: 45.9375em) {
+    .dmf-sec {
+      flex: 1 0 auto;
+      grid-template-columns: 1fr 1fr;
+      grid-auto-rows: 1fr;
+      min-height: 18rem;
+      padding: 0 2rem 2rem;
+    }
+    .dmf-sec-tile {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 1.5rem;
+    }
+    .dmf-sec-tile :global(.dmf-sec-icon) {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+  @media (min-width: 66.8125em) {
+    .dmf-sec {
+      gap: 1rem;
+      padding: 0 2.5rem 2.5rem;
+    }
+    .dmf-sec-tile {
+      padding: 1.75rem;
+    }
+  }
+  /* Próxima cita: the fragment sits in flow and ends just under the Enviar button, so the clip at the card's
+     bottom edge never cuts through the message or the button at any width */
+  .dmf-visual.dmf-visual-flow {
+    height: auto;
+  }
+  .dmf-visual-flow .dmf-frag {
+    position: relative;
+    left: auto;
+    transform: none;
+    margin-inline: auto;
+    min-height: 0;
+    padding-bottom: 1.5em;
+  }
+  @media (min-width: 45.9375em) {
+    .dmf-copy {
+      padding: 2rem;
+    }
+    .dmf-visual {
+      height: 18rem;
+    }
+  }
+  @media (min-width: 66.8125em) {
+    .dmf-copy {
+      padding: 2.5rem;
+    }
+    .dmf-visual {
+      height: 22rem;
+    }
+  }
+
+  /* a fragment of DentiMed's screen: rounded top corners, bleeding off the card's bottom edge.
+     The frame is about 24em wide at most and its type shrinks with narrow cards (container units), so every
+     DentiMed line keeps to one row. */
+  .dmf-visual {
+    container-type: inline-size;
+  }
+  .dmf-frag {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: min(22rem, 82%);
+    min-height: calc(100% + 1px);
+    transform: translateX(-50%);
+    padding: 1.25em 1.25em 0;
+    border-radius: 1.75rem 1.75rem 0 0;
+    font-size: 0.875rem;
+  }
+  @supports (width: 1cqi) {
+    .dmf-frag {
+      width: min(22rem, 88cqi);
+      font-size: min(0.875rem, min(22rem, 88cqi) / 24);
+    }
+  }
+  .dmf-frag-actions {
+    margin-top: 0.85em;
+  }
+  .dmf-frag-actions .dm-btn {
+    min-height: 2.75em;
+    border-radius: 0.8em;
+  }
+  .dmf-frag-actions .dm-btn-ghost {
+    background: var(--dm-raised);
+    box-shadow: none;
+  }
+  .dmf-next {
+    margin-top: 0.615em;
+  }
+  .dmf-composer {
+    margin-top: 1.1em;
+  }
+</style>

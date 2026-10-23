@@ -1,19 +1,26 @@
 ---
 /**
- * Historia: the cinematic chapter between the hero and the Ejemplo (owner's brief: docs/creative/innovai-brand-film.md).
- * Three scenes, each a poster (<picture>) under a 5s clip that scripts/cinema.ts scrubs from scroll.
+ * Historia: the film that opens the studio chapter, right after Dicta (owner's brief: docs/creative/innovai-brand-film.md).
+ * A centered intro lockup, then three scenes, each a poster (<picture>) under a 5s clip that scripts/cinema.ts
+ * scrubs from scroll. True black, a bottom scrim only where the copy sits, one short headline and one line per scene.
+ * Scene headlines are two short sentences; Lines starts each sentence on its own line at every width.
  *
- * Default markup = final static state: posters and copy in normal flow (no JS, html.still, short screens).
- * The tall sticky tracks are CSS-first: they exist only under html.motion (not html.slow-net, set on 2G) on
- * screens taller than 37.5625em (601px at the default font size; ems follow the visitor's text size), and
+ * Default markup = final static state: posters and copy in normal flow (no JS, html.still, html.slow-net, short
+ * screens). The tall sticky tracks are CSS-first: they exist only under html.motion (not html.slow-net, set on 2G)
+ * on screens taller than 37.5625em (601px at the default font size; ems follow the visitor's text size), and
  * cinema.ts adds .is-static when a constraint only JS can see applies (a preference or network change, copy
  * enlarged beyond its pinned frame).
- * The chapter bar (progress and pause) needs the script, so it ships hidden; cinema.ts reveals it and shows it
- * only while a stage is pinned (.is-active) or the pause pill has keyboard focus.
+ * Once the script runs it adds .is-live: each scene's copy then fades in after its stage pins and fades out again
+ * when the visitor scrolls back above it. The pause button (with a progress ring for the whole chapter) needs the
+ * script, so it ships hidden; cinema.ts reveals it and shows it only while a stage is pinned (.is-active) or while
+ * it has keyboard focus.
  * Nothing in here uses data-reveal, and no ancestor of a stage may clip overflow (sticky).
  */
 import Icon from './ui/Icon.astro';
-import LinkArrow from './ui/LinkArrow.astro';
+import Lines from './ui/Lines.astro';
+import SectionHead from './ui/SectionHead.astro';
+import Highlight from './ui/Highlight.astro';
+import ChevronLink from './ui/ChevronLink.astro';
 import type { CinemaData } from '../data/types';
 
 interface Props {
@@ -28,10 +35,28 @@ const PORTRAIT = '(max-width: 767px), (max-aspect-ratio: 1/1)';
 const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
 ---
 
-<section id="historia" class="cinema on-dark bg-night" aria-label={data.label} data-cinema data-portrait={PORTRAIT}>
-  <div class="cinema-head wrap">
-    <p class="eyebrow">{data.intro}</p>
-    <LinkArrow href={data.skip.href} label={data.skip.label} icon="arrow-down" />
+<section
+  id="historia"
+  class="cinema on-night seam"
+  data-nav-theme="dark"
+  aria-labelledby="historia-title"
+  data-cinema
+  data-portrait={PORTRAIT}
+>
+  <div class="wrap-text pt-[var(--section-pad)] pb-[var(--head-gap)] text-center">
+    <SectionHead
+      size="display"
+      align="center"
+      tone="dark"
+      reveal={false}
+      label={data.label}
+      title={data.title}
+      titleId="historia-title"
+    />
+    <Highlight tone="dark" class="mx-auto mt-6 max-w-[40rem]" leadIn={data.leadIn} body={data.body} />
+    <p class="mt-6">
+      <ChevronLink href={data.skip.href} label={data.skip.label} />
+    </p>
   </div>
 
   <div class="cinema-track">
@@ -70,21 +95,11 @@ const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
             <div class="scene-shade" aria-hidden="true" />
             <div class="scene-frame wrap" data-scene-frame>
               <div class="scene-copy" data-scene-copy>
-                <p class="flex items-center gap-3">
-                  <span class="font-display text-sm font-semibold text-teal tabular-nums">{scene.number}</span>
-                  <span class="h-px w-6 bg-white/25" aria-hidden="true" />
-                  <span class="eyebrow">{scene.eyebrow}</span>
-                </p>
-                <h2 id={`${scene.id}-title`} class="mt-4 text-h2 font-semibold">
-                  {scene.title.split('\n').map((line, i) => (
-                    <span class:list={['block', { 'text-teal': i > 0 }]}>{line}</span>
-                  ))}
-                </h2>
-                <p class="mt-5 max-w-[30rem] text-lead text-white/75">{scene.description}</p>
-                <p class="mt-8 flex items-center gap-2.5 text-sm font-medium text-white/85">
-                  <span class="size-1.5 shrink-0 rounded-full bg-teal" aria-hidden="true" />
-                  {scene.note}
-                </p>
+                <p class="text-kicker text-on-night-2">{scene.label}</p>
+                <h3 id={`${scene.id}-title`} class="mt-2 text-tile text-on-night">
+                  <Lines text={scene.title} />
+                </h3>
+                <p class="scene-line mt-3 text-intro text-on-night">{scene.line}</p>
               </div>
             </div>
           </div>
@@ -92,38 +107,25 @@ const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
       ))
     }
 
-    <div class="cinema-bar" data-cinema-controls hidden>
-      {/* desktop: one cluster at the right, clear of the copy column */}
-      <div class="wrap flex items-center justify-between gap-6 sm:justify-end">
-        <div class="flex min-w-0 items-center gap-5" aria-hidden="true">
-          <span class="hidden truncate text-sm text-white/60 sm:block">{data.scroll}</span>
-          <span class="flex shrink-0 gap-1.5">
-            {
-              data.scenes.map((_, i) => (
-                <span class="cinema-seg" style={`--seg: var(--cinema-p${i}, 0)`}>
-                  <span />
-                </span>
-              ))
-            }
-          </span>
-        </div>
+    <div class="cinema-controls" data-cinema-controls hidden>
+      <div class="wrap flex justify-end">
         <button
           type="button"
-          class="cinema-toggle inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-night/75 px-4 font-display text-sm font-medium text-white/85 ring-1 ring-white/15 backdrop-blur-lg backdrop-saturate-150 transition-[color,box-shadow] duration-300 ease-brand ring-inset hover:text-white hover:ring-white/35"
+          class="cinema-toggle relative grid size-14 shrink-0 place-items-center rounded-full bg-night-2/72 text-on-night backdrop-blur-[20px] backdrop-saturate-[1.8] transition-colors duration-[320ms] ease-standard hover:bg-night-2/90"
+          aria-label={data.pause}
           data-motion-toggle
-          data-on={data.motionOn}
-          data-off={data.motionOff}
+          data-pause={data.pause}
+          data-resume={data.resume}
         >
-          <Icon name="pause" weight="fill" class="icon-pause size-3.5" />
-          <Icon name="play" weight="fill" class="icon-play size-3.5" />
-          <span data-motion-label>{data.motionOff}</span>
+          <svg class="cinema-ring" viewBox="0 0 56 56" aria-hidden="true" focusable="false">
+            <circle class="cinema-ring-track" cx="28" cy="28" r="27" />
+            <circle class="cinema-ring-value" cx="28" cy="28" r="27" />
+          </svg>
+          <Icon name="pause" weight="fill" class="icon-pause size-[1.125rem]" />
+          <Icon name="play" weight="fill" class="icon-play size-[1.125rem]" />
         </button>
       </div>
     </div>
-  </div>
-
-  <div class="wrap">
-    <p class="border-b border-white/10 py-8 text-sm text-white/60">{data.concept}</p>
   </div>
 </section>
 
@@ -132,15 +134,7 @@ const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
 </script>
 
 <style>
-  /* ---------- static: each scene is a full-screen poster with its copy, in normal flow ---------- */
-  .cinema-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    column-gap: 1.5rem;
-    padding-block: 1.25rem;
-  }
+  /* ---------- static: each scene is a full-screen poster with its copy at the bottom, in normal flow ---------- */
   .scene-stage {
     position: relative;
     isolation: isolate;
@@ -164,84 +158,101 @@ const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
   }
   .scene-video {
     opacity: 0;
-    transition: opacity 300ms var(--ease-brand);
+    transition: opacity 300ms var(--ease-out);
   }
   .scene-video.is-ready {
     opacity: 1;
   }
-  /* Image scrims in night (not decorative gradients): a reading column on the left, and night at the top
-     and bottom edges so the band above, the next scene and the closing band meet the photo without a seam. */
+  /* Image scrims in true black, only where text sits: the bottom for the copy, a short band at the top so the
+     intro, the previous scene and the nav meet the footage without a seam. The first layer closes the bottom edge
+     to black, so a stage that scrolls away meets the next scene's black top without a visible line. */
   .scene-shade {
     background:
-      linear-gradient(90deg, rgb(7 22 40 / 0.94) 0%, rgb(7 22 40 / 0.82) 26%, rgb(7 22 40 / 0.35) 52%, rgb(7 22 40 / 0) 72%),
-      linear-gradient(
-        180deg,
-        rgb(7 22 40) 0%,
-        rgb(7 22 40 / 0.7) 6%,
-        rgb(7 22 40 / 0.3) 12%,
-        rgb(7 22 40 / 0) 20%,
-        rgb(7 22 40 / 0) 64%,
-        rgb(7 22 40 / 0.35) 80%,
-        rgb(7 22 40 / 0.75) 91%,
-        rgb(7 22 40) 100%
-      );
+      linear-gradient(0deg, #000 0%, rgb(0 0 0 / 0) 5%),
+      linear-gradient(0deg, rgb(0 0 0 / 0.88) 0%, rgb(0 0 0 / 0.55) 26%, rgb(0 0 0 / 0) 50%),
+      linear-gradient(180deg, #000 0%, rgb(0 0 0 / 0) 14%);
   }
-  /* The copy column clears the floating header pill at the top and the chapter bar at the bottom. */
+  /* The copy sits at the bottom on every layout; the top padding clears the nav, the bottom one the pause button. */
   .scene-frame {
     position: relative;
     z-index: 1;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     min-height: 100svh;
-    padding-top: calc(var(--pill-clear) + 1.5rem);
-    padding-bottom: var(--frame-pb, 4rem);
+    padding-top: calc(var(--nav-h) + 1.5rem);
+    padding-bottom: 5.5rem;
   }
+  /* The line keeps a 40rem measure; the headline may run wider so each of its two lines stays on one line. */
   .scene-copy {
-    max-width: 34rem;
+    max-width: 52rem;
+  }
+  .scene-line {
+    max-width: 40rem;
   }
 
-  /* ---------- chapter bar: progress per scene and the pause control (sticky to the viewport bottom) ---------- */
+  /* copy reveal: hidden only once the script runs on the pinned layout (.is-live), shown from 10% of a scene */
+  :global(html.motion) .cinema.is-live:not(.is-static) [data-scene-copy] {
+    transition:
+      opacity 800ms var(--ease-out),
+      transform 800ms var(--ease-out);
+  }
+  :global(html.motion) .cinema.is-live:not(.is-static) [data-scene-copy]:not(.is-in) {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+
+  /* ---------- the pause button: sticky to the viewport bottom over the pinned stage ---------- */
+  /* flow-root keeps the controls' bottom margin inside the track, so #historia ends exactly where the last stage
+     ends: the nav theme probe never finds a light gap over black footage, and the next section starts flush */
   .cinema-track {
     position: relative;
+    display: flow-root;
   }
-  .cinema-bar {
+  .cinema-controls {
+    --controls-bottom: max(1.5rem, env(safe-area-inset-bottom));
     position: sticky;
-    bottom: 0;
+    bottom: var(--controls-bottom);
     z-index: 2;
-    display: flex;
-    align-items: center;
-    height: 5rem;
-    margin-top: -5rem;
-    padding-bottom: env(safe-area-inset-bottom);
+    height: 3.5rem;
+    /* overlap the last scene so the track keeps its height and the button never jumps when it unsticks */
+    margin-top: calc(-3.5rem - var(--controls-bottom));
+    margin-bottom: var(--controls-bottom);
     pointer-events: none;
     opacity: 0;
-    transition: opacity 300ms var(--ease-brand);
+    transition: opacity 320ms var(--ease-standard);
   }
-  /* shown while a stage is pinned over its bottom scrim (cinema.ts), or while the pause pill has keyboard focus
+  .cinema-controls[hidden] {
+    display: none;
+  }
+  /* shown while a stage is pinned (cinema.ts), or while the button has keyboard focus
      (separate rules, so a browser without :has still gets the first one) */
-  .cinema-bar.is-active {
+  .cinema-controls.is-active {
     opacity: 1;
   }
-  .cinema-bar:has(:focus-visible) {
+  .cinema-controls:has(:focus-visible) {
     opacity: 1;
   }
-  .cinema-bar.is-active .cinema-toggle {
+  .cinema-controls.is-active .cinema-toggle,
+  .cinema-controls:has(:focus-visible) .cinema-toggle {
     pointer-events: auto;
   }
-  .cinema-seg {
-    position: relative;
-    overflow: hidden;
-    width: 2rem;
-    height: 2px;
-    border-radius: 2px;
-    background: rgb(255 255 255 / 0.2);
-  }
-  .cinema-seg > span {
+  .cinema-ring {
     position: absolute;
     inset: 0;
-    background: var(--color-teal);
-    transform-origin: left;
-    transform: scaleX(var(--seg, 0));
+    width: 100%;
+    height: 100%;
+    rotate: -90deg;
+    fill: none;
+    stroke-width: 2;
+  }
+  .cinema-ring-track {
+    stroke: rgb(255 255 255 / 0.24);
+  }
+  /* 169.65 = the circumference (2 * PI * 27); --cinema-progress is the mean of the three scenes (cinema.ts) */
+  .cinema-ring-value {
+    stroke: var(--color-on-night);
+    stroke-dasharray: 169.65;
+    stroke-dashoffset: calc(169.65 * (1 - var(--cinema-progress, 0)));
   }
   .cinema-toggle:not([data-paused]) :global(.icon-play),
   .cinema-toggle[data-paused] :global(.icon-pause) {
@@ -251,13 +262,10 @@ const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
   /* ---------- motion: tall track per scene, sticky stage scrubbed by scripts/cinema.ts ---------- */
   /* 37.5625em = 601px at the default font size; keep in sync with tallViewport in cinema.ts */
   @media screen and (min-height: 37.5625em) {
-    :global(html.motion:not(.slow-net)) .cinema:not(.is-static) {
-      --frame-pb: 7rem;
-    }
     :global(html.motion:not(.slow-net)) .cinema:not(.is-static) .cinema-scene {
-      height: 165svh;
+      height: 150svh;
     }
-    /* the photo covers the large viewport; the copy column lives in the small one, so a browser toolbar never hides it */
+    /* the footage covers the large viewport; the copy lives in the small one, so a browser toolbar never hides it */
     :global(html.motion:not(.slow-net)) .cinema:not(.is-static) .scene-stage {
       position: sticky;
       top: 0;
@@ -270,7 +278,13 @@ const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
     }
   }
 
-  /* ---------- portrait crop: copy at the bottom over a scrim that rises from it ---------- */
+  @media (min-width: 66.8125em) {
+    .scene-frame {
+      padding-bottom: 6rem;
+    }
+  }
+
+  /* ---------- portrait crop: a taller bottom scrim under the copy ---------- */
   @media (max-width: 767px), (max-aspect-ratio: 1/1) {
     /* the person sits in the left third of the portrait clips: keep the head in frame on narrow phones;
        in motion cinema.ts pans --focus-x toward each scene's payoff */
@@ -280,14 +294,9 @@ const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
     }
     .scene-shade {
       background:
-        linear-gradient(180deg, rgb(7 22 40) 0%, rgb(7 22 40 / 0.6) 6%, rgb(7 22 40 / 0) 16%),
-        linear-gradient(0deg, rgb(7 22 40) 0%, rgb(7 22 40 / 0.92) 32%, rgb(7 22 40 / 0.5) 54%, rgb(7 22 40 / 0) 72%);
-    }
-    .scene-frame {
-      align-items: flex-end;
-    }
-    .scene-copy {
-      max-width: 36rem;
+        linear-gradient(0deg, #000 0%, rgb(0 0 0 / 0) 4%),
+        linear-gradient(0deg, rgb(0 0 0 / 0.92) 0%, rgb(0 0 0 / 0.7) 32%, rgb(0 0 0 / 0) 58%),
+        linear-gradient(180deg, #000 0%, rgb(0 0 0 / 0) 12%);
     }
   }
 
@@ -307,8 +316,12 @@ const PORTRAIT_FOCUS = ['25 25', '25 85', '85 35'];
       min-height: 0;
     }
     .scene-video,
-    .cinema-bar {
+    .cinema-controls {
       display: none;
+    }
+    .cinema [data-scene-copy] {
+      opacity: 1 !important;
+      transform: none !important;
     }
   }
 </style>

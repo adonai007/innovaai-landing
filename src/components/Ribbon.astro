@@ -1,0 +1,20 @@
+---
+/**
+ * One-line white ribbon under the nav (Apple's ribbon): who we are, with a chevron link to the studio chapter.
+ * The link never breaks inside its label, so on phones it moves to the next line whole.
+ */
+import ChevronLink from './ui/ChevronLink.astro';
+import type { SiteData } from '../data/types';
+
+interface Props {
+  site: SiteData;
+}
+const { site } = Astro.props;
+---
+
+<div class="ribbon bg-canvas py-3 md:py-3.5">
+  <p class="wrap text-center text-caption text-ink">
+    {site.ribbon.text}
+    <ChevronLink size="caption" class="whitespace-nowrap" href={site.ribbon.link.href} label={site.ribbon.link.label} />
+  </p>
+</div>

@@ -1,38 +1,102 @@
 ---
-/** 4.9 FAQ: sticky heading on the left, native details/summary accordion on the right. No JS. */
-import Icon from './ui/Icon.astro';
+/**
+ * FAQ (#preguntas): a centred section head with a WhatsApp line (centred, so its edge never competes with the
+ * start-aligned sections above), then seven native <details> rows between hairlines in the 980px text column. No script: the browser opens and closes each row, with the keyboard too.
+ * Motion: the head and the list fade and rise in once (data-reveal); under html.motion, where the browser can
+ * animate a details panel (::details-content and interpolate-size), the answer grows and fades in while the
+ * caret turns. Every other mode opens instantly. The summary draws its own focus ring inside the row.
+ */
 import SectionHead from './ui/SectionHead.astro';
+import Icon from './ui/Icon.astro';
 import type { FaqData, SiteData } from '../data/types';
-interface Props { data: FaqData; site: SiteData }
+
+interface Props {
+  data: FaqData;
+  site: SiteData;
+}
 const { data, site } = Astro.props;
-// head.intro holds the text before the WhatsApp link, so it is rendered in the slot instead.
-const head = { ...data.head, intro: undefined };
 ---
 
-<section id="preguntas" class="section bg-white" aria-labelledby="preguntas-title">
-  <div class="wrap grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-24">
-    <div class="lg:sticky lg:top-28 lg:self-start">
-      <SectionHead head={head} titleId="preguntas-title">
-        <p class="section-intro mt-4 max-w-[36rem] text-lead">
-          {data.head.intro}<a class="text-link" href={site.whatsappHref} target="_blank" rel="noopener noreferrer">{data.introLink}<span class="sr-only"> {site.externalHint}</span></a>{data.introEnd}
-        </p>
-      </SectionHead>
-    </div>
-    <div class="divide-y divide-line border-y border-line" data-reveal style="--reveal-delay:120ms">
+<section id="preguntas" aria-labelledby="preguntas-title" class="section bg-canvas-alt">
+  <div class="wrap-text">
+    <SectionHead title={data.title} titleId="preguntas-title" align="center">
+      <p class="mt-4 text-intro text-ink-2">
+        {data.introBefore}<a
+          class="text-link"
+          href={site.whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer">{data.introLink}<span class="sr-only"> {site.whatsappHint}</span></a
+        >{data.introAfter}
+      </p>
+    </SectionHead>
+
+    <div data-reveal class="faq mt-[var(--head-gap)] border-t border-hairline">
       {
         data.items.map((item) => (
-          <details class="group">
-            <summary class="flex cursor-pointer items-start justify-between gap-6 py-6">
-              <h3 class="font-display text-lg font-medium">{item.question}</h3>
+          <details class="group border-b border-hairline">
+            <summary class="flex cursor-pointer items-center justify-between gap-6 py-6">
+              <h3 class="text-question">{item.question}</h3>
               <Icon
-                name="plus"
-                class="mt-1 size-5 shrink-0 text-action transition-transform duration-500 ease-brand group-open:rotate-45"
+                name="caret-down"
+                class="size-5 shrink-0 text-ink-2 transition-transform duration-[320ms] ease-standard group-open:rotate-180"
               />
             </summary>
-            <p class="max-w-[60ch] pb-6 text-muted">{item.answer}</p>
+            <p class="max-w-[65ch] pb-7 text-ink-2">{item.answer}</p>
           </details>
         ))
       }
     </div>
   </div>
 </section>
+
+<style>
+  /* Focus ring: the global 2px ring with a 3px offset would cross the hairlines and touch the answer below, so
+     the summary draws its own ring inside the row, 8px from the hairlines and 12px out from the text column.
+     It is an outline (not a shadow), so forced-colors mode keeps it. */
+  .faq summary {
+    position: relative;
+  }
+  .faq summary:focus-visible {
+    outline: none;
+  }
+  .faq summary:focus-visible::after {
+    content: '';
+    position: absolute;
+    inset: 0.5rem -0.75rem;
+    border-radius: 0.75rem;
+    outline: 2px solid var(--color-action);
+    pointer-events: none;
+  }
+
+  /* Opening: where the browser can animate a details panel (::details-content plus interpolate-size, Chromium
+     131+), the answer grows from 0 to its height and fades in while the caret turns. Elsewhere the row simply
+     opens. Reduced motion, Save-Data and no-JS never get html.motion, so they open instantly. */
+  @supports selector(::details-content) {
+    :global(html.motion) .faq details {
+      interpolate-size: allow-keywords;
+    }
+    :global(html.motion) .faq details::details-content {
+      block-size: 0;
+      overflow-y: clip;
+      transition:
+        block-size 320ms var(--ease-standard),
+        content-visibility 320ms allow-discrete;
+    }
+    :global(html.motion) .faq details[open]::details-content {
+      block-size: auto;
+    }
+    :global(html.motion) .faq details > p {
+      opacity: 0;
+      transition: opacity 320ms var(--ease-standard);
+    }
+    :global(html.motion) .faq details[open] > p {
+      opacity: 1;
+    }
+    /* a closed panel skips style updates, so the fade in starts from here */
+    @starting-style {
+      :global(html.motion) .faq details[open] > p {
+        opacity: 0;
+      }
+    }
+  }
+</style>

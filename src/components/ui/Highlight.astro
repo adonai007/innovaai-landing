@@ -1,0 +1,16 @@
+---
+/** Apple's highlight paragraph: semibold grey text led in by a darker sentence. */
+interface Props {
+  leadIn: string;
+  body: string;
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+const { leadIn, body, tone = 'light', class: className = '' } = Astro.props;
+const dark = tone === 'dark';
+---
+
+<p class:list={['text-intro font-semibold', dark ? 'text-on-night-2' : 'text-ink-2', className]}>
+  <span class={dark ? 'text-on-night' : 'text-ink'}>{leadIn}</span>
+  {body}
+</p>

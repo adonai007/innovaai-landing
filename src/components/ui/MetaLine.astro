@@ -1,0 +1,33 @@
+---
+/**
+ * The grey meta line of a product lockup. Segments split on " · " never break inside (whitespace-nowrap), so the
+ * line only wraps after a separator. With `small`, that shorter line replaces `text` below 735px, so phones get
+ * one line and never a separator dangling at a line end.
+ */
+interface Props {
+  text: string;
+  small?: string;
+  class?: string;
+}
+const { text, small, class: className = '' } = Astro.props;
+const lines = small ? [{ text, cls: 'max-md:hidden' }, { text: small, cls: 'md:hidden' }] : [{ text, cls: '' }];
+---
+
+{
+  lines.map((line) => {
+    const segments = line.text.split(' · ');
+    return (
+      <p class:list={['text-caption', className, line.cls]}>
+        {segments.map((segment, i) => (
+          <Fragment>
+            <span class="whitespace-nowrap">
+              {segment}
+              {i < segments.length - 1 && ' ·'}
+            </span>
+            {i < segments.length - 1 && ' '}
+          </Fragment>
+        ))}
+      </p>
+    );
+  })
+}

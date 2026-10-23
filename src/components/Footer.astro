@@ -1,7 +1,10 @@
 ---
-/** Night footer: lockup + tagline, three link columns, legal row and a giant low-contrast colophon. */
+/**
+ * Apple-style footer on #f5f5f7, 12px grey: tagline, hairline, logo breadcrumb, a three-column directory
+ * (two columns below 735px), hairline, then copyright and location on the left and the language link on the right.
+ * Every link is a 24px-tall inline-flex box, so the whole row is the tap target.
+ */
 import Logo from './ui/Logo.astro';
-import Icon from './ui/Icon.astro';
 import type { FooterData, SiteData } from '../data/types';
 
 interface Props {
@@ -9,55 +12,61 @@ interface Props {
   site: SiteData;
 }
 const { data, site } = Astro.props;
-const legal = data.legal.replace('{year}', String(new Date().getFullYear()));
+const copyright = data.copyright.replace('{year}', String(new Date().getFullYear()));
 ---
 
-<footer class="on-dark overflow-hidden border-t border-white/10 bg-night">
-  <div class="wrap pt-16 pb-10">
-    <div class="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
-      <div class="col-span-2 sm:col-span-3 lg:col-span-1">
-        <Logo size="md" />
-        <p class="mt-4 max-w-[22rem] text-sm text-white/70">{data.tagline}</p>
-      </div>
+<footer class="bg-canvas-alt text-legal text-ink-2">
+  <div class="wrap-text pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+    <p>{data.tagline}</p>
+    <hr class="mt-3 border-0 border-t border-hairline" />
+
+    <div class="py-3">
+      <a href="#top" class="footer-home inline-flex min-h-6 items-center text-ink">
+        <Logo size="footer" />
+      </a>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-6 gap-y-5 pt-1 md:grid-cols-3">
       {
         data.columns.map((col) => (
-          <nav aria-label={col.title}>
-            <h2 class="font-display text-sm font-medium text-white">{col.title}</h2>
-            <ul class="mt-2 grid text-sm">
+          <div>
+            <h2 class="font-semibold text-ink">{col.title}</h2>
+            <ul class="mt-2">
               {col.links.map((link) => (
-                <li>
+                <li class="min-h-6">
                   <a
                     href={link.href}
                     target={link.external ? '_blank' : undefined}
                     rel={link.external ? 'noopener noreferrer' : undefined}
                     hreflang={link.hreflang}
                     lang={link.hreflang}
-                    class="inline-flex min-h-10 items-center rounded-sm text-white/70 transition-[color,background-color] duration-300 ease-brand hover:text-white"
+                    class="footer-link inline-flex min-h-6 items-center text-[#424245] hover:underline"
                   >
                     {link.label}
-                    {link.external && (
-                      <>
-                        <Icon name="arrow-up-right" class="ml-1 inline size-3.5" />
-                        <span class="sr-only"> {site.externalHint}</span>
-                      </>
-                    )}
+                    {link.external && <span class="sr-only"> {link.srHint ?? site.externalHint}</span>}
                   </a>
                 </li>
               ))}
             </ul>
-          </nav>
+          </div>
         ))
       }
     </div>
-    <div class="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row sm:justify-between">
-      <p>{legal}</p>
-      <p>{data.demoNote}</p>
+
+    <hr class="mt-6 border-0 border-t border-hairline" />
+    <div class="flex flex-col items-start gap-y-3 pt-3 md:flex-row md:justify-between md:gap-x-6">
+      <div class="flex flex-col gap-y-1 md:flex-row md:flex-wrap md:gap-x-4">
+        <p>{copyright}</p>
+        <p>{data.location}</p>
+      </div>
+      <a
+        href={data.lang.href}
+        hreflang={data.lang.hreflang}
+        lang={data.lang.hreflang}
+        class="-my-1 inline-flex min-h-6 shrink-0 items-center whitespace-nowrap text-[#424245] hover:underline"
+      >
+        {data.lang.label}
+      </a>
     </div>
   </div>
-  <p
-    aria-hidden="true"
-    class="pointer-events-none select-none text-center font-display text-[19vw] leading-[0.8] font-semibold tracking-tight whitespace-nowrap text-white/[0.05]"
-  >
-    {data.colophon}
-  </p>
 </footer>

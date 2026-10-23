@@ -25,7 +25,7 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all comp
 
 - Reach for `client:*` directives only when interactivity cannot be done with plain CSS or a tiny inline script
 - Prefer `client:visible` for below-the-fold widgets, `client:idle` for non-critical interactivity, `client:load` only when the component must be ready on first paint
-- The site uses no framework islands. Client behaviour lives in plain TypeScript under `src/scripts/` (`main.ts` imported once from `Layout.astro`; the cinematic chapter's `cinema.ts` imported by `CinematicStory.astro`); motion code is dynamically imported only under `html.motion`
+- The site uses no framework islands. Client behaviour lives in plain TypeScript under `src/scripts/`: `main.ts` imported once from `Layout.astro`, `cinema.ts` imported by `CinematicStory.astro` and `dicta-demo.ts` imported by `Dicta.astro`. Native scrolling only; do not add an animation or smooth-scroll library
 
 ## Data flow
 
@@ -35,10 +35,11 @@ Apply the repository-wide guidance from `../copilot-instructions.md` to all comp
 
 ## Animations and assets
 
-- Entrance reveals use the `data-reveal` attribute (never in the cinematic chapter). Scroll-scrubbed motion lives in `src/scripts/motion/`, except the cinematic clips, which `src/scripts/cinema.ts` scrubs without GSAP; do not inline GSAP calls inside components
-- The default markup must be the final static state; hidden or initial states exist only under `html.motion` (the cinematic tracks under `html.motion:not(.slow-net) .cinema:not(.is-static)`). Script-only controls, like the cinematic chapter bar, ship with the `hidden` attribute and the script reveals them
-- A script that changes the page height after load dispatches `layout:refresh` on `window`, so the motion chunk can call `ScrollTrigger.refresh()`
-- Use Astro's `<Image />` or `<Picture />` with images in `src/assets/`; keep only the OG image, favicons and the deck in `public/`
+- Entrance reveals use the `data-reveal` attribute (never on the DentiMed first fold, the Dicta visual or in the film chapter). One motion idea per section, never looped: the DentiMed phones rise once, the Dicta text types once (`dicta-demo.ts`), the film clips are scrubbed from scroll (`cinema.ts`)
+- The default markup must be the final static state; hidden or initial states exist only under `html.motion` (reveals under `html.motion.reveal-ready`, the film tracks under `html.motion:not(.slow-net) .cinema:not(.is-static)`, the scene copy under `.cinema.is-live`). Script-only controls, like the film's pause button, ship with the `hidden` attribute and the script reveals them
+- Sections over black carry `.on-night` and `data-nav-theme="dark"`; `header.ts` switches the nav theme while one sits under the bar
+- DentiMed's own Spanish UI strings and demo patient live in `src/data/dentimed-app.ts` and are used only by `src/components/dentimed/*` (the `aria-hidden` wrappers around that UI carry `lang="es"`; the labelled figure keeps the page language)
+- Use Astro's `<Image />` or `<Picture />` with images in `src/assets/`; keep only the OG images, favicons, the film media (`public/cinema/`, read-only) and the deck in `public/`. The first fold requests no image file
 
 ## SEO and metadata
 

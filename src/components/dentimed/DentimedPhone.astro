@@ -1,0 +1,148 @@
+---
+/**
+ * A generic phone (not an iPhone: no notch, no island) showing one screen of DentiMed's real app UI in HTML.
+ * Width comes from --phone-w on an ancestor; the screen font size is --phone-w / 25 and every inner size is in
+ * em, so the whole UI scales with the device. Decorative: the parent figure carries the label.
+ */
+import Icon from '../ui/Icon.astro';
+import DmCard from './DmCard.astro';
+import { dmApp } from '../../data/dentimed-app';
+import '../../styles/dentimed-app.css';
+
+interface Props {
+  screen: 'dictado' | 'borrador';
+  class?: string;
+}
+const { screen, class: className = '' } = Astro.props;
+const max = Math.max(...dmApp.wave);
+---
+
+<div class:list={['dm-device', className]} data-screen={screen}>
+  <div class="dm-screen dm-app">
+    <i class="dm-cam"></i>
+    <div class="dm-status">
+      <span>{dmApp.time}</span>
+      <span class="dm-status-icons">
+        <Icon name="cell-signal-full" class="dm-i" />
+        <Icon name="battery-full" class="dm-i" />
+      </span>
+    </div>
+
+    {
+      screen === 'dictado' ? (
+        <div class="dm-scr">
+          <div class="dm-bar">
+            <Icon name="caret-left" class="dm-i" />
+            <span class="dm-h dm-bar-title">{dmApp.record.title}</span>
+            <span class="dm-rec-time">
+              <i class="dm-rec-dot" />
+              {dmApp.record.timer}
+            </span>
+          </div>
+          <div class="dm-pt">
+            <span class="dm-avatar">{dmApp.patient.initials}</span>
+            <div class="min-w-0">
+              <div class="dm-pt-name">{dmApp.patient.name}</div>
+              <div class="dm-pt-sub">{dmApp.patient.detail}</div>
+            </div>
+          </div>
+          <p class="dm-rec-status">
+            <i class="dm-dot-live" />
+            {dmApp.record.status}
+          </p>
+          <div class="dm-wave-area">
+            <div class="dm-wave">
+              {dmApp.wave.map((h) => (
+                <span style={`height:${Math.round((h / max) * 1000) / 10}%`} />
+              ))}
+            </div>
+          </div>
+          <div class="dm-controls">
+            <span class="dm-ctl">
+              <Icon name="pause" weight="fill" class="dm-i" />
+            </span>
+            <span class="dm-ctl dm-ctl-stop">
+              <Icon name="stop" weight="fill" class="dm-i" />
+            </span>
+            <span class="dm-ctl dm-ctl-ghost">{dmApp.record.finish}</span>
+          </div>
+        </div>
+      ) : (
+        <div class="dm-scr dm-scr-draft">
+          <div class="dm-draft-head">
+            <div class="min-w-0">
+              <p class="dm-kicker">{dmApp.draft.kicker}</p>
+              <p class="dm-h dm-draft-name">{dmApp.patient.name}</p>
+            </div>
+            <span class="dm-pill-ai">
+              <Icon name="sparkle" class="dm-i" />
+              {dmApp.draft.sections}
+            </span>
+          </div>
+          <div class="dm-list">
+            {dmApp.cards.map((card) => (
+              <DmCard card={card} />
+            ))}
+          </div>
+          <div class="dm-bottom">
+            <div class="dm-actions">
+              <span class="dm-btn dm-btn-ghost">{dmApp.draft.edit}</span>
+              <span class="dm-btn dm-btn-blue dm-btn-wide">{dmApp.draft.confirm}</span>
+            </div>
+          </div>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .dm-device {
+    position: relative;
+    width: var(--phone-w);
+    aspect-ratio: 9 / 19.5;
+    flex-shrink: 0;
+    padding: calc(var(--phone-w) * 0.03);
+    border-radius: calc(var(--phone-w) * 0.155);
+    background: #1d1d1f;
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.08),
+      0 2.5rem 4rem -2rem rgb(0 0 0 / 0.35);
+  }
+  .dm-screen {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border-radius: calc(var(--phone-w) * 0.125);
+    font-size: calc(var(--phone-w) / 25);
+    /* the screen is one composited layer: crisp text, no repaint seams at the rounded clip */
+    isolation: isolate;
+  }
+  .dm-cam {
+    position: absolute;
+    top: 0.7em;
+    left: 50%;
+    z-index: 3;
+    width: 0.6em;
+    height: 0.6em;
+    margin-left: -0.3em;
+    border-radius: 99px;
+    background: #050708;
+    box-shadow: inset 0 0 0 0.08em rgb(255 255 255 / 0.07);
+  }
+  .dm-scr-draft {
+    position: relative;
+    overflow: hidden;
+  }
+  /* bottom action bar overlays the clipped list */
+  .dm-bottom {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 2;
+    padding: 0.8em 1.077em 2.2em;
+    background: var(--dm-screen);
+    box-shadow: 0 -1px 0 rgb(255 255 255 / 0.06);
+  }
+</style>

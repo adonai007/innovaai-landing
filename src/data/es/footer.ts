@@ -3,34 +3,32 @@ import { DENTIMED_URL, DICTA_URL, LINKEDIN_URL } from '../links';
 import { site } from './site';
 
 export const footer = {
-  tagline: 'Estudio de IA aplicada en Bolivia. Construimos herramientas que preparan el trabajo para que tu equipo decida.',
+  tagline: 'InnovaAI es un estudio de producto con IA. Desde Latinoamérica, para el mundo.',
   columns: [
     {
-      title: 'Explorar',
+      title: 'Productos',
       links: [
-        { label: 'Qué construimos', href: '#que-construimos' },
-        { label: 'Productos', href: '#productos' },
+        { label: 'DentiMed', href: DENTIMED_URL, external: true, srHint: '(abre dentimed.app en una pestaña nueva)' },
+        { label: 'Dicta', href: DICTA_URL, external: true, srHint: '(abre el sitio de Dicta en una pestaña nueva)' },
+      ],
+    },
+    {
+      title: 'Estudio',
+      links: [
+        { label: 'Para equipos', href: '#que-construimos' },
         { label: 'Cómo trabajamos', href: '#como-trabajamos' },
         { label: 'Preguntas', href: '#preguntas' },
       ],
     },
     {
-      title: 'Productos',
-      links: [
-        { label: 'DentiMed', href: DENTIMED_URL, external: true },
-        { label: 'Dicta', href: DICTA_URL, external: true },
-      ],
-    },
-    {
       title: 'Contacto',
       links: [
-        { label: 'WhatsApp', href: site.whatsappHref, external: true },
+        { label: 'WhatsApp', href: site.whatsappHref, external: true, srHint: site.whatsappHint },
         { label: 'LinkedIn', href: LINKEDIN_URL, external: true },
-        { label: 'English', href: '/en/', hreflang: 'en' },
       ],
     },
   ],
-  legal: '© {year} InnovaAI · La Paz, Bolivia',
-  demoNote: 'Los ejemplos de esta página usan datos de demostración.',
-  colophon: 'InnovaAI',
+  copyright: 'Copyright © {year} InnovaAI. Todos los derechos reservados.',
+  location: 'DentiMed y Dicta son productos de InnovaAI. Con base en La Paz, Bolivia.',
+  lang: { label: 'English', href: '/en/', hreflang: 'en' },
 } satisfies FooterData;

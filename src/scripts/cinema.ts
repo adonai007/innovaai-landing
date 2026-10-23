@@ -1,14 +1,13 @@
 /**
- * Cinematic chapter (components/CinematicStory.astro): scroll-scrubbed clips over their posters.
+ * Film chapter (components/CinematicStory.astro): scroll-scrubbed clips over their posters.
  *
  * The tall sticky layout is CSS-first (html.motion on screens taller than 37.5625em, which is 601px at the
  * default font size; html.slow-net opts out). This script adds .is-static when a constraint applies that only JS
- * sees (a preference or network change after load, copy enlarged beyond a pinned frame), loads the clips
- * nearest-first once the visitor scrolls after window load, seeks them from scroll progress, pans the portrait
- * crop, feeds the chapter bar (shown only while a stage is pinned) and owns the pause control.
- * No GSAP: Lenis scrolls the window natively, so plain scroll events keep arriving while it smooths.
- * When the page height changes after load it dispatches `layout:refresh` on window (the motion chunk answers
- * with ScrollTrigger.refresh, so the Ejemplo below re-measures).
+ * sees (a preference or network change after load, copy enlarged beyond a pinned frame) and .is-live while the
+ * pinned layout runs. It loads the clips nearest-first once the visitor scrolls after window load, seeks them from
+ * scroll progress (never plays them), pans the portrait crop, fades each scene's copy in once its stage pins
+ * (.is-in), and owns the pause button: shown only while a stage is pinned, its ring shows the chapter's progress.
+ * Native scrolling only: plain scroll events drive everything.
  */
 type NetworkInfo = EventTarget & { saveData?: boolean; effectiveType?: string };
 type Scene = {
@@ -29,8 +28,11 @@ type Scene = {
 
 /** Clip downloads start this far (px) before a scene enters the viewport, once the visitor scrolls. */
 const LOOKAHEAD = 400;
+/** Scene copy shows from this progress of its scene and hides again below the second value (hysteresis). */
+const COPY_IN = 0.1;
+const COPY_OUT = 0.04;
 
-function initCinema(cinema: HTMLElement, controls: HTMLElement, button: HTMLButtonElement, label: HTMLElement) {
+function initCinema(cinema: HTMLElement, controls: HTMLElement, button: HTMLButtonElement) {
   const root = document.documentElement;
   const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
   // Keep in sync with the CSS media query that builds the tall tracks. Media query ems follow the
@@ -76,8 +78,6 @@ function initCinema(cinema: HTMLElement, controls: HTMLElement, button: HTMLButt
     const rect = scene.section.getBoundingClientRect();
     return rect.bottom < 0 ? -rect.bottom : rect.top > innerHeight ? rect.top - innerHeight : 0;
   };
-  const refreshLayout = () => dispatchEvent(new Event('layout:refresh'));
-
   function showDecodedFrame(scene: Scene) {
     if (scene.loaded && scene.video.readyState >= 2 && !constrained()) scene.video.classList.add('is-ready');
   }
@@ -203,27 +203,36 @@ function initCinema(cinema: HTMLElement, controls: HTMLElement, button: HTMLButt
     }
   }
 
-  /** Progress feeds the chapter bar even while paused (the tracks stay sticky); seeking and loading need motion on. */
+  /**
+   * Progress feeds the copy reveal and the ring even while paused (the tracks stay sticky); seeking and loading
+   * need motion on.
+   */
   function update() {
     frame = 0;
     if (destroyed || constrained()) return;
     const active = enabled();
     const panning = portrait.matches;
     let pinned = false;
-    scenes.forEach((scene, index) => {
+    let total = 0;
+    scenes.forEach((scene) => {
       const rect = scene.section.getBoundingClientRect();
       const stageHeight = scene.stage.getBoundingClientRect().height;
       const progress = Math.max(0, Math.min(1, -rect.top / Math.max(1, rect.height - stageHeight)));
       if (rect.top <= 0.5 && rect.bottom >= stageHeight - 0.5) pinned = true;
-      controls.style.setProperty(`--cinema-p${index}`, progress.toFixed(4));
+      total += progress;
+      // Reversible like the scrub: the copy fades in once the stage pins and out again above it.
+      const shown = scene.copy.classList.contains('is-in');
+      if (!shown && progress >= COPY_IN) scene.copy.classList.add('is-in');
+      else if (shown && progress < COPY_OUT) scene.copy.classList.remove('is-in');
       setFocus(scene, panning ? progress : null);
       if (active && scene.loaded && distance(scene) === 0) {
         scene.target = Math.max(0.001, Math.min(scene.video.duration - 0.05, progress * scene.video.duration));
         seek(scene);
       }
     });
-    // The bar floats over the photo: show it only while a stage is pinned over its scrim, so it never sits
-    // on moving copy or on the bright middle of a frame (keyboard focus keeps it visible through CSS).
+    controls.style.setProperty('--cinema-progress', (total / Math.max(1, scenes.length)).toFixed(4));
+    // The button floats over the footage: show it only while a stage is pinned over its scrim, so it never sits
+    // on copy that is scrolling in (keyboard focus keeps it visible through CSS).
     controls.classList.toggle('is-active', pinned);
     // Skipping past the chapter cancels a download that is no longer needed.
     if (loading && distance(loading) > innerHeight) cancelRequest('far');
@@ -236,7 +245,7 @@ function initCinema(cinema: HTMLElement, controls: HTMLElement, button: HTMLButt
 
   /**
    * Does every scene's copy fit its pinned frame? Text enlarged beyond 100svh (text-only zoom, OS font
-   * scaling) would otherwise slide under the header pill or above the viewport with no way to scroll to it.
+   * scaling) would otherwise slide under the nav or above the viewport with no way to scroll to it.
    * Measured against the pinned layout, so .is-static comes off for a synchronous read (no paint between).
    */
   function copyOverflows() {
@@ -255,14 +264,15 @@ function initCinema(cinema: HTMLElement, controls: HTMLElement, button: HTMLButt
     tooTall = copyOverflows();
     const off = constrained();
     if (off !== isStatic) {
-      const changed = isStatic !== undefined;
       isStatic = off;
       cinema.classList.toggle('is-static', off);
       controls.hidden = off;
-      // The page below changed height: let the Ejemplo's ScrollTrigger measure again (no listener before it loads).
-      // Deferred, because under reduced motion global.css gives every property a 1ms transition, so the
-      // new heights only land a frame later.
-      if (changed) setTimeout(refreshLayout, 150);
+      if (!off) {
+        // Mark the copy of a stage that is already pinned (a restored scroll position) before hiding the rest,
+        // so it never flashes out and back in.
+        update();
+        cinema.classList.add('is-live');
+      } else cinema.classList.remove('is-live');
     }
     if (off) {
       cancelRequest('preference');
@@ -286,7 +296,8 @@ function initCinema(cinema: HTMLElement, controls: HTMLElement, button: HTMLButt
   button.addEventListener('click', () => {
     paused = !paused;
     button.toggleAttribute('data-paused', paused);
-    label.textContent = (paused ? button.dataset.on : button.dataset.off) ?? '';
+    const text = paused ? button.dataset.resume : button.dataset.pause;
+    if (text) button.setAttribute('aria-label', text);
     if (paused) {
       cancelRequest('preference');
       scenes.forEach((scene) => scene.video.pause());
@@ -358,5 +369,4 @@ function initCinema(cinema: HTMLElement, controls: HTMLElement, button: HTMLButt
 const cinema = document.querySelector<HTMLElement>('[data-cinema]');
 const controls = cinema?.querySelector<HTMLElement>('[data-cinema-controls]');
 const button = controls?.querySelector<HTMLButtonElement>('[data-motion-toggle]');
-const label = button?.querySelector<HTMLElement>('[data-motion-label]');
-if (cinema && controls && button && label) initCinema(cinema, controls, button, label);
+if (cinema && controls && button) initCinema(cinema, controls, button);

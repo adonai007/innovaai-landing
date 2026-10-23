@@ -1,0 +1,26 @@
+---
+/**
+ * Splits a headline on "\n". A break between two sentences (the line before it ends with ".", "?" or "…") is a
+ * plain <br> at every width, so each sentence starts its own line on phones too. A break inside a sentence is
+ * <br class="br-lg">: a line break from 735px up only, a plain space below.
+ */
+interface Props {
+  text: string;
+}
+const lines = Astro.props.text.split('\n');
+const endsSentence = (line: string) => /[.?…]$/.test(line.trim());
+---
+
+{
+  lines.map((line, i) =>
+    i === 0 ? (
+      line
+    ) : (
+      <Fragment>
+        {endsSentence(lines[i - 1]) ? <br /> : <br class="br-lg" />}
+        {' '}
+        {line}
+      </Fragment>
+    ),
+  )
+}

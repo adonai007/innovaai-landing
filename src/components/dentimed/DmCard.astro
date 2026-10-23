@@ -1,0 +1,57 @@
+---
+/**
+ * One DentiMed draft card (DentiMed's own app UI, Spanish), used by the Borrador phone and the feature fragments.
+ * Renders inside a .dm-app frame (src/styles/dentimed-app.css). Decorative: its frame is aria-hidden.
+ */
+import Icon from '../ui/Icon.astro';
+import { dmApp } from '../../data/dentimed-app';
+import '../../styles/dentimed-app.css';
+
+type Card = (typeof dmApp.cards)[number];
+
+interface Props {
+  card: Card;
+  /** clamp texts to two lines (the dense phone list) */
+  clamp?: boolean;
+}
+const { card, clamp = false } = Astro.props;
+const isCita = 'when' in card;
+---
+
+<div class:list={['dm-card', { 'dm-card-cita': isCita }]}>
+  <div class="dm-card-head">
+    <span class="dm-card-ico"><Icon name={card.icon} class="dm-i" /></span>
+    <span class="dm-card-title">{card.title}</span>
+    <span class="dm-badge">{dmApp.draft.badge}</span>
+  </div>
+  {
+    'when' in card && (
+      <div class="dm-cita-row">
+        <span class="dm-cita-when">{card.when}</span>
+        <span class="dm-chip">
+          <Icon name="calendar-plus" class="dm-i" />
+          {card.schedule}
+        </span>
+      </div>
+    )
+  }
+  {
+    'lines' in card &&
+      card.lines.map((line) => (
+        <div class="dm-line">
+          <span>{line.label}</span>
+          <span class="dm-val">{line.value}</span>
+        </div>
+      ))
+  }
+  {'text' in card && <p class:list={['dm-text', { 'dm-clamp': clamp }]}>{card.text}</p>}
+  {
+    'alert' in card && (
+      <p class="dm-alert">
+        <Icon name="warning" weight="fill" class="dm-i" />
+        <span>{card.alert}</span>
+      </p>
+    )
+  }
+  <slot />
+</div>
