@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Bilingual (ES / EN) static marketing site for **InnovaAI**, an AI product studio from Latin America (founded in La Paz by Adonai Callejas) and the maker of two products that live on their own sites:
+Bilingual (ES / EN) static marketing site for **InnovaAI**, an AI product studio from Latin America (based in La Paz) and the maker of two products that live on their own sites:
 
 - **DentiMed** (https://dentimed.app): assistant for dentists. The dentist dictates when the visit ends and DentiMed drafts the chart for the dentist to confirm
 - **Dicta** (https://dicta-web.onrender.com): voice dictation desktop app for Windows and Linux

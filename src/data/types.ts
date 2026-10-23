@@ -77,4 +77,4 @@ export interface HowWeWorkData { label: string; title: string; leadIn: string; b
 export interface FaqItem { question: string; answer: string }
 export interface FaqData { title: string; introBefore: string; introLink: string; introAfter: string; items: [FaqItem, FaqItem, FaqItem, FaqItem, FaqItem, FaqItem, FaqItem] }
 
-export interface ClosingData { title: string; body: string; reassurance: string; founder: string; linkedin: Link }
+export interface ClosingData { title: string; body: string; reassurance: string; linkedin: Link }

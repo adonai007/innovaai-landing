@@ -12,7 +12,7 @@ export const dentimed = {
   primary: { label: 'Conocer DentiMed', href: DENTIMED_URL, external: true, srHint: '(abre dentimed.app en una pestaña nueva)' },
   demo: {
     label: 'Pedir una demo',
-    href: waHref('Hola Adonai, soy odontólogo/a y quiero ver una demo de DentiMed.'),
+    href: waHref('Hola, soy odontólogo/a y quiero ver una demo de DentiMed.'),
     external: true,
     srHint: '(abre WhatsApp en una pestaña nueva)',
   },

@@ -1,7 +1,7 @@
 import type { SiteData } from '../types';
 import { waHref } from '../links';
 
-const whatsappMessage = 'Hola Adonai, vi la web de InnovaAI y quiero conversar sobre una tarea que se repite en mi trabajo.';
+const whatsappMessage = 'Hola, vi la web de InnovaAI y quiero conversar sobre una tarea que se repite en mi trabajo.';
 
 export const site = {
   lang: 'es',

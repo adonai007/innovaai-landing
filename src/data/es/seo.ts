@@ -1,7 +1,7 @@
 import type { SeoData } from '../types';
 
 export const seo = {
-  organizationDescription: 'Estudio de producto con IA fundado por Adonai Callejas, con base en La Paz, Bolivia. Creadores de DentiMed y Dicta.',
+  organizationDescription: 'Estudio de producto con IA con base en La Paz, Bolivia. Creadores de DentiMed y Dicta.',
   ogImage: '/images/innovaai-og.jpg',
   ogImageAlt: 'InnovaAI. Menos repetición. Más criterio.',
   home: {

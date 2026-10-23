@@ -1,7 +1,7 @@
 import type { SeoData } from '../types';
 
 export const seo = {
-  organizationDescription: 'AI product studio founded by Adonai Callejas, based in La Paz, Bolivia. Makers of DentiMed and Dicta.',
+  organizationDescription: 'AI product studio based in La Paz, Bolivia. Makers of DentiMed and Dicta.',
   ogImage: '/images/innovaai-og-en.jpg',
   ogImageAlt: 'InnovaAI. Less repetition. More judgment.',
   home: {
