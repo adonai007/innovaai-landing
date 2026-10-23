@@ -7,7 +7,7 @@ export const faq = {
   introAfter: '.',
   items: [
     { question: '¿Qué es InnovaAI?',
-      answer: 'Un estudio de producto con IA con base en La Paz, Bolivia. Creamos y mantenemos nuestros propios productos, DentiMed y Dicta, y diseñamos herramientas con equipos de otras empresas.' },
+      answer: 'Un equipo que desarrolla productos con inteligencia artificial, con base en La Paz, Bolivia. Nuestro CEO es Adonai Callejas. Creamos y mantenemos nuestros propios productos, DentiMed y Dicta, y diseñamos herramientas con equipos de otras empresas.' },
     { question: '¿Trabajan con equipos de otros países?',
       answer: 'Sí. Conversamos por WhatsApp, en español o en inglés, estés donde estés. El alcance y la forma de trabajo los definimos juntos.' },
     { question: '¿Dónde puedo usar DentiMed?',

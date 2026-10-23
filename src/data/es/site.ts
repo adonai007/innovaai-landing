@@ -6,10 +6,10 @@ const whatsappMessage = 'Hola, vi la web de InnovaAI y quiero conversar sobre un
 export const site = {
   lang: 'es',
   skipLink: 'Saltar al contenido',
-  h1: 'InnovaAI, estudio de producto con IA',
+  h1: 'InnovaAI, equipo que desarrolla productos con inteligencia artificial',
   ribbon: {
-    text: 'InnovaAI es un estudio de producto con IA. Desde Latinoamérica, para el mundo.',
-    link: { label: 'Conoce el estudio', href: '#historia' },
+    text: 'InnovaAI es un equipo que desarrolla productos con inteligencia artificial. Desde Latinoamérica, para el mundo.',
+    link: { label: 'Conócenos', href: '#historia' },
   },
   whatsappMessage,
   whatsappHref: waHref(whatsappMessage),

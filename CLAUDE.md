@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Bilingual marketing landing for **InnovaAI**, an AI product studio from Latin America, based in La Paz, and the maker of **DentiMed** and **Dicta**. The page follows Apple's design language and writing style: products first, one type family, neutral canvas (white, `#f5f5f7`, black), one action blue, extreme scale contrast, short confident headlines. DentiMed is the first fold, then Dicta, then the studio chapter (the scroll-scrubbed film and the everyday-work tools). Built as a static Astro site, deployed on Render. Hosts the company landing and a standalone pitch deck.
+Bilingual marketing landing for **InnovaAI**, a team from Latin America that builds AI products ("un equipo que desarrolla productos con inteligencia artificial"), based in La Paz, and the maker of **DentiMed** and **Dicta**. The page follows Apple's design language and writing style: products first, one type family, neutral canvas (white, `#f5f5f7`, black), one action blue, extreme scale contrast, short confident headlines. DentiMed is the first fold, then Dicta, then the studio chapter (the scroll-scrubbed film and the everyday-work tools). Built as a static Astro site, deployed on Render. Hosts the company landing and a standalone pitch deck.
 
 **Live**: https://innovai.click
 
@@ -165,7 +165,7 @@ All tokens are in `src/styles/global.css` `@theme {}`. Values are measured on ap
 - **Spanish-first**, neutral Latin American Spanish. EN is a translation of ES, not a parallel rewrite. `tú` for the visitor, `nosotros` for the studio. "solo" never takes an accent.
 - **Global, not local**: positioning is "Desde Latinoamérica, para el mundo." Bolivia appears only as a fact, in three places: the footer location line, FAQ answer 1 and the SEO organization description. Never in a heading.
 - **No invented numbers**, metrics, clients, testimonials, duration promises or prices. "30 minutos" / "30-minute" and the step numbers are the only numerals in locale copy.
-- **No founder or team names, for now** (owner decision): the site, SEO, JSON-LD, llms files and the prefilled WhatsApp messages name no person on the InnovaAI side (no founder line, no `founder` node, "Hola, ..." rather than a name). A future About section may add a photo; ask the owner before naming anyone.
+- **People on the site** (owner decision): InnovaAI is presented as a team ("un equipo que desarrolla productos con inteligencia artificial" / "a team that builds AI products"), never as a studio. The only person named is Adonai Callejas, and only as CEO, in three places: FAQ answer 1 ("Nuestro CEO es Adonai Callejas." / "Our CEO is Adonai Callejas."), the JSON-LD Organization `employee` node (`jobTitle: 'CEO'`) and the llms files' citation note. Nothing more about him: no founder line, bio or photo, and the prefilled WhatsApp messages open with "Hola," / "Hi,". A future About section may add a photo; ask the owner first.
 - **No fictitious people or businesses** in InnovaAI's own sections, and no demo captions or disclaimers of any kind. The only demo data on the page is DentiMed's own (José Pérez, Dra. Mónica, Bs amounts, piezas), and it lives only in `src/data/dentimed-app.ts` and `src/components/dentimed/*`.
 - **DentiMed claims** follow dentimed.app (the source of truth): the dentist dictates when the visit ends, DentiMed drafts, nothing is saved without approval, WhatsApp messages are prefilled and the dentist sends them by tapping Enviar, runs in the phone's browser, founders pilot. Never claim odontograms, agents or autonomy, prescriptions, automatic reminders, automatic WhatsApp, invoicing, HIPAA/GDPR, FHIR/OCR, a native app or live transcription. Security claims allowed: clinic isolation, audit log, append-only financial ledger, mandatory human review.
 - **Dicta claims** (verified only): hold F9 to talk or tap twice for hands-free; the text appears at the cursor in any app; removes filler words; Spanish and English; Windows and Linux; free to start. Never mention speed, translation, Android, offline or price.
@@ -253,7 +253,7 @@ The owner rejected these in the v2 review; none of them may come back in code, c
 - The v1 look: Outfit as a display font, the navy `#071628` night token, teal `#2de6d4` eyebrows, the `.wm-ai` gradient wordmark, `.eyebrow`, `.chip-*`, `.link-arrow`, `shadow-pill` / `shadow-window`, `rounded-island`, and the dark glass header pill that used to float over the page.
 - v1's "one button style" rule (blue pill for WhatsApp only, every other action a `.link-arrow`): v2 uses the blue pill, the outline pill and chevron links.
 - GSAP, ScrollTrigger and Lenis (and the `src/scripts/motion/` chunk, `state.ts`, `layout:refresh`, `--pill-clear`): v2 uses native scrolling and three small modules.
-- Describing InnovaAI as an "applied AI studio in Bolivia" or as local: it is an AI product studio from Latin America, for the world.
+- Describing InnovaAI as a studio (v1 "applied AI studio in Bolivia", v2 "AI product studio") or as local: it is a team from Latin America that builds AI products, for the world.
 
 ## Products
 

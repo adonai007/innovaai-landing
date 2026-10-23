@@ -3,7 +3,7 @@ import { DENTIMED_URL, DICTA_URL, LINKEDIN_URL } from '../links';
 import { site } from './site';
 
 export const footer = {
-  tagline: 'InnovaAI is an AI product studio. From Latin America, for the world.',
+  tagline: 'InnovaAI is a team that builds AI products. From Latin America, for the world.',
   columns: [
     {
       title: 'Products',
@@ -13,7 +13,7 @@ export const footer = {
       ],
     },
     {
-      title: 'Studio',
+      title: 'InnovaAI',
       links: [
         { label: 'For teams', href: '#que-construimos' },
         { label: 'How we work', href: '#como-trabajamos' },
