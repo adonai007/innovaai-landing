@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
-import Ribbon from '../../components/Ribbon.astro';
+import Intro from '../../components/Intro.astro';
 import DentimedHero from '../../components/dentimed/DentimedHero.astro';
 import DentimedFeatures from '../../components/dentimed/DentimedFeatures.astro';
 import Dicta from '../../components/Dicta.astro';
@@ -12,6 +12,7 @@ import FAQ from '../../components/FAQ.astro';
 import Closing from '../../components/Closing.astro';
 import Footer from '../../components/Footer.astro';
 import { site } from '../../data/es/site';
+import { intro } from '../../data/es/intro';
 import { navigation } from '../../data/es/navigation';
 import { footer } from '../../data/es/footer';
 import { seo } from '../../data/es/seo';
@@ -91,10 +92,9 @@ const structuredData = [
   ogImageAlt={seo.ogImageAlt}
   structuredData={structuredData}
 >
-  <Header nav={navigation} site={site} />
+  <Header nav={navigation} site={site} theme="dark" />
   <main id="contenido">
-    <h1 class="sr-only">{site.h1}</h1>
-    <Ribbon site={site} />
+    <Intro data={intro} site={site} />
     <DentimedHero data={dentimed} />
     <DentimedFeatures data={dentimed} />
     <Dicta data={dicta} />

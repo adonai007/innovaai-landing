@@ -4,7 +4,7 @@
  * the page's own nodes) and the inline mode script.
  *
  * Mode script (runs before first paint): swaps no-js for js, adds motion or still (reduced motion or Save-Data)
- * and slow-net on 2G. Fonts: Apple devices get html.sf and render SF Pro from the system stack (no download);
+ * and slow-net on 2G, plus intro-play for the first fold's logo reveal (see Intro.astro). Fonts: Apple devices get html.sf and render SF Pro from the system stack (no download);
  * everywhere else it preloads the one Inter latin opsz file that global.css declares.
  */
 import '../styles/global.css';
@@ -53,8 +53,8 @@ const schema = {
     {
       '@type': 'Organization',
       '@id': organizationId,
-      name: 'InnovaAI',
-      alternateName: 'Innova AI',
+      name: 'InnovAI',
+      alternateName: ['InnovaAI', 'Innova AI'],
       legalName: 'InnovaAI SRL',
       url: siteURL.href,
       logo: {
@@ -97,8 +97,8 @@ const schema = {
     {
       '@type': 'WebSite',
       '@id': websiteId,
-      name: 'InnovaAI',
-      alternateName: 'Innova AI',
+      name: 'InnovAI',
+      alternateName: ['InnovaAI', 'Innova AI'],
       url: siteURL.href,
       publisher: { '@id': organizationId },
       inLanguage: ['es', 'en'],
@@ -142,6 +142,16 @@ const schema = {
         d.classList.add(rm || sd ? 'still' : 'motion');
         // 2G: the film chapter never builds its tall tracks (no layout shift when its script arrives late)
         if (c && /(^|-)2g$/.test(c.effectiveType || '')) d.classList.add('slow-net');
+        // intro logo reveal (components/Intro.astro): once per session, only from the top of the page. A 4s
+        // safety timer drops the class so the final state shows even if scripts/intro.ts never runs.
+        if (!(rm || sd) && !d.classList.contains('slow-net') && !location.hash) {
+          var played = false;
+          try { played = !!sessionStorage.getItem('innovai-intro'); } catch (e) {}
+          if (!played) {
+            d.classList.add('intro-play');
+            window.__introTimer = setTimeout(function () { d.classList.remove('intro-play'); }, 4000);
+          }
+        }
         // Apple devices render SF Pro from the system stack and download no font; everyone else gets Inter
         var uad = navigator.userAgentData;
         var platform = (uad && uad.platform) || navigator.platform || '';
@@ -162,7 +172,7 @@ const schema = {
       name="robots"
       content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
     />
-    <meta name="author" content="InnovaAI" />
+    <meta name="author" content="InnovAI" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light" />
@@ -181,7 +191,7 @@ const schema = {
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.href} />
-    <meta property="og:site_name" content="InnovaAI" />
+    <meta property="og:site_name" content="InnovAI" />
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:locale:alternate" content={ogLocaleAlt} />
     <meta property="og:image" content={ogImageURL.href} />

@@ -15,13 +15,15 @@ import type { NavigationData, SiteData } from '../data/types';
 interface Props {
   nav: NavigationData;
   site: SiteData;
+  /** theme of the section under the bar at load (the intro is dark), before scripts/header.ts takes over */
+  theme?: 'light' | 'dark';
 }
-const { nav, site } = Astro.props;
+const { nav, site, theme = 'light' } = Astro.props;
 ---
 
 <header
   data-nav
-  data-theme="light"
+  data-theme={theme}
   class="nav-bar sticky top-0 z-50 h-[var(--nav-h)] bg-white/80 text-ink backdrop-blur-[20px] backdrop-saturate-[1.8] transition-[background-color,color] duration-[320ms] ease-standard data-[theme=dark]:bg-night-3/80 data-[theme=dark]:text-on-night"
 >
   <div
@@ -162,6 +164,9 @@ const { nav, site } = Astro.props;
   }
   [data-theme='dark'] .nav-link:focus-visible .nav-label,
   [data-theme='dark'] .nav-home:focus-visible .logo { outline-color: var(--color-link-on-night); }
+  /* hand-off: while the intro's big lockup is on screen the bar's logo steps aside (scripts/intro.ts) */
+  .nav-home { transition: opacity 320ms var(--ease-standard), visibility 0s linear 0s; }
+  [data-nav].has-intro-logo .nav-home { opacity: 0; visibility: hidden; transition: opacity 320ms var(--ease-standard), visibility 0s linear 320ms; }
 
   /* menu open and close buttons: the ring hugs the 16px glyph inside the 44px hit area, so the viewport edge
      never clips it */

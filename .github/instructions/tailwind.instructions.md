@@ -1,6 +1,6 @@
 ---
 applyTo: "**/*.astro,**/*.css"
-description: "Tailwind CSS v4 conventions for the InnovaAI design system"
+description: "Tailwind CSS v4 conventions for the InnovAI design system"
 ---
 
 # Tailwind CSS v4 Guidelines

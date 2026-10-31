@@ -22,9 +22,8 @@ export interface Lockup {
 
 export interface SiteData {
   lang: Locale; skipLink: string;
-  /** visually hidden page h1 */
+  /** page h1: screen-reader text of the intro lockup, whose visible part is the InnovAI wordmark */
   h1: string;
-  ribbon: { text: string; link: Link };
   whatsappMessage: string; whatsappHref: string; whatsappHint: string;
   cta: string; ctaShort: string; externalHint: string;
 }
@@ -43,6 +42,10 @@ export interface SeoData {
   organizationDescription: string; ogImage: string; ogImageAlt: string;
   home: { title: string; description: string; serviceName: string; serviceType: string; serviceDescription: string; audience: string };
 }
+
+/** Intro (first fold): the logo reveal, one line, then a link to each product and to the services. */
+export interface IntroItem { id: 'dentimed' | 'dicta' | 'equipos'; name: string; body: string; link: Link }
+export interface IntroData { line: string; items: [IntroItem, IntroItem, IntroItem] }
 
 export interface DentimedFeature { id: 'dictado' | 'revision' | 'cita'; label: string; title: string; body: string }
 export interface DentimedData {

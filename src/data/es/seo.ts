@@ -3,9 +3,9 @@ import type { SeoData } from '../types';
 export const seo = {
   organizationDescription: 'Equipo que desarrolla productos con inteligencia artificial, con base en La Paz, Bolivia. Creadores de DentiMed y Dicta.',
   ogImage: '/images/innovaai-og.jpg',
-  ogImageAlt: 'InnovaAI. Menos repetición. Más criterio.',
+  ogImageAlt: 'InnovAI. Menos repetición. Más criterio.',
   home: {
-    title: 'InnovaAI · Productos con IA para el trabajo de cada día',
+    title: 'InnovAI · Productos con IA para el trabajo de cada día',
     description: 'Un equipo de Latinoamérica que desarrolla productos con inteligencia artificial. Creamos DentiMed, el asistente para odontólogos, y Dicta, dictado por voz para Windows y Linux.',
     serviceName: 'Diseño y desarrollo de herramientas con IA',
     serviceType: 'Desarrollo de software con inteligencia artificial',
