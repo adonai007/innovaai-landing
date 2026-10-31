@@ -6,7 +6,7 @@ export const faq = {
   introLink: 'Message us on WhatsApp',
   introAfter: '.',
   items: [
-    { question: 'What is InnovaAI?',
+    { question: 'What is InnovAI?',
       answer: 'A team that builds AI products, based in La Paz, Bolivia. We make and maintain our own products, DentiMed and Dicta, and design tools with teams at other companies.' },
     { question: 'Do you work with teams in other countries?',
       answer: 'Yes. We talk on WhatsApp, in Spanish or English, wherever you are. We agree on the scope and the way of working together.' },

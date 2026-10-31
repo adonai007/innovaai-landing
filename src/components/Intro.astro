@@ -1,0 +1,189 @@
+---
+/**
+ * #inicio: the first fold on black. The page h1 is the InnovAI lockup (vector mark plus the wordmark; the full
+ * sentence is sr-only text), then one line and a link to each product and to the services (#que-construimos).
+ * The bottom of the DentiMed fold peeks below it.
+ *
+ * Motion (src/scripts/intro.ts): once per browser session, under html.intro-play (set by the mode script in
+ * Layout.astro only for html.motion, no hash in the URL and no earlier play this session). A canvas draws a
+ * spark tracing the orbit of the mark, with curve-editor handles, then shrinks it into the mark's own place;
+ * at 1.6s the mark and wordmark land, at 2.2s the line and the links rise, and at 3.2s the canvas is gone.
+ * Under 5s, so no pause control is needed (WCAG 2.2.2). Scrolling, a key or a tap during the play jumps to the
+ * end. The default markup is the final state: every other mode (no JS, still, slow-net, a replay in the same
+ * session) shows it as is.
+ */
+import { Image } from 'astro:assets';
+import Icon from './ui/Icon.astro';
+import dentimedIcon from '../assets/brand/dentimed-icon.svg';
+import dictaIcon from '../assets/brand/dicta-icon.png';
+import type { IntroData, SiteData } from '../data/types';
+
+interface Props {
+  data: IntroData;
+  site: SiteData;
+}
+const { data, site } = Astro.props;
+const delays = ['--d:0ms', '--d:90ms', '--d:180ms'];
+// the mark's star and its hollow, in the 332-unit tile of the logo
+const star =
+  'M174 38 Q196 134 278 156 Q196 178 174 274 Q152 178 70 156 Q152 134 174 38 Z M174 97 Q159 141 122 156 Q159 171 174 215 Q189 171 226 156 Q189 141 174 97 Z';
+---
+
+<section id="inicio" aria-labelledby="inicio-title" data-nav-theme="dark" data-intro class="intro on-night">
+  <canvas class="intro-canvas" data-intro-canvas aria-hidden="true" hidden></canvas>
+  <div class="intro-inner wrap" data-intro-inner>
+    <h1 id="inicio-title" class="intro-lockup" data-intro-lockup>
+      <span class="sr-only">{site.h1}</span>
+      <svg class="intro-mark" data-intro-mark viewBox="0 0 332 332" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="im-tile" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#08203f" /><stop offset=".55" stop-color="#041327" /><stop offset="1" stop-color="#01070f" />
+          </linearGradient>
+          <linearGradient id="im-star" gradientUnits="userSpaceOnUse" x1="70" y1="0" x2="278" y2="0">
+            <stop offset="0" stop-color="#1f63ff" /><stop offset=".5" stop-color="#28a9ff" /><stop offset="1" stop-color="#3fe3a8" />
+          </linearGradient>
+          <linearGradient id="im-shade" gradientUnits="userSpaceOnUse" x1="0" y1="38" x2="0" y2="274">
+            <stop offset="0" stop-color="#a0f8ff" stop-opacity=".85" /><stop offset=".42" stop-color="#a0f8ff" stop-opacity="0" />
+            <stop offset=".7" stop-color="#1450ff" stop-opacity="0" /><stop offset="1" stop-color="#1950ff" stop-opacity=".6" />
+          </linearGradient>
+          <linearGradient id="im-orbit" gradientUnits="userSpaceOnUse" x1="30" y1="224" x2="300" y2="60">
+            <stop offset="0" stop-color="#1e6bff" /><stop offset=".6" stop-color="#22c3e6" /><stop offset="1" stop-color="#3fe3a8" />
+          </linearGradient>
+          <radialGradient id="im-pool" cx=".5" cy=".5" r=".5">
+            <stop offset="0" stop-color="#50aaff" stop-opacity=".95" /><stop offset="1" stop-color="#1450ff" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <rect class="intro-tile" width="332" height="332" rx="66" fill="url(#im-tile)" />
+        <ellipse class="intro-pool" cx="174" cy="280" rx="84" ry="16" fill="url(#im-pool)" />
+        <g class="intro-orbit">
+          <path d="M30 224 C54 288 174 208 294 70" fill="none" stroke="url(#im-orbit)" stroke-width="12" stroke-linecap="round" />
+          <polygon points="321.6,38.3 306.6,96.8 294.7,69.3 265.8,61.4" fill="#41e6b2" />
+        </g>
+        <g class="intro-star">
+          <path fill="#04122a" d="M174 97 Q189 141 226 156 Q189 171 174 215 Q159 171 122 156 Q159 141 174 97 Z" />
+          <path fill-rule="evenodd" fill="url(#im-star)" d={star} />
+          <path fill-rule="evenodd" fill="url(#im-shade)" d={star} />
+          <path fill="none" stroke="#aaf0ff" stroke-opacity=".35" stroke-width="2" d="M174 97 Q189 141 226 156 Q189 171 174 215 Q159 171 122 156 Q159 141 174 97 Z" />
+        </g>
+      </svg>
+      <span class="intro-word" aria-hidden="true">Innov<span class="intro-ai">AI</span></span>
+    </h1>
+
+    <p class="intro-line intro-rise mx-auto mt-6 max-w-[40rem] text-intro text-balance text-on-night-2 md:mt-8">{data.line}</p>
+
+    <ul class="intro-items mx-auto mt-10 grid w-full max-w-[61.25rem] text-left md:mt-16 md:grid-cols-3 md:gap-10">
+      {
+        data.items.map((item, i) => (
+          <li class="intro-rise border-t border-hairline-on-night" style={delays[i]}>
+            <a href={item.link.href} class="intro-item">
+              <span class="intro-icon" aria-hidden="true">
+                {item.id === 'dentimed' && <Image src={dentimedIcon} alt="" width={40} height={40} loading="eager" class="size-full" />}
+                {item.id === 'dicta' && <Image src={dictaIcon} alt="" width={40} height={40} densities={[1, 2]} loading="eager" class="size-full" />}
+                {item.id === 'equipos' && (
+                  <span class="grid size-full place-items-center bg-night-2 text-link-on-night">
+                    <Icon name="list-checks" class="size-[55%]" />
+                  </span>
+                )}
+              </span>
+              <span class="intro-text">
+                <span class="intro-name text-label">{item.name}</span>
+                <span class="intro-body text-caption text-on-night-2">{item.body}</span>
+                <span class="intro-more text-caption text-link-on-night">
+                  <span class="lc-text">{item.link.label}</span>
+                </span>
+              </span>
+              <svg class="intro-chevron" viewBox="0 0 7 12" aria-hidden="true" focusable="false">
+                <path d="M1 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .intro {
+    position: relative;
+    /* runs up under the sticky bar, so the nav's theme probe sees a dark section from the first frame */
+    margin-top: calc(-1 * var(--nav-h));
+    /* fills the first screen but leaves the top of the DentiMed fold showing below it */
+    min-height: max(34rem, calc(100svh - 4.5rem));
+    display: flex;
+    align-items: center;
+    padding-block: calc(3.5rem + var(--nav-h)) 4rem;
+    overflow: hidden;
+  }
+  .intro-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .intro-inner { position: relative; text-align: center; }
+
+  .intro-lockup {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1.25rem; margin: 0; font-weight: 600;
+  }
+  .intro-mark { width: clamp(5rem, 3.4rem + 6.5vw, 8rem); height: auto; aspect-ratio: 1; overflow: visible; }
+  .intro-word {
+    font-size: clamp(3.5rem, 1.9rem + 6.6vw, 7rem); line-height: 1; letter-spacing: -0.025em; color: var(--color-on-night);
+  }
+  .intro-ai { color: #1f7bff; }
+  @media (min-width: 45.9375em) { .intro-lockup { flex-direction: row; gap: clamp(1.25rem, 0.5rem + 2vw, 2rem); } }
+
+  /* items: rows with a chevron on phones, three columns from 735px */
+  .intro-item {
+    display: flex; align-items: center; gap: 0.875rem; min-height: 4.5rem; padding-block: 0.875rem; color: var(--color-on-night);
+  }
+  .intro-items li:last-child { border-bottom: 1px solid var(--color-hairline-on-night); }
+  .intro-icon { width: 2.25rem; height: 2.25rem; flex: none; overflow: hidden; border-radius: 22%; }
+  .intro-text { display: flex; flex-direction: column; gap: 0.125rem; flex: 1; min-width: 0; }
+  .intro-more { display: none; }
+  .intro-chevron { width: 0.4375rem; height: 0.75rem; flex: none; color: var(--color-link-on-night); }
+  .intro-item:hover .lc-text, .intro-item:focus-visible .lc-text { text-decoration: underline; text-underline-offset: 0.18em; }
+  @media (min-width: 45.9375em) {
+    .intro-items li:last-child { border-bottom: 0; }
+    .intro-item { flex-direction: column; align-items: flex-start; gap: 0.875rem; padding-block: 1.375rem 0; }
+    .intro-icon { width: 2.5rem; height: 2.5rem; }
+    .intro-text { gap: 0.375rem; }
+    .intro-more { display: block; margin-top: 0.25rem; }
+    .intro-chevron { display: none; }
+  }
+
+  /* ---- motion: these states exist only while html.intro-play is set (see the header comment) ---- */
+  :global(html.intro-play) .intro-mark,
+  :global(html.intro-play) .intro-word,
+  :global(html.intro-play) .intro-rise { opacity: 0; }
+  :global(html.intro-play) .intro-rise { transform: translateY(1.25rem); }
+
+  :global(html.intro-play) .intro.is-landed .intro-mark { opacity: 1; }
+  :global(html.intro-play) .intro.is-landed .intro-tile { animation: intro-tile 360ms var(--ease-out) both; }
+  :global(html.intro-play) .intro.is-landed .intro-star,
+  :global(html.intro-play) .intro.is-landed .intro-pool {
+    transform-box: fill-box; transform-origin: center; animation: intro-star 520ms linear both;
+  }
+  :global(html.intro-play) .intro.is-landed .intro-word { animation: intro-slam 460ms var(--ease-out) both; }
+  :global(html.intro-play) .intro.is-landed .intro-inner { animation: intro-shake 320ms linear both; }
+  :global(html.intro-play) .intro.is-done .intro-rise {
+    opacity: 1; transform: none;
+    transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out); transition-delay: var(--d, 0ms);
+  }
+
+  @keyframes intro-tile { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
+  /* a damped spring: 0 -> 1.12 -> 0.97 -> 1 */
+  @keyframes intro-star {
+    0% { transform: scale(0); } 35% { transform: scale(1.12); } 60% { transform: scale(0.97); } 80% { transform: scale(1.01); } 100% { transform: scale(1); }
+  }
+  @keyframes intro-slam {
+    0% { opacity: 0; transform: scale(1.45); text-shadow: -12px 0 rgb(255 40 80 / 0.55), 12px 0 rgb(0 220 255 / 0.55); }
+    26% { opacity: 1; transform: scale(1); text-shadow: -9px 0 rgb(255 40 80 / 0.5), 9px 0 rgb(0 220 255 / 0.5); }
+    40% { transform: scale(1.02); text-shadow: -4px 0 rgb(255 40 80 / 0.35), 4px 0 rgb(0 220 255 / 0.35); }
+    100% { opacity: 1; transform: none; text-shadow: 0 0 rgb(255 40 80 / 0), 0 0 rgb(0 220 255 / 0); }
+  }
+  @keyframes intro-shake {
+    0% { transform: translate(0, 0); } 15% { transform: translate(-3px, 6px); } 30% { transform: translate(3px, -4px); }
+    50% { transform: translate(-2px, 2px); } 70% { transform: translate(1px, -1px); } 100% { transform: none; }
+  }
+</style>
+
+<script>
+  import '../scripts/intro';
+</script>

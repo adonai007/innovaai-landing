@@ -5,7 +5,7 @@ description: Guidance for adding tests to a project that currently has no test i
 
 # Write Tests
 
-The InnovaAI landing page has **no** test runner configured (no Vitest, Jest, Playwright, or similar). Before writing any test code, bootstrapping infrastructure is required — and that bootstrap should be discussed with the maintainer.
+The InnovAI landing page has **no** test runner configured (no Vitest, Jest, Playwright, or similar). Before writing any test code, bootstrapping infrastructure is required — and that bootstrap should be discussed with the maintainer.
 
 Ask for the following inputs if not provided:
 

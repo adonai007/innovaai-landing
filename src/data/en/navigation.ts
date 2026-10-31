@@ -2,7 +2,7 @@ import type { NavigationData } from '../types';
 import { LINKEDIN_URL } from '../links';
 
 export const navigation = {
-  homeLabel: 'InnovaAI, back to top',
+  homeLabel: 'InnovAI, back to top',
   navLabel: 'Main',
   links: [
     { label: 'DentiMed', href: '#dentimed' },
@@ -15,5 +15,5 @@ export const navigation = {
   menuOpen: 'Open menu',
   menuClose: 'Close menu',
   menuTitle: 'Menu',
-  linkedin: { label: 'InnovaAI on LinkedIn', href: LINKEDIN_URL, external: true },
+  linkedin: { label: 'InnovAI on LinkedIn', href: LINKEDIN_URL, external: true },
 } satisfies NavigationData;

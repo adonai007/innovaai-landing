@@ -1,6 +1,6 @@
 ---
 name: setup-component
-description: Scaffold a new Astro section component for the InnovaAI landing page with props interface, bilingual data wiring and the reveal hook.
+description: Scaffold a new Astro section component for the InnovAI landing page with props interface, bilingual data wiring and the reveal hook.
 ---
 
 # Setup Component

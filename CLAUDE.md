@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Bilingual marketing landing for **InnovaAI**, a team from Latin America that builds AI products ("un equipo que desarrolla productos con inteligencia artificial"), based in La Paz, and the maker of **DentiMed** and **Dicta**. The page follows Apple's design language and writing style: products first, one type family, neutral canvas (white, `#f5f5f7`, black), one action blue, extreme scale contrast, short confident headlines. DentiMed is the first fold, then Dicta, then the studio chapter (the scroll-scrubbed film and the everyday-work tools). Built as a static Astro site, deployed on Render. Hosts the company landing and a standalone pitch deck.
+Bilingual marketing landing for **InnovAI**, a team from Latin America that builds AI products ("un equipo que desarrolla productos con inteligencia artificial"), based in La Paz, and the maker of **DentiMed** and **Dicta**. The page follows Apple's design language and writing style: products first, one type family, neutral canvas (white, `#f5f5f7`, black), one action blue, extreme scale contrast, short confident headlines. The intro (the InnovAI logo reveal on black, with a link to each product and to the services) is the first fold, then DentiMed, then Dicta, then the studio chapter (the scroll-scrubbed film and the everyday-work tools). Built as a static Astro site, deployed on Render. Hosts the company landing and a standalone pitch deck.
 
 **Live**: https://innovai.click
 
@@ -39,8 +39,8 @@ The deck is a static asset under `public/`, copied verbatim to `dist/deck/` on b
 | # | Section | Component | Surface |
 |---|---------|-----------|---------|
 | 1 | Global nav | `Header.astro` | frosted white, dark over `data-nav-theme="dark"` sections |
-| 2 | Visually hidden `<h1>` (`site.h1`) then the one-line ribbon | `Ribbon.astro` | white |
-| 3 | `#dentimed`: DentiMed first fold (lockup plus two HTML phones) | `dentimed/DentimedHero.astro` | `canvas-alt` |
+| 2 | `#inicio`: the intro, whose lockup is the page h1 (logo reveal, one line, three links) | `Intro.astro` | black, `data-nav-theme="dark"` |
+| 3 | `#dentimed`: DentiMed fold (lockup plus two HTML phones) | `dentimed/DentimedHero.astro` | `canvas-alt` |
 | 4 | `#dentimed-funciones`: 2x2 bento | `dentimed/DentimedFeatures.astro` | `canvas` |
 | 5 | `#dicta`: Dicta tile (window, F9 keycap, three features) | `Dicta.astro` | black, `data-nav-theme="dark"` |
 | 6 | `#historia`: the film, opener of the studio chapter | `CinematicStory.astro` | black plus the 12px white `.seam`, `data-nav-theme="dark"` |
@@ -50,7 +50,7 @@ The deck is a static asset under `public/`, copied verbatim to `dist/deck/` on b
 | 10 | `#contacto`: closing, one blue pill | `Closing.astro` | `canvas` |
 | 11 | Footer | `Footer.astro` | `canvas-alt` |
 
-Backgrounds never repeat side by side except the two dark tiles (Dicta and the film), which the `.seam` border separates (Apple's home pattern). Every `<section>` has an `id` (Spanish in both locales) and `aria-labelledby` pointing at its h2. There is one h1 (sr-only); h2 per section; h3 for cards, steps, scenes and questions.
+Backgrounds never repeat side by side except the two dark tiles (Dicta and the film), which the `.seam` border separates (Apple's home pattern). Every `<section>` has an `id` (Spanish in both locales) and `aria-labelledby` pointing at its h2. There is one h1, the intro lockup (the visible wordmark is `aria-hidden`, `site.h1` is its sr-only text); the intro labels itself with it; h2 per other section; h3 for cards, steps, scenes and questions.
 
 ## Architecture
 
@@ -65,21 +65,22 @@ Backgrounds never repeat side by side except the two dark tiles (Dicta and the f
   - `src/scripts/main.ts` always loads: `initNavTheme` and `initMenu` from `header.ts`, `initReveals` from `reveals.ts`.
   - `src/scripts/cinema.ts`: the film, imported by `CinematicStory.astro`.
   - `src/scripts/dicta-demo.ts`: the Dicta typing demo, imported by `Dicta.astro` (runs only under `html.motion`, once per page view).
-  - Page JS is these three modules only. Nothing is render-blocking except the inline mode script.
-- **Motion modes**: an inline script in `Layout.astro` swaps `no-js` for `js` and adds `motion` or `still` (reduced motion or Save-Data), plus `slow-net` on 2G (the film then stays static) and `sf` on Apple platforms. The default markup is the final static state; hidden or initial states exist only under `html.motion`, `html.motion.reveal-ready`, `.cinema.is-live` and `html.motion:not(.slow-net) .cinema:not(.is-static)` (screens taller than 37.5625em). Controls that only work with the script (the film's pause button) ship with the `hidden` attribute and the script reveals them.
+  - `src/scripts/intro.ts`: the intro logo reveal and the nav logo hand-off, imported by `Intro.astro` (plays only under `html.intro-play`).
+  - Page JS is these four modules only. Nothing is render-blocking except the inline mode script.
+- **Motion modes**: an inline script in `Layout.astro` swaps `no-js` for `js` and adds `motion` or `still` (reduced motion or Save-Data), plus `slow-net` on 2G (the film then stays static), `sf` on Apple platforms, and `intro-play` (motion, not slow-net, no URL hash, not yet played this browser session; a 4s timer removes it if `intro.ts` never runs). The default markup is the final static state; hidden or initial states exist only under `html.motion`, `html.intro-play`, `html.motion.reveal-ready`, `.cinema.is-live` and `html.motion:not(.slow-net) .cinema:not(.is-static)` (screens taller than 37.5625em). Controls that only work with the script (the film's pause button) ship with the `hidden` attribute and the script reveals them.
 - **i18n**: Astro native. `defaultLocale: 'es'`, `locales: ['es','en']`, `prefixDefaultLocale: true`, `redirectToDefaultLocale: false` (`src/pages/index.astro` does the instant redirect to `/es/`). See `astro.config.mjs`.
 
-## Global nav, ribbon, footer
+## Global nav, intro, footer
 
 - **Nav** (`Header.astro`, `src/scripts/header.ts`): sticky, 44px from 834px (48px below), `bg-white/80` glass with no border or shadow. Logo left; five `text-legal` links centred from 834px; language link and the small blue pill (`site.ctaShort`, WhatsApp) on the right; below 834px a 44x44 menu button. The pill is always visible. Nav and menu controls carry a negative `scroll-margin-top` equal to `--nav-h` (global.css), so focusing or tapping them never makes the browser scroll the page to reveal them inside the `scroll-padding-top` band.
-- **Nav theme switching**: `initNavTheme` observes every `[data-nav-theme="dark"]` section (`#dicta`, `#historia`) with an IntersectionObserver whose root is a 1px line at half the nav height, and sets `data-theme="dark"` on the header while one crosses it (translucent `#161617`, light text, `#4da3ff` for "AI" and focus rings). It rebuilds on resize (debounced). Without JS the nav stays light.
+- **Nav theme switching**: `initNavTheme` observes every `[data-nav-theme="dark"]` section (`#dicta`, `#historia`) with an IntersectionObserver whose root is a 1px line at half the nav height, and sets `data-theme="dark"` on the header while one crosses it (translucent `#161617`, light text, `#4da3ff` for "AI" and focus rings). It rebuilds on resize (debounced). The pages render the bar with `theme="dark"` because the intro sits under it at load (so it never flashes white over black); without JS it keeps that theme. While the intro lockup is on screen `intro.ts` adds `.has-intro-logo` and the bar's logo fades out (a hand-off from the big lockup).
 - **Menu**: a native `<dialog id="site-menu">` opened with `showModal()`: full-screen solid white (no glass, so the page never shows through), its links in the page's 87.5% column, 28px semibold links, language, LinkedIn chevron link and a full-width WhatsApp pill. Esc, a link click and the close button close it; focus returns to the menu button. Under `html.motion` it fades in and the links rise with a stagger. Without JS the menu button is hidden and the links show as a second, horizontally scrollable row below 834px.
-- **Ribbon** (`Ribbon.astro`): one centred `text-caption` line under the h1 (in `.wrap`) with a `ChevronLink` to `#historia` that never breaks inside its label.
+- **Intro** (`Intro.astro`, `src/data/{es,en}/intro.ts`, `src/scripts/intro.ts`): black, at least the first screen minus 4.5rem so the top of the DentiMed fold shows below it. The h1 lockup is an inline vector mark (the brand tile: star, orbit and arrow, its gradients are part of the logo) plus the `InnovAI` wordmark (600, "AI" in `#1f7bff`), stacked below 735px. Then `intro.line` in `text-intro` grey and three links (DentiMed, Dicta, Para equipos) with their icons: hairline rows with a chevron on phones, three columns from 735px. Motion, once per session under `html.intro-play`: a canvas spark traces the orbit with curve-editor handles and shrinks into the mark (0.2 to 1.6s), the mark and wordmark land (`.is-landed`), the line and links rise at 2.2s (`.is-done`), and everything is static at 3.2s (under 5s, so no pause control). A scroll, key or tap ends it at once. The default markup is the final state. The 8s version with sound is a separate social asset, never on the page.
 - **Footer** (`Footer.astro`): `canvas-alt`, 12px grey: tagline, hairline, logo breadcrumb, three link columns (two below 735px), hairline, then copyright with the year, the location line and the language link.
 
 ## DentiMed (`#dentimed`, `#dentimed-funciones`)
 
-- **First fold** (`DentimedHero.astro`): centred lockup in `.wrap-text` (inline DentiMed SVG icon plus the name as the h2, the `text-hero` headline, a one-line subhead, the grey `MetaLine` with a shorter `metaSmall` below 735px, blue pill to dentimed.app and outline pill for a WhatsApp demo), then a `role="img"` figure labelled by `phonesLabel` (in the page language) with two HTML phones; the inner `aria-hidden` row carries `lang="es"`. The lockup stays tight (`--tile-pad`, one-line subhead) so the phones take a real share of the fold. The first fold requests no image file.
+- **Fold** (`DentimedHero.astro`): centred lockup in `.wrap-text` (inline DentiMed SVG icon plus the name as the h2, the `text-hero` headline, a one-line subhead, the grey `MetaLine` with a shorter `metaSmall` below 735px, blue pill to dentimed.app and outline pill for a WhatsApp demo), then a `role="img"` figure labelled by `phonesLabel` (in the page language) with two HTML phones; the inner `aria-hidden` row carries `lang="es"`. The lockup stays tight (`--tile-pad`, one-line subhead) so the phones take a real share of the fold. The first fold requests no image file.
 - **Phones** (`DentimedPhone.astro`, prop `screen: 'dictado' | 'borrador'`): a generic device (not an iPhone: no notch, no island), width `--phone-w` (300px at `lg`, 260px at `md`, 264px small, set in rem), screen font size `--phone-w / 25`, every inner size in em so the UI scales with the device. Dictado sits lower on the left and is hidden below 735px; its waveform sits right under the recording status (as in DentiMed's own screen) and the controls at the bottom. The device shadow is the only shadow on the page. Under `html.motion` the figure rises once on load; every other mode is static.
 - **Features bento** (`DentimedFeatures.astro`): `text-section` title, then a 2x2 grid of `canvas-alt` cards (28px radius, no border, no shadow): the dictation photo (`src/assets/photos/dentimed-dictado.webp`, a copy of DentiMed's own still, through `<Picture>`), the Revisión fragment (medication card with the allergy alert, Editar and Confirmar, then the plan and payment cards bleeding off the bottom edge), the Próxima cita fragment (appointment card and the prefilled WhatsApp composer, in flow so the clip never cuts the Enviar button) and the Seguridad card (the four rules as white `rounded-tile` inner tiles with a 40px icon and a semibold label: a 2x2 block that fills the card from 735px, one row per rule on phones). `DmCard.astro` renders one DentiMed draft card for the phones and the fragments.
 - **App UI styles**: `src/styles/dentimed-app.css`, every rule scoped under `.dm-app`, sized in em, `var(--font-sans)`, DentiMed's own dark palette (screen `#0b202a`, cards `#123241`, teal `#04b5b2`, blue `#0976f7`, amber draft badge, `#fb7185` alert). This palette exists only inside `.dm-app`.
@@ -130,20 +131,20 @@ All tokens are in `src/styles/global.css` `@theme {}`. Values are measured on ap
 
 - **Breakpoints** (em, so they follow the visitor's text size; every other Tailwind breakpoint is removed): `md` 45.9375em (735px), `nav` 52.125em (834px, desktop nav), `lg` 66.8125em (1069px). Components use only `md:`, `nav:` and `lg:`.
 - **Containers**: `.wrap` is `min(78.75rem, 87.5%)`; `.wrap-text` is `min(43.25rem, 87.5%)` and `min(61.25rem, 87.5%)` (980px) from `lg`. Percent widths keep 24px gutters at 390px and never overflow with a desktop scrollbar.
-- **Spacing variables**: `--nav-h` (48px, 44px from 834px), `--section-pad` (72 / 104 / 144px), `--head-gap` (40 / 64 / 80px), `--tile-pad` (40 / 48 / 56px, the DentiMed first fold's top padding).
+- **Spacing variables**: `--nav-h` (48px, 44px from 834px), `--section-pad` (72 / 104 / 144px), `--head-gap` (40 / 64 / 80px), `--tile-pad` (40 / 48 / 56px, the DentiMed fold's top padding).
 - **Type scale** (fluid between 390px and 1068px): `text-display` 36 (at 360px) to 80 (film intro only), `text-hero` 40 to 64 (DentiMed and How we work headlines), `text-tile` 28 to 56 (Dicta, scene and closing headlines), `text-section` 32 to 48 (section headers), `text-eyebrow` 21 to 28 (product names), `text-label` 21 to 24, `text-subhead` 19 to 28 (400), `text-card` 21 to 28, `text-question` 19 to 24, `text-intro` 19 to 21, `text-kicker` 14 to 17, `text-body` 17, `text-caption` 14, `text-legal` 12. Tracking comes from `--tr-*` variables (Inter values by default, Apple's SF values under `html.sf`).
 - **Rules**: headlines end with a period; `text-wrap: balance` on headings and `pretty` on paragraphs; never uppercase text with CSS.
 - **Buttons**: blue pill (`.btn.btn-primary`) for the main action, outline pill (`.btn.btn-secondary`) for a second action beside it, chevron links (`.link-chevron` via `ChevronLink`) for everything else. No icons inside pills. Every WhatsApp pill opens WhatsApp with a prefilled message and says so in its sr-only hint.
 - **Surfaces**: cards are 28px radius (`rounded-card`), no borders, no shadows; separation comes only from fill contrast (`canvas-alt` card on `canvas`, or `canvas` card on `canvas-alt`). Inner tiles, windows and keycaps use `rounded-tile` (18px). Pills use `rounded-full`.
 - **Shadows**: only the DentiMed phone device. **Glass** (`backdrop-blur-[20px] backdrop-saturate-[1.8]`) only on the global nav and the film's pause button (the mobile menu is solid white). Never on cards.
-- **Gradients**: none, except the film's image scrims.
+- **Gradients**: none, except the film's image scrims and the InnovAI mark itself (logo artwork, in the intro).
 - **Motion tokens**: `ease-standard` (UI colour transitions, 320ms) and `--ease-out` (reveals and transforms; reveals are 800ms with a 1.5rem rise, staggered with `--reveal-delay`).
 
 **Component layer classes** (prefer over re-implementing): `.wrap`, `.wrap-text`, `.section`, `.on-night`, `.seam`, `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-l`, `.btn-s`, `.btn-nav`, `.btn-auto`, `.link-chevron`, `.text-link`, `.br-lg`.
 
 ## i18n contract
 
-- Components are **pure presentation**: they never embed hardcoded ES/EN strings. Copy flows in as props from `src/data/{locale}/*.ts`. The only fixed strings allowed in components are the brand names "InnovaAI", "DentiMed" and "Dicta", and DentiMed's own Spanish UI from `src/data/dentimed-app.ts` inside `src/components/dentimed/*`.
+- Components are **pure presentation**: they never embed hardcoded ES/EN strings. Copy flows in as props from `src/data/{locale}/*.ts`. The only fixed strings allowed in components are the brand names "InnovAI", "DentiMed" and "Dicta", and DentiMed's own Spanish UI from `src/data/dentimed-app.ts` inside `src/components/dentimed/*`.
 - **Bilingual parity**: every `src/data/es/X.ts` MUST have a `src/data/en/X.ts` with the same export shape. Both satisfy the same type from `src/data/types.ts`.
 - Page files (`src/pages/{es,en}/index.astro`) import the locale-specific data and pass it down. They also build the page JSON-LD.
 - Anchor IDs (`#dentimed`, `#dentimed-funciones`, `#dicta`, `#historia`, `#que-construimos`, `#como-trabajamos`, `#preguntas`, `#contacto`) stay in Spanish across both locales.
@@ -158,6 +159,8 @@ All tokens are in `src/styles/global.css` `@theme {}`. Values are measured on ap
 
 ## Brand voice and content rules
 
+- **The brand name is InnovAI** (owner decision, October 2026). Older forms (InnovaAI, Innova AI) appear only as `alternateName` in the JSON-LD and in the legal name `InnovaAI SRL`, which stays until the owner confirms a change. File names such as `innovaai-og.jpg` keep their old spelling.
+
 - Apple's writing style: headlines of two to six words ending in a period, plain and confident. One idea per section. Show the product, don't claim.
 - **No emoji, ever.** No exclamation marks.
 - **Sentence case** for every heading, button, label and nav item. CSS never uppercases text.
@@ -165,18 +168,18 @@ All tokens are in `src/styles/global.css` `@theme {}`. Values are measured on ap
 - **Spanish-first**, neutral Latin American Spanish. EN is a translation of ES, not a parallel rewrite. `tú` for the visitor, `nosotros` for the studio. "solo" never takes an accent.
 - **Global, not local**: positioning is "Desde Latinoamérica, para el mundo." Bolivia appears only as a fact, in three places: the footer location line, FAQ answer 1 and the SEO organization description. Never in a heading.
 - **No invented numbers**, metrics, clients, testimonials, duration promises or prices. "30 minutos" / "30-minute" and the step numbers are the only numerals in locale copy.
-- **People on the site** (owner decision): InnovaAI is presented as a team ("un equipo que desarrolla productos con inteligencia artificial" / "a team that builds AI products"), never as a studio, and the site names no person on the InnovaAI side: no founder or CEO line, no `founder` or `employee` node in the JSON-LD, nothing in the llms files, and the prefilled WhatsApp messages open with "Hola," / "Hi,". A future About section may add a photo; ask the owner before naming anyone.
-- **No fictitious people or businesses** in InnovaAI's own sections, and no demo captions or disclaimers of any kind. The only demo data on the page is DentiMed's own (José Pérez, Dra. Mónica, Bs amounts, piezas), and it lives only in `src/data/dentimed-app.ts` and `src/components/dentimed/*`.
+- **People on the site** (owner decision): InnovAI is presented as a team ("un equipo que desarrolla productos con inteligencia artificial" / "a team that builds AI products"), never as a studio, and the site names no person on the InnovAI side: no founder or CEO line, no `founder` or `employee` node in the JSON-LD, nothing in the llms files, and the prefilled WhatsApp messages open with "Hola," / "Hi,". A future About section may add a photo; ask the owner before naming anyone.
+- **No fictitious people or businesses** in InnovAI's own sections, and no demo captions or disclaimers of any kind. The only demo data on the page is DentiMed's own (José Pérez, Dra. Mónica, Bs amounts, piezas), and it lives only in `src/data/dentimed-app.ts` and `src/components/dentimed/*`.
 - **DentiMed claims** follow dentimed.app (the source of truth): the dentist dictates when the visit ends, DentiMed drafts, nothing is saved without approval, WhatsApp messages are prefilled and the dentist sends them by tapping Enviar, runs in the phone's browser, founders pilot. Never claim odontograms, agents or autonomy, prescriptions, automatic reminders, automatic WhatsApp, invoicing, HIPAA/GDPR, FHIR/OCR, a native app or live transcription. Security claims allowed: clinic isolation, audit log, append-only financial ledger, mandatory human review.
 - **Dicta claims** (verified only): hold F9 to talk or tap twice for hands-free; the text appears at the cursor in any app; removes filler words; Spanish and English; Windows and Linux; free to start. Never mention speed, translation, Android, offline or price.
 - Banned filler includes "transformar tu negocio", "potenciar", "de vanguardia", "soluciones a medida", "en tiempo real" and their English equivalents.
 
 ## Animation hooks
 
-- `data-reveal` fades and rises elements in once (IntersectionObserver in `src/scripts/reveals.ts`, `rootMargin: '0px 0px -8% 0px'`, gated by `html.motion.reveal-ready`). Stagger with `style="--reveal-delay:80ms"`. Never on the DentiMed first fold, the Dicta visual or anywhere in the film chapter.
-- One motion idea per section, never looped, never required: the DentiMed phones rise once, the Dicta text types once, the film scrubs with scroll, reveals elsewhere, the FAQ answer opens.
+- `data-reveal` fades and rises elements in once (IntersectionObserver in `src/scripts/reveals.ts`, `rootMargin: '0px 0px -8% 0px'`, gated by `html.motion.reveal-ready`). Stagger with `style="--reveal-delay:80ms"`. Never on the intro, the DentiMed fold, the Dicta visual or anywhere in the film chapter.
+- One motion idea per section, never looped, never required: the intro logo lands once per session, the DentiMed phones rise once, the Dicta text types once, the film scrubs with scroll, reveals elsewhere, the FAQ answer opens.
 - `html.motion { scroll-behavior: smooth }` for in-page links; `scroll-padding-top` keeps anchors clear of the sticky nav.
-- Reduced motion and Save-Data get `html.still`: no reveal state, no phone rise, no typing, no clip requested, everything in its final state (2G gets `html.slow-net`: the film stays static and requests no clip). Don't author animations that bypass the mode classes.
+- Reduced motion and Save-Data get `html.still`: no reveal state, no intro play, no phone rise, no typing, no clip requested, everything in its final state (2G gets `html.slow-net`: the film stays static and requests no clip). Don't author animations that bypass the mode classes.
 
 ## Key directories
 
@@ -184,7 +187,7 @@ All tokens are in `src/styles/global.css` `@theme {}`. Values are measured on ap
 src/
 ├── assets/brand/               # innovaai-mark.png, dicta-icon.png, dentimed-icon.svg
 ├── assets/photos/              # dentimed-dictado.webp (DentiMed feature card 1)
-├── components/                 # Header, Ribbon, Dicta, CinematicStory, EverydayWork, HowWeWork, FAQ, Closing, Footer
+├── components/                 # Header, Intro, Dicta, CinematicStory, EverydayWork, HowWeWork, FAQ, Closing, Footer
 │   ├── dentimed/               # DentimedHero, DentimedFeatures, DentimedPhone, DmCard
 │   └── ui/                     # Icon, Logo, Button, ChevronLink, SectionHead, Lines, MetaLine, Highlight
 ├── data/
@@ -247,13 +250,13 @@ docs/creative/                  # owner's brand film brief and media records (re
 The owner rejected these in the v2 review; none of them may come back in code, copy, SEO, OG images or docs:
 
 - The old hero line "La IA prepara el trabajo. Tu equipo decide." / "AI prepares the work. Your team decides." and its whole family ("la IA prepara", "una persona decide", "Tú revisas y confirmas", "una persona revisa y confirma" / "a person reviews and confirms", "prepared by AI"). It was the master line of v1; v2 has no master line.
-- The "Pedido de Ana Quispe" hero card and every InnovaAI-side fictitious person or business (Ana Quispe, Rosa Choque, Jorge Flores, Marco Vargas, Carla Rojas, Sofía Mamani, Luis, doña Rosa, suppliers, invoices).
+- The "Pedido de Ana Quispe" hero card and every InnovAI-side fictitious person or business (Ana Quispe, Rosa Choque, Jorge Flores, Marco Vargas, Carla Rojas, Sofía Mamani, Luis, doña Rosa, suppliers, invoices).
 - "Datos de demostración." captions, `caption` / `demoNote` fields, colophons and any other demo disclaimer (v1 rule "every mockup has a demo caption").
 - The WhatsApp/PDF "Bandeja de operaciones" demo (Example, OpsInbox), the Tagline, Principles, Audience, Products and UseCases sections, and the light hero with its photo.
 - The v1 look: Outfit as a display font, the navy `#071628` night token, teal `#2de6d4` eyebrows, the `.wm-ai` gradient wordmark, `.eyebrow`, `.chip-*`, `.link-arrow`, `shadow-pill` / `shadow-window`, `rounded-island`, and the dark glass header pill that used to float over the page.
 - v1's "one button style" rule (blue pill for WhatsApp only, every other action a `.link-arrow`): v2 uses the blue pill, the outline pill and chevron links.
-- GSAP, ScrollTrigger and Lenis (and the `src/scripts/motion/` chunk, `state.ts`, `layout:refresh`, `--pill-clear`): v2 uses native scrolling and three small modules.
-- Describing InnovaAI as a studio (v1 "applied AI studio in Bolivia", v2 "AI product studio") or as local: it is a team from Latin America that builds AI products, for the world.
+- GSAP, ScrollTrigger and Lenis (and the `src/scripts/motion/` chunk, `state.ts`, `layout:refresh`, `--pill-clear`): v2 uses native scrolling and small per-section modules.
+- Describing InnovAI as a studio (v1 "applied AI studio in Bolivia", v2 "AI product studio") or as local: it is a team from Latin America that builds AI products, for the world.
 
 ## Products
 
