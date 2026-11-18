@@ -15,13 +15,15 @@ import type { NavigationData, SiteData } from '../data/types';
 interface Props {
   nav: NavigationData;
   site: SiteData;
+  /** theme of the section under the bar at load (the intro is dark), before scripts/header.ts takes over */
+  theme?: 'light' | 'dark';
 }
-const { nav, site } = Astro.props;
+const { nav, site, theme = 'light' } = Astro.props;
 ---
 
 <header
   data-nav
-  data-theme="light"
+  data-theme={theme}
   class="nav-bar sticky top-0 z-50 h-[var(--nav-h)] bg-white/80 text-ink backdrop-blur-[20px] backdrop-saturate-[1.8] transition-[background-color,color] duration-[320ms] ease-standard data-[theme=dark]:bg-night-3/80 data-[theme=dark]:text-on-night"
 >
   <div
@@ -81,6 +83,9 @@ const { nav, site } = Astro.props;
         ))
       }
       <li class="shrink-0">
+        <a href={site.reading.href} class="nav-link flex h-10 items-center px-1.5 text-legal whitespace-nowrap">{site.reading.label}</a>
+      </li>
+      <li class="shrink-0">
         <a
           href={nav.lang.href}
           hreflang={nav.lang.hreflang}
@@ -110,6 +115,7 @@ const { nav, site } = Astro.props;
       <div class="menu-body mx-auto flex w-[87.5%] max-w-[61.25rem] grow flex-col pt-5">
         <nav aria-label={nav.navLabel}>
           <ul>
+            <li class="menu-item" style="--i:0"><a data-menu-link href={site.reading.href} class="menu-link block py-2 text-[1.75rem] leading-[1.14] font-semibold tracking-[var(--tr-card)]">{site.reading.label}</a></li>
             {
               nav.links.map((link, i) => (
                 <li class="menu-item" style={`--i:${i}`}>
@@ -162,6 +168,9 @@ const { nav, site } = Astro.props;
   }
   [data-theme='dark'] .nav-link:focus-visible .nav-label,
   [data-theme='dark'] .nav-home:focus-visible .logo { outline-color: var(--color-link-on-night); }
+  /* hand-off: while the intro's big lockup is on screen the bar's logo steps aside (scripts/intro.ts) */
+  .nav-home { transition: opacity 320ms var(--ease-standard), visibility 0s linear 0s; }
+  [data-nav].has-intro-logo .nav-home { opacity: 0; visibility: hidden; transition: opacity 320ms var(--ease-standard), visibility 0s linear 320ms; }
 
   /* menu open and close buttons: the ring hugs the 16px glyph inside the 44px hit area, so the viewport edge
      never clips it */

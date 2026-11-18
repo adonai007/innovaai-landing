@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Review a pull request against the InnovaAI landing page conventions — design tokens, i18n parity, Astro idioms, no emoji.
+description: Review a pull request against the InnovAI landing page conventions — design tokens, i18n parity, Astro idioms, no emoji.
 ---
 
 # Code Review

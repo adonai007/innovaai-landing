@@ -1,6 +1,6 @@
 ---
 name: debug-issue
-description: Triage a bug, failed build, or visual regression in the InnovaAI landing page — browser console, Astro output, Render logs, the film and the nav theme.
+description: Triage a bug, failed build, or visual regression in the InnovAI landing page — browser console, Astro output, Render logs, the film and the nav theme.
 ---
 
 # Debug Issue

@@ -3,9 +3,9 @@ import type { SeoData } from '../types';
 export const seo = {
   organizationDescription: 'A team that builds AI products, based in La Paz, Bolivia. Makers of DentiMed and Dicta.',
   ogImage: '/images/innovaai-og-en.jpg',
-  ogImageAlt: 'InnovaAI. Less repetition. More judgment.',
+  ogImageAlt: 'InnovAI. Less repetition. More judgment.',
   home: {
-    title: 'InnovaAI · AI products for everyday work',
+    title: 'InnovAI · AI products for everyday work',
     description: 'A team from Latin America that builds AI products. We make DentiMed, the assistant for dentists, and Dicta, voice dictation for Windows and Linux.',
     serviceName: 'Design and development of AI tools',
     serviceType: 'AI software development',

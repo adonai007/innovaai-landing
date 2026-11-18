@@ -4,11 +4,12 @@
  * the page's own nodes) and the inline mode script.
  *
  * Mode script (runs before first paint): swaps no-js for js, adds motion or still (reduced motion or Save-Data)
- * and slow-net on 2G. Fonts: Apple devices get html.sf and render SF Pro from the system stack (no download);
+ * and slow-net on 2G, plus intro-play for the first fold's logo reveal (see Intro.astro). Fonts: Apple devices get html.sf and render SF Pro from the system stack (no download);
  * everywhere else it preloads the one Inter latin opsz file that global.css declares.
  */
 import '../styles/global.css';
 import interLatin from '@fontsource-variable/inter/files/inter-latin-opsz-normal.woff2?url';
+import type { Link } from '../data/types';
 
 interface Props {
   title: string;
@@ -20,6 +21,8 @@ interface Props {
   ogImage?: string;
   ogImageAlt: string;
   structuredData?: Record<string, unknown>[];
+  motion?: boolean;
+  sections?: Link[];
 }
 
 const {
@@ -31,6 +34,8 @@ const {
   ogImage = '/images/innovaai-og.jpg',
   ogImageAlt,
   structuredData = [],
+  motion = true,
+  sections = [],
 } = Astro.props;
 const altLang = lang === 'es' ? 'en' : 'es';
 const currentPath = Astro.url.pathname;
@@ -53,8 +58,8 @@ const schema = {
     {
       '@type': 'Organization',
       '@id': organizationId,
-      name: 'InnovaAI',
-      alternateName: 'Innova AI',
+      name: 'InnovAI',
+      alternateName: ['InnovaAI', 'Innova AI'],
       legalName: 'InnovaAI SRL',
       url: siteURL.href,
       logo: {
@@ -97,8 +102,8 @@ const schema = {
     {
       '@type': 'WebSite',
       '@id': websiteId,
-      name: 'InnovaAI',
-      alternateName: 'Innova AI',
+      name: 'InnovAI',
+      alternateName: ['InnovaAI', 'Innova AI'],
       url: siteURL.href,
       publisher: { '@id': organizationId },
       inLanguage: ['es', 'en'],
@@ -120,6 +125,10 @@ const schema = {
         height: 630,
       },
       inLanguage: lang,
+      hasPart: sections.map((section) => ({
+        '@type': 'WebPageElement', '@id': new URL(section.href, canonicalURL).href,
+        url: new URL(section.href, canonicalURL).href, name: section.label,
+      })),
     },
     ...structuredData,
   ],
@@ -127,7 +136,7 @@ const schema = {
 ---
 
 <!doctype html>
-<html lang={lang} class="no-js">
+<html lang={lang} class="no-js" data-motion={motion ? 'auto' : 'off'}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -139,9 +148,19 @@ const schema = {
         var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var c = navigator.connection;
         var sd = c && c.saveData;
-        d.classList.add(rm || sd ? 'still' : 'motion');
+        d.classList.add(rm || sd || d.dataset.motion === 'off' ? 'still' : 'motion');
         // 2G: the film chapter never builds its tall tracks (no layout shift when its script arrives late)
         if (c && /(^|-)2g$/.test(c.effectiveType || '')) d.classList.add('slow-net');
+        // intro logo reveal (components/Intro.astro): once per session, only from the top of the page. A 4s
+        // safety timer drops the class so the final state shows even if scripts/intro.ts never runs.
+        if (d.classList.contains('motion') && !d.classList.contains('slow-net') && !location.hash) {
+          var played = false;
+          try { played = !!sessionStorage.getItem('innovai-intro'); } catch (e) {}
+          if (!played) {
+            d.classList.add('intro-play');
+            window.__introTimer = setTimeout(function () { d.classList.remove('intro-play'); }, 4000);
+          }
+        }
         // Apple devices render SF Pro from the system stack and download no font; everyone else gets Inter
         var uad = navigator.userAgentData;
         var platform = (uad && uad.platform) || navigator.platform || '';
@@ -162,7 +181,7 @@ const schema = {
       name="robots"
       content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
     />
-    <meta name="author" content="InnovaAI" />
+    <meta name="author" content="InnovAI" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light" />
@@ -171,6 +190,7 @@ const schema = {
     <link rel="icon" type="image/png" sizes="192x192" href="/images/innovaai-logo-mark-192.png" />
     <link rel="apple-touch-icon" href="/images/innovaai-logo-mark-192.png" />
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="InnovAI" />
     <link rel="canonical" href={canonicalURL.href} />
     <link rel="alternate" hreflang={lang} href={canonicalURL.href} />
     <link rel="alternate" hreflang={altLang} href={altURL.href} />
@@ -181,7 +201,7 @@ const schema = {
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.href} />
-    <meta property="og:site_name" content="InnovaAI" />
+    <meta property="og:site_name" content="InnovAI" />
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:locale:alternate" content={ogLocaleAlt} />
     <meta property="og:image" content={ogImageURL.href} />

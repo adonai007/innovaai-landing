@@ -3,7 +3,7 @@ import { DENTIMED_URL, DICTA_URL, LINKEDIN_URL } from '../links';
 import { site } from './site';
 
 export const footer = {
-  tagline: 'InnovaAI es un equipo que desarrolla productos con inteligencia artificial. Desde Latinoamérica, para el mundo.',
+  tagline: 'InnovAI es un equipo que desarrolla productos con inteligencia artificial. Desde Latinoamérica, para el mundo.',
   columns: [
     {
       title: 'Productos',
@@ -13,8 +13,9 @@ export const footer = {
       ],
     },
     {
-      title: 'InnovaAI',
+      title: 'InnovAI',
       links: [
+        site.reading,
         { label: 'Para equipos', href: '#que-construimos' },
         { label: 'Cómo trabajamos', href: '#como-trabajamos' },
         { label: 'Preguntas', href: '#preguntas' },
@@ -28,7 +29,7 @@ export const footer = {
       ],
     },
   ],
-  copyright: 'Copyright © {year} InnovaAI. Todos los derechos reservados.',
-  location: 'DentiMed y Dicta son productos de InnovaAI. Con base en La Paz, Bolivia.',
+  copyright: 'Copyright © {year} InnovAI. Todos los derechos reservados.',
+  location: 'DentiMed y Dicta son productos de InnovAI. Con base en La Paz, Bolivia.',
   lang: { label: 'English', href: '/en/', hreflang: 'en' },
 } satisfies FooterData;

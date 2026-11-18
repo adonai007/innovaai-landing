@@ -1,7 +1,7 @@
 <!-- Inspired by: https://github.com/github/awesome-copilot/blob/main/instructions/code-review-generic.instructions.md -->
 ---
 applyTo: "**"
-description: "Code review checklist for the InnovaAI landing page"
+description: "Code review checklist for the InnovAI landing page"
 ---
 
 # Code Review Guidelines

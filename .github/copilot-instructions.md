@@ -1,8 +1,8 @@
-# InnovaAI Landing Page — Copilot Instructions
+# InnovAI Landing Page — Copilot Instructions
 
 ## Project Overview
 
-Bilingual (ES / EN) static marketing site for **InnovaAI**, a team from Latin America (based in La Paz) that builds AI products, and the maker of two products that live on their own sites:
+Bilingual (ES / EN) static marketing site for **InnovAI**, a team from Latin America (based in La Paz) that builds AI products, and the maker of two products that live on their own sites:
 
 - **DentiMed** (https://dentimed.app): assistant for dentists. The dentist dictates when the visit ends and DentiMed drafts the chart for the dentist to confirm
 - **Dicta** (https://dicta-web.onrender.com): voice dictation desktop app for Windows and Linux
@@ -68,7 +68,7 @@ The page follows Apple's design language and writing style and puts the products
 - Apple's writing style: headlines of two to six words ending in a period. Sentence case for every heading, button, label and nav item (CSS never uppercases text)
 - No em or en dashes inside sentences, no exclamation marks, `tú` for the visitor, "solo" without an accent
 - Global positioning ("Desde Latinoamérica, para el mundo."). Bolivia appears only in the footer location line, FAQ answer 1 and the SEO organization description
-- No invented numbers, clients, testimonials, duration promises or prices. No fictitious people or businesses and no demo captions or disclaimers in InnovaAI's sections; the only demo data is DentiMed's own, inside `src/data/dentimed-app.ts` and `src/components/dentimed/*`
+- No invented numbers, clients, testimonials, duration promises or prices. No fictitious people or businesses and no demo captions or disclaimers in InnovAI's sections; the only demo data is DentiMed's own, inside `src/data/dentimed-app.ts` and `src/components/dentimed/*`
 - DentiMed and Dicta claims follow their verified facts (see `CLAUDE.md`): no odontogram, autonomy, automatic WhatsApp or live transcription for DentiMed; no speed, translation, Android, offline or price for Dicta
 
 ### i18n parity

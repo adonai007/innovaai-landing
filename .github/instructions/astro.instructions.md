@@ -1,7 +1,7 @@
 <!-- Based on: https://github.com/github/awesome-copilot/blob/main/instructions/astro.instructions.md -->
 ---
 applyTo: "**/*.astro"
-description: "Astro 5.x conventions for the InnovaAI static landing page"
+description: "Astro 5.x conventions for the InnovAI static landing page"
 ---
 
 # Astro Guidelines

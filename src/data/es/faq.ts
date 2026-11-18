@@ -6,7 +6,7 @@ export const faq = {
   introLink: 'Escríbenos por WhatsApp',
   introAfter: '.',
   items: [
-    { question: '¿Qué es InnovaAI?',
+    { question: '¿Qué es InnovAI?',
       answer: 'Un equipo que desarrolla productos con inteligencia artificial, con base en La Paz, Bolivia. Creamos y mantenemos nuestros propios productos, DentiMed y Dicta, y diseñamos herramientas con equipos de otras empresas.' },
     { question: '¿Trabajan con equipos de otros países?',
       answer: 'Sí. Conversamos por WhatsApp, en español o en inglés, estés donde estés. El alcance y la forma de trabajo los definimos juntos.' },

@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ReadingView from '../../components/ReadingView.astro';
+import { reading } from '../../data/es/reading';
+import { site } from '../../data/es/site';
+import { navigation } from '../../data/es/navigation';
+import { footer } from '../../data/es/footer';
+import { seo } from '../../data/es/seo';
+import { faq } from '../../data/es/faq';
+import { closing } from '../../data/es/closing';
+import { faqSchema } from '../../data/schema';
+const alternate = '/en/resumen/';
+const nav = { ...navigation, lang: { ...navigation.lang, href: alternate } };
+const footerData = { ...footer, lang: { ...footer.lang, href: alternate } };
+const pageURL = new URL(site.reading.href, Astro.site).href;
+---
+<Layout title={reading.title} description={reading.description} lang={site.lang} skipLink={site.skipLink} organizationDescription={seo.organizationDescription} ogImage={seo.ogImage} ogImageAlt={seo.ogImageAlt} motion={false} sections={reading.index} structuredData={[faqSchema(pageURL, faq)]}>
+  <Header nav={nav} site={site} />
+  <ReadingView data={reading} site={site} faq={faq} closing={closing} />
+  <Footer data={footerData} site={site} />
+</Layout>
