@@ -83,6 +83,9 @@ const { nav, site, theme = 'light' } = Astro.props;
         ))
       }
       <li class="shrink-0">
+        <a href={site.reading.href} class="nav-link flex h-10 items-center px-1.5 text-legal whitespace-nowrap">{site.reading.label}</a>
+      </li>
+      <li class="shrink-0">
         <a
           href={nav.lang.href}
           hreflang={nav.lang.hreflang}
@@ -112,6 +115,7 @@ const { nav, site, theme = 'light' } = Astro.props;
       <div class="menu-body mx-auto flex w-[87.5%] max-w-[61.25rem] grow flex-col pt-5">
         <nav aria-label={nav.navLabel}>
           <ul>
+            <li class="menu-item" style="--i:0"><a data-menu-link href={site.reading.href} class="menu-link block py-2 text-[1.75rem] leading-[1.14] font-semibold tracking-[var(--tr-card)]">{site.reading.label}</a></li>
             {
               nav.links.map((link, i) => (
                 <li class="menu-item" style={`--i:${i}`}>

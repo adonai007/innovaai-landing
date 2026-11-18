@@ -24,6 +24,7 @@ import { howWeWork } from '../../data/es/how-we-work';
 import { faq } from '../../data/es/faq';
 import { closing } from '../../data/es/closing';
 import { DENTIMED_URL, DICTA_URL } from '../../data/links';
+import { faqSchema } from '../../data/schema';
 
 const siteURL = new URL('/', Astro.site ?? 'https://innovai.click');
 const pageURL = new URL('/es/', siteURL);
@@ -70,15 +71,7 @@ const structuredData = [
     description: dicta.lockup.subhead,
     publisher: { '@id': orgId },
   },
-  {
-    '@type': 'FAQPage',
-    '@id': `${pageURL.href}#faq`,
-    mainEntity: faq.items.map((i) => ({
-      '@type': 'Question',
-      name: i.question,
-      acceptedAnswer: { '@type': 'Answer', text: i.answer },
-    })),
-  },
+  faqSchema(pageURL.href, faq),
 ] satisfies Record<string, unknown>[];
 ---
 
@@ -91,9 +84,10 @@ const structuredData = [
   ogImage={seo.ogImage}
   ogImageAlt={seo.ogImageAlt}
   structuredData={structuredData}
+  sections={[{ label: site.h1, href: '#inicio' }, ...navigation.links, { label: cinema.label, href: '#historia' }, { label: closing.title, href: '#contacto' }]}
 >
   <Header nav={navigation} site={site} theme="dark" />
-  <main id="contenido">
+  <main id="contenido" tabindex="-1">
     <Intro data={intro} site={site} />
     <DentimedHero data={dentimed} />
     <DentimedFeatures data={dentimed} />

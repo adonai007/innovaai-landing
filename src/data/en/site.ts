@@ -6,6 +6,7 @@ const whatsappMessage = "Hi, I saw the InnovAI website and I’d like to talk ab
 export const site = {
   lang: 'en',
   skipLink: 'Skip to content',
+  reading: { label: 'Overview without animations', href: '/en/resumen/' },
   h1: 'InnovAI, a team that builds AI products',
   whatsappMessage,
   whatsappHref: waHref(whatsappMessage),

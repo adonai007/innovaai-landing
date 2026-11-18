@@ -22,10 +22,19 @@ export interface Lockup {
 
 export interface SiteData {
   lang: Locale; skipLink: string;
+  reading: Link;
   /** page h1: screen-reader text of the intro lockup, whose visible part is the InnovAI wordmark */
   h1: string;
   whatsappMessage: string; whatsappHref: string; whatsappHint: string;
   cta: string; ctaShort: string; externalHint: string;
+}
+export interface ReadingSection {
+  id: string; label: string; title: string; body: string;
+  items: TextCard[]; links?: Link[];
+}
+export interface ReadingData {
+  title: string; description: string; indexTitle: string; navLabel: string;
+  presentation: Link; index: Link[]; sections: ReadingSection[];
 }
 export interface NavigationData {
   homeLabel: string; navLabel: string; links: [Link, Link, Link, Link, Link];

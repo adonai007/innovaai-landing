@@ -15,6 +15,7 @@ export const footer = {
     {
       title: 'InnovAI',
       links: [
+        site.reading,
         { label: 'For teams', href: '#que-construimos' },
         { label: 'How we work', href: '#como-trabajamos' },
         { label: 'FAQ', href: '#preguntas' },
