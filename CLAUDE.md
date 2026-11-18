@@ -26,6 +26,7 @@ There is **no test runner** and **no linter/formatter** configured. Don't add ES
 | `/` | `src/pages/index.astro` | Redirects to `/es/` (meta refresh plus `location.replace`; browsers whose language is English go to `/en/`) |
 | `/es/` | `src/pages/es/index.astro` | Main landing, Spanish (default locale) |
 | `/en/` | `src/pages/en/index.astro` | Main landing, English |
+| `/es/resumen/`, `/en/resumen/` | `src/pages/{es,en}/resumen.astro` | Static reading views with a section index, the same localized content and open FAQ answers |
 | `/es/dentimed/`, `/en/dentimed/`, `/es/diariomed/`, `/en/diariomed/` | `src/pages/{es,en}/{dentimed,diariomed}/index.astro` | `noindex` redirect stubs straight to https://dentimed.app/ (excluded from the sitemap) |
 | `/robots.txt` | `src/pages/robots.txt.ts` | |
 | `/deck/` | `public/deck/index.html` | Standalone pitch deck (8 slides, web component, NOT an Astro page) |
@@ -155,7 +156,8 @@ All tokens are in `src/styles/global.css` `@theme {}`. Values are measured on ap
 - `Layout.astro` owns the meta tags, Open Graph (`og:locale` `es_LA` / `en_US`, alternate swapped), Twitter card, hreflang, canonical and the JSON-LD `@graph`: Organization (`areaServed: 'Worldwide'`, address La Paz, contactPoint, sameAs LinkedIn, `knowsAbout`, the square mark `innovaai-logo-mark-192.png` as `logo`, the page's own share card as `image`), WebSite and WebPage (about the Organization).
 - Each page adds a `Service` (`#service`, from `seo.home`, `hasOfferCatalog` built from the How we work steps), two `SoftwareApplication` nodes (DentiMed, `operatingSystem: 'Web'`, `inLanguage: 'es'`; Dicta, `'Windows, Linux'`; no offers) and a `FAQPage`.
 - Share cards: `public/images/innovaai-og.jpg` (es) and `innovaai-og-en.jpg` (en), 1200x630 on black: the mark and wordmark, "Menos repetición. / Más criterio." ("Less repetition. / More judgment."), then the DentiMed and Dicta icons with "Creadores de DentiMed y Dicta" ("Makers of DentiMed and Dicta"); the name is not repeated. Rendered from an HTML template with Playwright and encoded with `sharp` (mozjpeg q84).
-- `public/llms.txt` and `public/llms-full.txt` summarise the page for LLMs (the full file copies the EN copy in page order). Keep both in sync with the data files and update the date line.
+- `src/pages/llms.txt.ts` and `src/pages/llms-full.txt.ts` generate the text guides from the same ES/EN data as the reading views. Do not restore manual copies in `public/`. See `docs/AI-NAVIGATION.md`.
+- `/es/resumen/` and `/en/resumen/` set `motion={false}` on Layout and use `ReadingView.astro` with `src/data/{es,en}/reading.ts`. Header and footer language links preserve the reading view. Section and question IDs are the targets of JSON-LD references.
 
 ## Brand voice and content rules
 
