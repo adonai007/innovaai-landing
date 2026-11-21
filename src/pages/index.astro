@@ -1,5 +1,6 @@
 ---
 const target = 'https://innovai.click/es/';
+const analyticsEnabled = import.meta.env.PROD && import.meta.env.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim();
 ---
 
 <!doctype html>
@@ -7,6 +8,8 @@ const target = 'https://innovai.click/es/';
   <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="noindex, follow" />
+    {/* Count the browser's locale redirect as a landing visit instead of same-site navigation. */}
+    {analyticsEnabled && <meta name="referrer" content="no-referrer" />}
     <meta http-equiv="refresh" content={`0; url=${target}`} />
     <link rel="canonical" href={target} />
     <title>InnovAI</title>
