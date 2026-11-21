@@ -39,6 +39,8 @@ const {
 } = Astro.props;
 const altLang = lang === 'es' ? 'en' : 'es';
 const currentPath = Astro.url.pathname;
+const analyticsToken = import.meta.env.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim();
+const trackLanding = import.meta.env.PROD && analyticsToken && /^\/(es|en)\/?$/.test(currentPath);
 const altPath = currentPath.replace(`/${lang}`, `/${altLang}`);
 const canonicalURL = new URL(currentPath, Astro.site ?? 'https://innovai.click');
 const altURL = new URL(altPath, Astro.site ?? 'https://innovai.click');
@@ -229,5 +231,13 @@ const schema = {
     <script>
       import '../scripts/main.ts';
     </script>
+    {trackLanding && (
+      <script
+        is:inline
+        type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: analyticsToken })}
+      ></script>
+    )}
   </body>
 </html>
