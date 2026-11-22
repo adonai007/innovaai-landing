@@ -1,6 +1,14 @@
 ---
+import {
+  campaignParameters,
+  campaignValuePattern,
+  entryReferrerKey,
+  measurementId,
+} from '../scripts/analytics-config';
+
 const target = 'https://innovai.click/es/';
-const analyticsEnabled = import.meta.env.PROD && import.meta.env.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim();
+const siteHostname = new URL(target).hostname;
+const analyticsEnabled = Boolean(measurementId);
 ---
 
 <!doctype html>
@@ -8,13 +16,36 @@ const analyticsEnabled = import.meta.env.PROD && import.meta.env.PUBLIC_CLOUDFLA
   <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="noindex, follow" />
-    {/* Count the browser's locale redirect as a landing visit instead of same-site navigation. */}
-    {analyticsEnabled && <meta name="referrer" content="no-referrer" />}
-    <meta http-equiv="refresh" content={`0; url=${target}`} />
     <link rel="canonical" href={target} />
     <title>InnovAI</title>
-    {/* English browsers go to /en/; everyone else, and every visitor without JS, to the Spanish default */}
-    <script is:inline>window.location.replace(/^en\b/i.test(navigator.language || '') ? '/en/' : '/es/');</script>
+    <script define:vars={{ analyticsEnabled, campaignParameters, campaignValuePattern, entryReferrerKey, siteHostname }}>
+      const pathname = /^en\b/i.test(navigator.language || '') ? '/en/' : '/es/';
+      const destination = new URL(pathname, location.origin);
+      const source = new URLSearchParams(location.search);
+      const validValue = new RegExp(campaignValuePattern, 'u');
+      for (const name of campaignParameters) {
+        const value = source.get(name);
+        if (value && validValue.test(value)) destination.searchParams.set(name, value);
+      }
+
+      if (analyticsEnabled && location.hostname === siteHostname) {
+        let externalOrigin = '';
+        if (document.referrer) {
+          const referrer = new URL(document.referrer);
+          if (/^https?:$/.test(referrer.protocol) && referrer.origin !== location.origin) {
+            externalOrigin = referrer.origin;
+          }
+        }
+        try {
+          sessionStorage.setItem(entryReferrerKey, externalOrigin);
+        } catch {
+          // A restricted browser can still navigate to the landing.
+        }
+      }
+
+      location.replace(destination);
+    </script>
+    <noscript><meta http-equiv="refresh" content={`0; url=${target}`} /></noscript>
   </head>
   <body><a href={target}>InnovAI</a></body>
 </html>
